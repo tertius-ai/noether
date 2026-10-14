@@ -1,0 +1,21 @@
+[package]
+license.workspace = true
+name = "perm-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Pure-Rust permutation groups with verified Schreier-Sims, stabilizers, conjugacy, and exact seeded sampling."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[dependencies]
+rand = { workspace = true }
+
+[dev-dependencies]
+criterion.workspace = true
+proptest.workspace = true
+
+[[bench]]
+name = "kernel"
+harness = false

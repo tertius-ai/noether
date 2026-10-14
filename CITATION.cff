@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Noether in research, please cite the tagged source release."
+title: "Noether"
+type: software
+authors:
+  - family-names: "Antieau"
+    given-names: "Benjamin"
+  - family-names: "Manam"
+    given-names: "Deven"
+version: 0.3.2
+date-released: 2026-10-14
+repository-code: "https://github.com/tertius-ai/noether"
+url: "https://tertius.cc"
+license: MIT
+abstract: >-
+  A deterministic computation library for scientific mathematics, with a Rust
+  engine, a typed Python interface, and exact verification evidence.

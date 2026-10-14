@@ -1,0 +1,4208 @@
+{
+  "cases": [
+    {
+      "domains": [
+        "combin",
+        "commalg",
+        "numthy"
+      ],
+      "id": "combin.basic-enumerative-identities",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Enumerative combinatorics package for CoCoA, arXiv:2602.12372",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2602.12372"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify factorial, Touchard, and Narayana polynomial identities"
+    },
+    {
+      "domains": [
+        "combin"
+      ],
+      "id": "combin.basic-matroid-cryptomorphisms",
+      "operations": [
+        "combin.Matroid.from_bases",
+        "combin.Matroid.ground_set",
+        "combin.Matroid.bases",
+        "combin.Matroid.rank",
+        "combin.Matroid.circuits",
+        "combin.Matroid.delete",
+        "combin.Matroid.contract"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Justin Chen, Matroids: A Macaulay2 package, arXiv:1511.04618",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1511.04618"
+      },
+      "timeout_seconds": 10,
+      "title": "Recover matroid data and minors from a basis presentation"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups"
+      ],
+      "id": "combin.bernhart-kainen-algebraic-graph",
+      "operations": [
+        "combin.Graph.order",
+        "combin.Graph.edge_count",
+        "combin.Graph.degree_sequence",
+        "combin.Graph.connected_components",
+        "combin.ConnectedComponents.count",
+        "combin.Graph.canonical_label",
+        "combin.CanonicalLabel.verify",
+        "combin.Graph.automorphism_group",
+        "groups.PermutationGroup.order",
+        "groups.PermutationGroup.orbit"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "David Seka and Stefan Szeider, Neurosymbolic Discovery of Algebraic Graph Constructions, arXiv:2608.08118",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.08118"
+      },
+      "timeout_seconds": 15,
+      "title": "Algebraic construction of the 16-vertex Bernhart--Kainen graph"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups"
+      ],
+      "id": "combin.circulant-double-cover-stability",
+      "operations": [
+        "combin.Graph.from_unweighted",
+        "combin.Graph.automorphism_group",
+        "groups.PermutationGroup.order"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "On the stability of circulant graphs, arXiv:2108.05164",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2108.05164"
+      },
+      "timeout_seconds": 45,
+      "title": "Verify stability of small circulant graph double covers"
+    },
+    {
+      "domains": [
+        "combin",
+        "commalg"
+      ],
+      "id": "combin.cozero-divisor-wiener-index",
+      "operations": [
+        "combin.Graph.shortest_path",
+        "combin.ShortestPath.distance",
+        "combin.Graph.connected_components"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Wiener index of the Cozero-divisor graph of a finite commutative ring, arXiv:2210.01570",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2210.01570"
+      },
+      "timeout_seconds": 45,
+      "title": "Compute Wiener indices of cozero-divisor graphs of finite rings"
+    },
+    {
+      "domains": [
+        "combin",
+        "numthy"
+      ],
+      "id": "combin.dundee-exact-winning-probabilities",
+      "operations": [
+        "RationalField.__call__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "How to Play Dundee, arXiv:0803.0156",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0803.0156"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute exact winning probabilities for Dundee bids"
+    },
+    {
+      "domains": [
+        "combin",
+        "linalg"
+      ],
+      "id": "combin.igraph-grid-spanning-trees",
+      "operations": [
+        "combin.Graph.reduced_laplacian",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Szabolcs Horv\u00e1t et al., IGraph/M: graph theory and network analysis for Mathematica, arXiv:2209.09145; IGSpanningTreeCount tests at szhorvat/IGraphM commit 8de23ab6b2dcab448ba13bffe4c3a864c54927e7",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2209.09145"
+      },
+      "timeout_seconds": 10,
+      "title": "Count the spanning trees of the two-by-three grid"
+    },
+    {
+      "domains": [
+        "combin",
+        "linalg"
+      ],
+      "id": "combin.igraph-k4-spanning-trees",
+      "operations": [
+        "combin.Graph.reduced_laplacian",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Szabolcs Horv\u00e1t et al., IGraph/M: graph theory and network analysis for Mathematica, arXiv:2209.09145; IGSpanningTreeCount tests at szhorvat/IGraphM commit 8de23ab6b2dcab448ba13bffe4c3a864c54927e7",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2209.09145"
+      },
+      "timeout_seconds": 10,
+      "title": "Count the spanning trees of K4 by the Matrix-Tree theorem"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups"
+      ],
+      "id": "combin.integer-poset-invariants",
+      "operations": [
+        "combin.Poset.height",
+        "combin.Poset.width",
+        "combin.Poset.minimal_elements",
+        "combin.Poset.maximal_elements",
+        "combin.Poset.comparable_pair_count",
+        "combin.Poset.is_lattice",
+        "combin.Poset.is_self_dual",
+        "combin.Poset.automorphism_group"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Viviane Pons, Combinatorics of the Permutahedra, Associahedra, and Friends, arXiv:2310.12687; IntegerPosets/Demo.ipynb at VivianePons/public-notebooks commit 3fb78f7722c24a3d01b962681cd57d7cdb707af5",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2310.12687"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute structural invariants of a six-element integer poset"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups"
+      ],
+      "id": "combin.johnson-strongly-regular-graph",
+      "operations": [
+        "combin.Graph.degree",
+        "combin.Graph.neighbors",
+        "combin.Graph.automorphism_group",
+        "groups.PermutationGroup.order"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Implementing Brouwer's database of strongly regular graphs, arXiv:1601.00181",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1601.00181"
+      },
+      "timeout_seconds": 20,
+      "title": "Construct and certify the Johnson graph J(5,2)"
+    },
+    {
+      "domains": [
+        "combin",
+        "linalg",
+        "commalg"
+      ],
+      "id": "combin.nowhere-zero-modular-flows",
+      "operations": [
+        "commalg.ResidueRing.zero",
+        "commalg.ResidueClass.is_zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "alilotfi90/nzflow-qubo commit f35cdb4eccefecbbdc2297413f63017db344047c, tests/test_correctness.py",
+        "kind": "repository",
+        "license": "No license file found; mathematical test data cited without source-code redistribution",
+        "redistribution": "citation-only",
+        "url": "https://github.com/alilotfi90/nzflow-qubo"
+      },
+      "timeout_seconds": 30,
+      "title": "Enumerate nowhere-zero modular flows and verify orientation independence"
+    },
+    {
+      "domains": [
+        "combin"
+      ],
+      "id": "combin.oscar-five-element-matroid",
+      "operations": [
+        "combin.Matroid.from_bases",
+        "combin.Matroid.rank",
+        "combin.Matroid.circuits"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; heron-rota-welsh.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 10,
+      "title": "Recover circuits of an OSCAR five-element matroid"
+    },
+    {
+      "domains": [
+        "combin"
+      ],
+      "id": "combin.oscar-four-element-matroid",
+      "operations": [
+        "combin.Matroid.from_bases",
+        "combin.Matroid.bases",
+        "combin.Matroid.rank",
+        "combin.Matroid.circuits",
+        "combin.Matroid.tutte_polynomial"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Daniel Corey, Lukas Kuhne, and Benjamin Schroter, Matroids in OSCAR, arXiv:2311.08792",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2311.08792"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the circuits of a four-element matroid from its bases"
+    },
+    {
+      "domains": [
+        "combin",
+        "commalg"
+      ],
+      "id": "combin.oscar-k4-graphic-matroid",
+      "operations": [
+        "combin.Matroid.from_bases",
+        "combin.Matroid.rank",
+        "combin.Matroid.tutte_polynomial"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; intro.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the Tutte polynomial of the K4 graphic matroid"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups",
+        "commalg"
+      ],
+      "id": "combin.permutation-cyclic-sieving",
+      "operations": [
+        "groups.Permutation.from_images",
+        "commalg.Polynomial.evaluate",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Cyclic sieving on permutations -- an analysis of maps and statistics in the FindStat database, arXiv:2402.16251",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2402.16251"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify cyclic sieving for descents and complementation"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups"
+      ],
+      "id": "combin.polymake-square-graph-automorphisms",
+      "operations": [
+        "combin.Graph.automorphism_group",
+        "groups.PermutationGroup.order",
+        "groups.PermutationGroup.orbit",
+        "groups.PermutationGroup.stabilizer",
+        "groups.PermutationGroup.set_stabilizer"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "polymake commit cd20bd56aade8019ff21f161461ee3f1dda95512, demo/aut_of_graphs.ipynb",
+        "kind": "repository",
+        "license": "GPL-2.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://github.com/polymake/polymake/blob/cd20bd56aade8019ff21f161461ee3f1dda95512/demo/aut_of_graphs.ipynb"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute automorphisms, stabilizers, and orbits of a square graph"
+    },
+    {
+      "domains": [
+        "combin",
+        "geometry"
+      ],
+      "id": "combin.polymake-vector-matroid-invariants",
+      "operations": [
+        "combin.Matroid.from_bases",
+        "combin.Matroid.bases",
+        "combin.Matroid.circuits",
+        "combin.Matroid.delete",
+        "combin.Matroid.contract",
+        "combin.Matroid.tutte_polynomial"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "polymake commit cd20bd56aade8019ff21f161461ee3f1dda95512, demo/apps_matroid.ipynb",
+        "kind": "repository",
+        "license": "GPL-2.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://github.com/polymake/polymake/blob/cd20bd56aade8019ff21f161461ee3f1dda95512/demo/apps_matroid.ipynb"
+      },
+      "timeout_seconds": 20,
+      "title": "Recover bases, circuits, Tutte data, deletion, and contraction"
+    },
+    {
+      "domains": [
+        "combin",
+        "linalg",
+        "commalg"
+      ],
+      "id": "combin.sylvester-denumerant-quasipolynomial",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.solve",
+        "linalg.SolutionSpace.verify",
+        "linalg.Vector.from_values",
+        "linalg.Vector.to_values"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Coefficients of Sylvester's Denumerant, arXiv:1312.7147",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1312.7147"
+      },
+      "timeout_seconds": 20,
+      "title": "Interpolate the quasipolynomial for 6x+2y+3z=t"
+    },
+    {
+      "domains": [
+        "combin"
+      ],
+      "id": "combin.uniform-matroid-direct-sum-tutte",
+      "operations": [
+        "combin.Matroid.from_bases",
+        "combin.Matroid.rank",
+        "combin.Matroid.circuits",
+        "combin.Matroid.tutte_polynomial",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Simon Hampe and Michael Joswig, Tropical Computations in polymake, arXiv:1612.02581",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1612.02581"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute the Tutte polynomial of two copies of U(1,2)"
+    },
+    {
+      "domains": [
+        "combin",
+        "groups",
+        "geometry"
+      ],
+      "id": "combin.weak-order-tamari-posets",
+      "operations": [
+        "combin.Poset.covers",
+        "combin.Poset.height",
+        "combin.Poset.width",
+        "combin.Poset.is_lattice"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Viviane Pons, HDR-notebooks commit 141778789ca2b4dfe7af12d702be8a0de79be70b, Chapters 1 and 2",
+        "kind": "notebook",
+        "license": "GPL-2.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/VivianePons/HDR-notebooks"
+      },
+      "timeout_seconds": 20,
+      "title": "Compare the order-three weak order and Tamari lattice"
+    },
+    {
+      "domains": [
+        "combin",
+        "commalg",
+        "numthy"
+      ],
+      "id": "combin.zonal-polynomial-recurrence",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.coefficient",
+        "commalg.Polynomial.nonzero_term_count"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Lin Jiu and Christoph Koutschan, Calculation and Properties of Zonal Polynomials, arXiv:2001.11599",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2001.11599"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute zonal polynomials from the partition recurrence"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.a348410-algebraic-generating-function",
+      "operations": [
+        "commalg.PolynomialRing.from_terms",
+        "commalg.Polynomial.coefficient"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Tong Niu, An explicit algebraic generating function for OEIS A348410, arXiv:2605.16553",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2605.16553"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify an algebraic generating function for A348410"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.affine-cubic-curve-dimension",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.initial_ideal",
+        "commalg.MonomialIdeal.radical",
+        "commalg.MonomialIdeal.minimal_generators",
+        "commalg.Ideal.dimension",
+        "commalg.MonomialIdeal.dimension",
+        "commalg.MonomialIdeal.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify the dimension of a parametrized affine cubic curve"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.apollonius-circle-groebner-basis",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "JazzTap/mcs563 commit 8cafb4330de63b08483f7af51b85578811c61256, Scraps/rur_sage.ipynb",
+        "kind": "notebook",
+        "license": "No license file found; mathematical input/output cited without notebook redistribution",
+        "redistribution": "citation-only",
+        "url": "https://github.com/JazzTap/mcs563/blob/8cafb4330de63b08483f7af51b85578811c61256/Scraps/rur_sage.ipynb"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify a symbolic Apollonius-circle Groebner basis"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.binary-independence-ideal",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form",
+        "commalg.Ideal.dimension"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "David Kahle, Christopher O'Neill, and Jeff Sommars, A computer algebra system for R: Macaulay2 and the m2r package, arXiv:1706.07797",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1706.07797"
+      },
+      "timeout_seconds": 20,
+      "title": "Reduce a binary independence model to its determinant equation"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.binomial-primary-decomposition",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.primary_decomposition",
+        "commalg.PrimaryDecomposition.verify",
+        "commalg.PolynomialPrimaryCertificate.verify",
+        "commalg.PolynomialPrimeCertificate.verify",
+        "commalg.Ideal.reduce",
+        "commalg.IdealReduction.verify",
+        "commalg.IdealReduction.is_member"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Thomas Kahle, Decompositions of Binomial Ideals in Macaulay 2, arXiv:1106.5968",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1106.5968"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify a primary decomposition of a binomial ideal"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.bivariate-monomial-power-growth",
+      "operations": [
+        "commalg.PolynomialRing.monomial_ideal",
+        "commalg.MonomialIdeal.pow",
+        "commalg.MonomialIdeal.minimal_generators",
+        "commalg.MonomialIdeal.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Jutta Rath and Roswitha Rissner, Minimal generating sets of large powers of bivariate monomial ideals, arXiv:2503.21466",
+        "kind": "paper",
+        "license": "Creative Commons Attribution 4.0 International",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2503.21466"
+      },
+      "timeout_seconds": 30,
+      "title": "Count minimal generators of bounded powers of a bivariate monomial ideal"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.boolean-function-nonlinearity",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "An algorithmic approach using multivariate polynomials for the nonlinearity of Boolean functions, arXiv:1610.05932",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1610.05932"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute the nonlinearity of a two-variable Boolean function"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.boolean-groebner-basis",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Franziska Hinkelmann and Elizabeth Arnold, Fast Gr\u00f6bner Basis Computation for Boolean Polynomials, arXiv:1010.2669",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1010.2669"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify a Boolean Groebner basis over F2"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.conic-line-characteristic-number",
+      "operations": [
+        "RationalField.__call__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Bounds for characteristic numbers of conic-line arrangements in the plane, arXiv:2312.12950",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2312.12950"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute the characteristic number of a conic-line arrangement"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.coordinate-ideal-primary-decomposition",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.primary_decomposition",
+        "commalg.PrimaryDecomposition.verify",
+        "commalg.Ideal.normal_form",
+        "commalg.Ideal.dimension"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "David Kahle, Christopher O'Neill, and Jeff Sommars, A computer algebra system for R: Macaulay2 and the m2r package, arXiv:1706.07797",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1706.07797"
+      },
+      "timeout_seconds": 20,
+      "title": "Decompose a coordinate ideal into plane and axis components"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.cusp-normalization-conductor",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Ideal.normalization",
+        "commalg.AffineNormalization.verify",
+        "commalg.AffineNormalization.coordinate_images",
+        "commalg.AffineNormalization.source_conductor"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Gert-Martin Greuel, Santiago Laplagne, and Frank Seelisch, Normalization of Rings, arXiv:0904.3561",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0904.3561"
+      },
+      "timeout_seconds": 60,
+      "title": "Normalize a cusp and certify its conductor"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.cycle-vertex-cover-power",
+      "operations": [
+        "commalg.PolynomialRing.monomial_ideal",
+        "commalg.MonomialIdeal.product",
+        "commalg.MonomialIdeal.contains_monomial"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Correction to: Powers of the vertex cover ideals, arXiv:2305.01940",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2305.01940"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify membership in the square of a cycle cover ideal"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy"
+      ],
+      "id": "commalg.cyclotomic-sequence-linear-complexity",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.Polynomial.gcd",
+        "commalg.Polynomial.degree"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Linear complexity of Ding-Helleseth generalized cyclotomic sequences of order eight, arXiv:1802.08105",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1802.08105"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify an order-eight cyclotomic-sequence linear complexity"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.d222-hyperdeterminant",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.derivative",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.eliminate",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form",
+        "commalg.Polynomial.nonzero_term_count",
+        "commalg.Polynomial.homogeneous_degree"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; D222Computation.jlcon",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the 2 x 2 x 2 hyperdeterminant by elimination"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.deepgroebner-cyclic-three",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Dylan Peifer, deepgroebner commit 94f3183efd290a400ab97908e52ac04de7b259de, tests/test_buchberger.py",
+        "kind": "repository",
+        "license": "GPL-3.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/dylanpeifer/deepgroebner"
+      },
+      "timeout_seconds": 20,
+      "title": "Verify a deterministic cyclic-three Groebner regression"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy",
+        "geometry"
+      ],
+      "id": "commalg.del-pezzo-f7-point-count",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "numthy.FiniteField.__call__",
+        "numthy.FiniteFieldElement.__pow__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Anthony Varilly-Alvarado and David Zywina, Arithmetic E_8 lattices with maximal Galois action, arXiv:0803.3063",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0803.3063"
+      },
+      "timeout_seconds": 30,
+      "title": "Count the F_7-points of a degree-one del Pezzo surface"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg",
+        "geometry"
+      ],
+      "id": "commalg.dingdong-weighted-critical-ideal",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.derivative",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.saturate",
+        "commalg.Ideal.normal_form",
+        "commalg.Ideal.dimension",
+        "commalg.Ideal.degree"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "William Huang and Jose Israel Rodriguez, Euclidean Distance Degrees in Macaulay2, arXiv:2607.13277",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2607.13277"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the weighted critical ideal of the Dingdong surface"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg"
+      ],
+      "id": "commalg.evolution-algebra-isomorphism",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Polynomial.is_one"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "J. M. Casas, M. Ladra, B. A. Omirov, and U. A. Rozikov, On evolution algebras, arXiv:1004.1050",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1004.1050"
+      },
+      "timeout_seconds": 30,
+      "title": "Decide an evolution-algebra isomorphism by Groebner basis"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg"
+      ],
+      "id": "commalg.f4-groebner-basis",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Anna Maria Bigatti et al., Solving Polynomial Systems with Groebner Bases: An Introduction to F4 and FGLM, arXiv:2509.03346",
+        "kind": "paper",
+        "license": "CC BY-NC-SA 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2509.03346"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify a published reduced Groebner basis over F101"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.f5-groebner-example",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form",
+        "commalg.Ideal.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "On The Criteria Of The F5 Algorithm, arXiv:0804.2033",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0804.2033"
+      },
+      "timeout_seconds": 45,
+      "title": "Reproduce an F5 Gr\u00f6bner-basis example"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy"
+      ],
+      "id": "commalg.finite-projective-variety-point-count",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.ProjectiveSpace.closed_subscheme",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Scheme.point_count",
+        "numthy.PointCountCertificate.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "John Bamberg, Anton Betten, Philippe Cara, Jan De Beule, Michel Lavrauw, and Max Neunhoeffer, FinInG: a package for Finite Incidence Geometry, arXiv:1606.05530",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1606.05530"
+      },
+      "timeout_seconds": 10,
+      "title": "Count points on an intersection of quadrics over F5"
+    },
+    {
+      "domains": [
+        "commalg",
+        "homalg",
+        "geometry"
+      ],
+      "id": "commalg.foliation-singular-scheme-saturation",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.intersection",
+        "commalg.Ideal.saturate",
+        "commalg.Ideal.verify",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Alan Muniz, p-forms from syzygies, arXiv:2212.11845",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2212.11845"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover a foliation singular scheme by saturation"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.groebner-membership-witnesses",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.reduce",
+        "commalg.IdealReduction.multipliers",
+        "commalg.IdealReduction.remainder",
+        "commalg.IdealReduction.is_member",
+        "commalg.IdealReduction.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "WuProver/GroebnerTactic commit 1cbbc7122e52e757ba6502f450a3cfd1df243b26, GroebnerTac/Example.lean",
+        "kind": "repository",
+        "license": "No license file found; mathematical examples cited without source-code redistribution",
+        "redistribution": "citation-only",
+        "url": "https://github.com/WuProver/GroebnerTactic/blob/1cbbc7122e52e757ba6502f450a3cfd1df243b26/GroebnerTac/Example.lean"
+      },
+      "timeout_seconds": 20,
+      "title": "Produce checkable witnesses for ideal membership and equality"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg",
+        "combin"
+      ],
+      "id": "commalg.hadamard-m-polynomial-table",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.coefficient",
+        "linalg.Matrix.from_rows"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Generalizing Krawtchouk polynomials using Hadamard matrices, arXiv:1307.5777",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1307.5777"
+      },
+      "timeout_seconds": 30,
+      "title": "Expand the Hadamard m-polynomial table at length six"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy",
+        "combin"
+      ],
+      "id": "commalg.hermite-criterion-degree-eight",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.coefficient"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Xiang Fan, Permutation polynomials of degree 8 over finite fields of characteristic 2, arXiv:1903.10309",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1903.10309"
+      },
+      "timeout_seconds": 30,
+      "title": "Expand a degree-eight Hermite-criterion polynomial"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.hough-double-ideal-radicals",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.radical",
+        "commalg.RadicalIdeal.verify",
+        "commalg.RadicalIdeal.ideal"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Mauro C. Beltrametti and Lorenzo Robbiano, An Algebraic Approach to Hough Transforms, arXiv:1202.1698",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1202.1698"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify radical criteria for two Hough-transform families"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.ideal-sum-factorization",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Polynomial.factor",
+        "commalg.PolynomialFactorization.verify",
+        "commalg.PolynomialFactorization.value",
+        "commalg.PolynomialFactorization.factors"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 20,
+      "title": "Form an ideal sum and factor its Groebner generator"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.isogonal-conjugate-distance-identity",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.is_zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Shalosh B. Ekhad and Doron Zeilberger, A One-Line Proof of Leversha's Quartet of Isogonal Conjugates Theorem, arXiv:2105.01621",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2105.01621"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify an isogonal-conjugate distance identity"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy",
+        "geometry"
+      ],
+      "id": "commalg.k3-univariate-certificates",
+      "operations": [
+        "numthy.cyclotomic_polynomial",
+        "commalg.Polynomial.base_change",
+        "commalg.Polynomial.factor",
+        "commalg.PolynomialFactorization.verify",
+        "numthy.FiniteField.prime",
+        "commalg.Polynomial.is_nth_power",
+        "commalg.Polynomial.nth_root",
+        "commalg.Polynomial.real_roots",
+        "commalg.RealRootIsolation.verify",
+        "commalg.RealRootIsolation.refine",
+        "commalg.RealRootIsolation.ball"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Nicolas Addington, Benjamin Antieau, Sarah Frei, and Katrina Honigs, Rational points and derived equivalence, arXiv:1906.02261",
+        "kind": "paper",
+        "license": "arXiv non-exclusive license to distribute 1.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1906.02261"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify three exact certificates from a degree-two K3 computation"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy",
+        "geometry"
+      ],
+      "id": "commalg.klein-quartic-f43-point-count",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.ProjectiveSpace.closed_subscheme",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Scheme.point_count",
+        "numthy.PointCountCertificate.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "David Joyner and Amy Ksir, Modular representations on some Riemann--Roch spaces of modular curves X(N), arXiv:math/0502586",
+        "kind": "paper",
+        "license": "citation-only independent restatement; no source artifact redistributed",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/math/0502586"
+      },
+      "timeout_seconds": 30,
+      "title": "Count F43-points on the Klein quartic"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.lex-groebner-basis-example",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Polynomial.__add__",
+        "commalg.Polynomial.__sub__",
+        "commalg.Polynomial.__pow__",
+        "commalg.Ideal.verify",
+        "commalg.Ideal.groebner_basis"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Kamillo Ferry and Francesco Nowell, The GroebnerWalk.jl package for OSCAR, arXiv:2503.09254",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2503.09254"
+      },
+      "timeout_seconds": 10,
+      "title": "A lexicographic Groebner basis over the rationals"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.meixner-sequence-recurrence",
+      "operations": [
+        "commalg.PolynomialRing.from_terms",
+        "commalg.Polynomial.derivative",
+        "commalg.Polynomial.coefficient"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Tong Niu, A short proof of Mathar's 2013 recurrence conjecture for the Meixner sequence A214615, arXiv:2605.03170",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2605.03170"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify the generating-function recurrence for Meixner sequence A214615"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.mobius-truncated-ring-identities",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "David Turturean, Explicit deformation of a spider algebra to a curvilinear scheme via Mobius generators, arXiv:2603.00886",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2603.00886"
+      },
+      "timeout_seconds": 20,
+      "title": "Verify Mobius-generator identities modulo t^22"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.monomial-ideal-colon-witnesses",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.colon"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Siddhi Balu Ambhore and Indranath Sengupta, Colon structure of associated primes of monomial ideals, arXiv:2105.00835",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2105.00835"
+      },
+      "timeout_seconds": 10,
+      "title": "Verify colon witnesses for a monomial associated prime"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg"
+      ],
+      "id": "commalg.multisymmetric-big-diagonal-ideal",
+      "operations": [
+        "linalg.Matrix.det",
+        "commalg.Ideal.intersection",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Daniele Agostini and Jinhyung Park, Determinantal ideals of secant varieties, arXiv:2510.01895",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2510.01895"
+      },
+      "timeout_seconds": 30,
+      "title": "Identify a big diagonal ideal by alternating determinants"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.multivariate-faa-di-bruno",
+      "operations": [
+        "commalg.Polynomial.derivative",
+        "commalg.Polynomial.substitute",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "E. Di Nardo, G. Guarino, and D. Senato, A new algorithm for computing the multivariate Fa\u00e0 di Bruno's formula, arXiv:1012.6008",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1012.6008"
+      },
+      "timeout_seconds": 30,
+      "title": "Expand a bounded multivariate Fa\u00e0 di Bruno formula"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.multivariate-partial-fraction-check",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.is_zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Marcel Wittmann, Zihao Wu, Yingxuan Xu, and Yang Zhang, IBP reduction coefficients made simple, arXiv:2008.13194",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2008.13194"
+      },
+      "timeout_seconds": 10,
+      "title": "Certify a multivariate partial-fraction identity"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.neural-ideal-primary-decomposition",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.admit_primary_decomposition",
+        "commalg.PrimaryDecomposition.verify",
+        "commalg.Ideal.certify_primary",
+        "commalg.PolynomialPrimaryCertificate.verify",
+        "commalg.Ideal.intersection",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Ethan Petersen et al., Neural Ideals in SageMath, arXiv:1609.09602",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1609.09602"
+      },
+      "timeout_seconds": 30,
+      "title": "Primary-decompose a three-neuron neural ideal"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.octic-quotient-degree-eight",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.initial_ideal",
+        "commalg.MonomialIdeal.standard_monomials_of_degree",
+        "commalg.Ideal.dimension",
+        "commalg.Ideal.degree"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Rank 2 aCM and Ulrich bundles on Fano and Calabi--Yau double coverings of P3, arXiv:2510.26850",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2510.26850"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify degree-eight vanishing in an Artinian quotient"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.oscar-elimination-groebner-basis",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.__contains__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 30,
+      "title": "Eliminate one variable from two plane quadrics"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.oscar-prime-decompositions",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Ideal.minimal_primes",
+        "commalg.MinimalPrimeDecomposition.verify",
+        "commalg.Ideal.primary_decomposition",
+        "commalg.PrimaryDecomposition.verify",
+        "commalg.PolynomialPrimaryCertificate.verify",
+        "commalg.PolynomialPrimeCertificate.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify minimal primes and a primary hypersurface power"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.polymake-polynomial-arithmetic",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.terms",
+        "commalg.Polynomial.coefficient"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "polymake commit cd20bd56aade8019ff21f161461ee3f1dda95512, demo/polynomials_tutorial.ipynb",
+        "kind": "repository",
+        "license": "GPL-2.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://github.com/polymake/polymake/blob/cd20bd56aade8019ff21f161461ee3f1dda95512/demo/polynomials_tutorial.ipynb"
+      },
+      "timeout_seconds": 20,
+      "title": "Reproduce an exact multivariate polynomial tutorial calculation"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy"
+      ],
+      "id": "commalg.polynomial-crt-reconstruction",
+      "operations": [
+        "commalg.ResidueRing.crt",
+        "commalg.CrtDecomposition.reconstruct",
+        "commalg.CrtDecomposition.verify",
+        "commalg.ResidueClass.inverse"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "John Abbott and Anna Maria Bigatti, Groebner Bases for Everyone with CoCoA-5 and CoCoALib, arXiv:1611.07306",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1611.07306"
+      },
+      "timeout_seconds": 45,
+      "title": "Reconstruct a rational polynomial from modular images"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy"
+      ],
+      "id": "commalg.prime-interval-support",
+      "operations": [
+        "commalg.ResidueRing.__call__",
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Prime-Interval Algebras, arXiv:2607.22347",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2607.22347"
+      },
+      "timeout_seconds": 45,
+      "title": "Compute prime support in dyadic and short intervals by residue-ring arithmetic"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.projective-quartic-hilbert-polynomial",
+      "operations": [
+        "commalg.ProjectiveSpace.coordinate_ring",
+        "commalg.ProjectiveSpace.closed_subscheme",
+        "commalg.Scheme.dimension",
+        "commalg.Scheme.degree",
+        "commalg.Scheme.hilbert_polynomial"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the Hilbert polynomial of a projective quartic curve"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy"
+      ],
+      "id": "commalg.rational-two-cycles-seven-torsion-identity",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.factor",
+        "commalg.PolynomialFactorization.verify",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "chatchawanpan-dev, rational-2-cycles-cubic-computations commit 29ac6528ef4a443390c8b620911c8088b51983a0, verify_7torsion_basic.m",
+        "kind": "repository",
+        "license": "No license file found; mathematical identity cited without source-code redistribution",
+        "redistribution": "citation-only",
+        "url": "https://github.com/chatchawanpan-dev/rational-2-cycles-cubic-computations"
+      },
+      "timeout_seconds": 20,
+      "title": "Verify the rational seven-torsion polynomial identity"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy",
+        "combin"
+      ],
+      "id": "commalg.reciprocal-progression-elementary-symmetric",
+      "operations": [
+        "RationalField.__call__",
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.__mul__",
+        "commalg.Polynomial.coefficient"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Chunlin Wang and Shaofang Hong, The elementary symmetric functions of reciprocal arithmetic progressions, arXiv:1311.1389",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1311.1389"
+      },
+      "timeout_seconds": 10,
+      "title": "An elementary symmetric value of reciprocal integers"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg",
+        "geometry"
+      ],
+      "id": "commalg.reducible-cubic-determinantal-representation",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.factor",
+        "commalg.PolynomialFactorization.verify",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Justin Chen and Papri Dey, Computing symmetric determinantal representations, arXiv:1905.07035",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1905.07035"
+      },
+      "timeout_seconds": 20,
+      "title": "Certify a symmetric determinant for a reducible plane cubic"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.reducible-ring-normalization",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.reduced_normalization",
+        "commalg.ReducedAffineNormalization.verify",
+        "commalg.ReducedAffineNormalization.component_count",
+        "commalg.AffineNormalization.verify",
+        "commalg.QuotientRing.dimension",
+        "commalg.QuotientRing.degree"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Amelia Taylor, Methods for Computing Normalisations of Affine Rings, arXiv:math/0304007",
+        "kind": "paper",
+        "license": "arXiv assumed non-exclusive license to distribute (1991-2003)",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/math/0304007"
+      },
+      "timeout_seconds": 60,
+      "title": "Normalize a reducible union of three affine planes"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.reversible-binary-recurrence",
+      "operations": [
+        "commalg.PolynomialRing.from_terms",
+        "commalg.Polynomial.coefficient"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Tong Niu, A short proof of Mathar's 2013 recurrence conjecture for the reversible-binary-string sequence A032123, arXiv:2605.14213",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2605.14213"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify Mathar's recurrence for reversible binary strings A032123"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.second-jet-xyz-radical",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.radical",
+        "commalg.RadicalIdeal.verify",
+        "commalg.Ideal.minimal_primes",
+        "commalg.MinimalPrimeDecomposition.verify",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Federico Galetto and Nicholas P. Iammarino, Computing with jets, arXiv:2108.06350",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2108.06350"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute the radical and components of the second jet of xyz"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.separating-rational-identity",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.Polynomial.__add__",
+        "commalg.Polynomial.__sub__",
+        "commalg.Polynomial.__mul__",
+        "commalg.Polynomial.__pow__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Manfred Buchacher, Separating Variables in Bivariate Polynomial Ideals: the Local Case, arXiv:2404.10377",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.10377"
+      },
+      "timeout_seconds": 10,
+      "title": "Verify a separating rational-function identity"
+    },
+    {
+      "domains": [
+        "commalg",
+        "combin"
+      ],
+      "id": "commalg.signed-ideal-intersection",
+      "operations": [
+        "commalg.Ideal.intersection",
+        "commalg.Ideal.normal_form",
+        "commalg.Polynomial.is_zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Marco Aldi, Sergio Da Silva, and Daniele Grandini, Tensorial Constraints for Commuting Endomorphisms of the Generalized Tangent Bundle, arXiv:2604.15691",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2604.15691"
+      },
+      "timeout_seconds": 90,
+      "title": "Verify signed generators of a three-ideal intersection"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.singular-locus-saturation",
+      "operations": [
+        "commalg.Polynomial.derivative",
+        "commalg.Ideal.saturate",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Estimation of calculation errors and resolution of singularities, arXiv:2608.14271",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14271"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover a diagonal singular locus by saturation"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.sparse-surface-implicitization",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.eliminate_with_evidence",
+        "commalg.IdealElimination.verify",
+        "commalg.IdealElimination.result",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Polynomial.homogeneous_degree"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Nicolas Botbol and Marc Dohm, A package for computing implicit equations of parametrizations from toric surfaces, arXiv:1001.1126",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1001.1126"
+      },
+      "timeout_seconds": 60,
+      "title": "Implicitize a sparse rational surface parametrization"
+    },
+    {
+      "domains": [
+        "commalg",
+        "linalg",
+        "geometry"
+      ],
+      "id": "commalg.square-slack-ideal",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.saturate",
+        "commalg.Ideal.verify",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Antonio Macchia and Amy Wiebe, Slack Ideals in Macaulay2, arXiv:2003.07382",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2003.07382"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute the saturated slack ideal of a square"
+    },
+    {
+      "domains": [
+        "commalg",
+        "numthy"
+      ],
+      "id": "commalg.symbolic-two-torsion-root",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "commalg.PolynomialRing.zero",
+        "commalg.Polynomial.__pow__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Valery Asiryan, Genus-One Fibrations and the Jacobian of Linear Slices in the Quintic Equal-Sum Problem, arXiv:2512.11072",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2512.11072"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify a symbolic two-torsion section of an elliptic Jacobian"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.three-quadric-groebner-normal-form",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute a lexicographic Groebner basis and normal form for three quadrics"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.toric-ideal-implicitization",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.eliminate",
+        "commalg.Ideal.normal_form"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "John Abbott and Anna Maria Bigatti, Groebner Bases for Everyone with CoCoA-5 and CoCoALib, arXiv:1611.07306",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1611.07306"
+      },
+      "timeout_seconds": 30,
+      "title": "Implicitize monomial curves and the quadratic Veronese map"
+    },
+    {
+      "domains": [
+        "commalg",
+        "geometry"
+      ],
+      "id": "commalg.two-point-secant-elimination",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.eliminate_with_evidence",
+        "commalg.IdealElimination.verify",
+        "commalg.IdealElimination.result",
+        "commalg.Ideal.groebner_basis"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Jessica Sidman and Peter Vermeire, Equations defining secant varieties: geometry and computation, arXiv:0910.0989",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0910.0989"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the secant line of two points by elimination"
+    },
+    {
+      "domains": [
+        "commalg"
+      ],
+      "id": "commalg.zero-dimensional-quotient-minpoly",
+      "operations": [
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.eliminate",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "John Abbott and Anna Maria Bigatti, Groebner Bases for Everyone with CoCoA-5 and CoCoALib, arXiv:1611.07306",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1611.07306"
+      },
+      "timeout_seconds": 45,
+      "title": "Compute minimal polynomials in a zero-dimensional quotient"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.antichain-probability-polytope",
+      "operations": [
+        "combin.Poset.order",
+        "combin.Poset.covers",
+        "combin.Poset.leq",
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.verify",
+        "geometry.Polytope.facets",
+        "geometry.Polytope.f_vector"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Jan Snellman, The Polytope of Probability Functions on a Finite Poset, arXiv:2502.01604",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2502.01604"
+      },
+      "timeout_seconds": 15,
+      "title": "Probability-functions polytope of a three-element antichain"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.order-four-permutahedron",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.verify",
+        "geometry.Polytope.ambient_dimension",
+        "geometry.Polytope.dimension",
+        "geometry.Polytope.vertices",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.face_lattice"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Viviane Pons, Combinatorics of the Permutahedra, Associahedra, and Friends, arXiv:2310.12687",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2310.12687"
+      },
+      "timeout_seconds": 20,
+      "title": "Construct the order-four permutahedron and enumerate its faces"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.order-three-permutahedron",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.ambient_dimension",
+        "geometry.Polytope.dimension",
+        "geometry.Polytope.vertices",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.vertex_facet_incidence",
+        "geometry.Polytope.face_lattice",
+        "geometry.Polytope.face_lattice_covers",
+        "geometry.Polytope.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Viviane Pons, Combinatorics of the Permutahedra, Associahedra, and Friends, arXiv:2310.12687",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2310.12687"
+      },
+      "timeout_seconds": 10,
+      "title": "The order-three permutahedron and its faces"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.oscar-cyclic-four-polytope",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.face_lattice",
+        "geometry.Polytope.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; intro.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 20,
+      "title": "Recover the face vector of the cyclic four-polytope on eight vertices"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.oscar-pentagon-face-structure",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.verify",
+        "geometry.Polytope.vertices",
+        "geometry.Polytope.facets",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.vertex_facet_incidence"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 15,
+      "title": "Exact face structure of the OSCAR pentagon"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.oscar-triangle-square-product",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.vertex_facet_incidence",
+        "geometry.Polytope.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; intro.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute the face vector of a triangle-square product"
+    },
+    {
+      "domains": [
+        "geometry",
+        "linalg"
+      ],
+      "id": "geometry.polymake-basic-exact-polytopes",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.from_halfspaces",
+        "geometry.Polytope.vertices",
+        "geometry.Polytope.facets",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "polymake commit cd20bd56aade8019ff21f161461ee3f1dda95512, demo/apps_polytope.ipynb",
+        "kind": "repository",
+        "license": "GPL-2.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://github.com/polymake/polymake/blob/cd20bd56aade8019ff21f161461ee3f1dda95512/demo/apps_polytope.ipynb"
+      },
+      "timeout_seconds": 20,
+      "title": "Construct the same exact square from points and halfspaces"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.random-six-polytope-g-vectors",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.verify",
+        "geometry.Polytope.dimension",
+        "geometry.Polytope.vertices",
+        "geometry.Polytope.vertex_facet_incidence",
+        "geometry.Polytope.f_vector"
+      ],
+      "seed": 20260907,
+      "source": {
+        "citation": "oscar-system/Polymake.jl commit 4bded3a8d6710132383b72ca7125735961e5d200, g-vectors_of_random_simplicial_6-polytopes.ipynb",
+        "kind": "repository",
+        "license": "LGPL-2.1-or-later",
+        "redistribution": "citation-only",
+        "url": "https://github.com/oscar-system/Polymake.jl/blob/4bded3a8d6710132383b72ca7125735961e5d200/examples/g-vectors_of_random_simplicial_6-polytopes.ipynb"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute a g-vector for a sampled simplicial six-polytope"
+    },
+    {
+      "domains": [
+        "geometry",
+        "combin"
+      ],
+      "id": "geometry.rational-platonic-face-vectors",
+      "operations": [
+        "geometry.Polytope.from_vertices",
+        "geometry.Polytope.verify",
+        "geometry.Polytope.dimension",
+        "geometry.Polytope.facets",
+        "geometry.Polytope.f_vector",
+        "geometry.Polytope.face_lattice"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the face vectors of three rational Platonic solids"
+    },
+    {
+      "domains": [
+        "groups"
+      ],
+      "id": "groups.degree-four-permutation-actions",
+      "operations": [
+        "groups.Permutation.from_images",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.order",
+        "groups.PermutationGroup.orbit",
+        "groups.PermutationGroup.stabilizer",
+        "groups.PermutationGroup.conjugacy_classes",
+        "groups.ConjugacyClass.verify",
+        "groups.ConjugacyClass.centralizer"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Computer Algebra Session Archive, 2026-08-26, saved/codex/2026-08-04/orl/work/search_degree4_permutation_quotient_filters.sage",
+        "kind": "repository",
+        "license": "No license stated",
+        "redistribution": "citation-only",
+        "url": null
+      },
+      "timeout_seconds": 15,
+      "title": "Five transitive permutation groups of degree four"
+    },
+    {
+      "domains": [
+        "groups",
+        "combin",
+        "geometry"
+      ],
+      "id": "groups.flexrilog-order-five-symmetry",
+      "operations": [
+        "combin.Graph.automorphism_group",
+        "groups.Permutation.from_images",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.contains",
+        "groups.PermutationGroup.orbit"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Georg Grasegger and Jan Legersky, FlexRiLoG -- A SageMath Package for Motions of Graphs, arXiv:2003.12029; Rotationally_symmetric_frameworks_SoCGmedia.ipynb at commit f79b232d3ab02aea5351f9f3de9da23cd8b3a2e6",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license; companion repository GPL-3.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2003.12029"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify an order-five symmetry of a rigidity graph"
+    },
+    {
+      "domains": [
+        "groups",
+        "combin",
+        "geometry"
+      ],
+      "id": "groups.gelfand-tsetlin-weight-character",
+      "operations": [
+        "combin.Tableau.semistandard",
+        "combin.Tableau.content",
+        "groups.PolynomialGlRepresentation.weyl_dimension",
+        "groups.PolynomialGlRepresentation.gl_character",
+        "groups.WeightCharacter.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover a GL(3) weight character from Gelfand--Tsetlin data"
+    },
+    {
+      "domains": [
+        "groups",
+        "combin"
+      ],
+      "id": "groups.hurwitz-degree-nine-generating-triple",
+      "operations": [
+        "groups.Permutation.from_images",
+        "groups.Permutation.order",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.order",
+        "groups.PermutationGroup.is_transitive"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Branching data for curves up to genus 48, arXiv:1512.07657",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1512.07657"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify a degree-nine Hurwitz generating triple"
+    },
+    {
+      "domains": [
+        "groups",
+        "combin"
+      ],
+      "id": "groups.igraph-complete-five-automorphisms",
+      "operations": [
+        "combin.Graph.automorphism_group",
+        "groups.PermutationGroup.order",
+        "groups.PermutationGroup.orbit_stabilizer",
+        "groups.PermutationGroup.stabilizer"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Szabolcs Horvat et al., IGraph/M: graph theory and network analysis for Mathematica, arXiv:2209.09145; Tests/Tests.m at commit 8de23ab6b2dcab448ba13bffe4c3a864c54927e7",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license; companion repository GPL-3.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2209.09145"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the automorphism group of K5"
+    },
+    {
+      "domains": [
+        "groups",
+        "linalg",
+        "combin"
+      ],
+      "id": "groups.lr-ray-symmetry-group",
+      "operations": [
+        "linalg.Matrix.solve",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.iterate_elements",
+        "groups.PermutationGroup.orbit_of_subset"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Emmanuel Briand and Mercedes Rosas, The 144 symmetries of the Littlewood-Richardson coefficients of SL3, arXiv:2004.04995",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2004.04995"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify the 144 symmetries of the SL3 LR chamber rays"
+    },
+    {
+      "domains": [
+        "groups",
+        "geometry",
+        "combin"
+      ],
+      "id": "groups.oscar-four-cube-automorphisms",
+      "operations": [
+        "groups.Permutation.from_images",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.order",
+        "groups.PermutationGroup.is_transitive",
+        "groups.PermutationGroup.abelianization_invariant_factors"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; combinatorial-automorphisms.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the facet automorphism group of the four-cube"
+    },
+    {
+      "domains": [
+        "groups",
+        "topology",
+        "combin"
+      ],
+      "id": "groups.simplicial-cp2-automorphisms",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.automorphism_group",
+        "groups.Permutation.from_images",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.contains"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240; SimplicialHomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff",
+        "kind": "paper",
+        "license": "CC BY 4.0; linked repository MIT licensed",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover the automorphisms of a nine-vertex CP2 triangulation"
+    },
+    {
+      "domains": [
+        "groups",
+        "topology",
+        "combin"
+      ],
+      "id": "groups.simplicial-torus-automorphisms",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.automorphism_group",
+        "groups.Permutation.from_images",
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.conjugating_element"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240; SimplicialHomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff",
+        "kind": "paper",
+        "license": "CC BY 4.0; linked repository MIT licensed",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 20,
+      "title": "Recover the automorphism group of a seven-vertex torus"
+    },
+    {
+      "domains": [
+        "groups",
+        "combin"
+      ],
+      "id": "groups.triple-product-property-search",
+      "operations": [
+        "groups.PermutationGroup.from_generators",
+        "groups.PermutationGroup.iterate_elements",
+        "groups.PermutationGroup.multiply",
+        "groups.PermutationGroup.inverse"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Ivo Hedtke and Sandeep Murthy, Search and test algorithms for Triple Product Property triples, arXiv:1104.5097",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1104.5097"
+      },
+      "timeout_seconds": 30,
+      "title": "Search S3 for triple-product-property subsets"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "combin",
+        "linalg"
+      ],
+      "id": "homalg.cellular-monomial-resolution",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Aleksandra Sobieska and Jay Yang, CellularResolutions M2 Package, arXiv:2307.08224",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2307.08224"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve a monomial ideal from a cellular-resolution example"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.codepth-three-h43-resolution",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Lars Winther Christensen, Orin Gotchey, and Alexis Hardesty, Sampling Algebra Structures on Minimal Free Resolutions, arXiv:2303.13687",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2303.13687"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve a codepth-three quotient of class H(4,3)"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.codepth-three-resolution",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Lars Winther Christensen and Oana Veliche, Local rings of embedding codepth 3: a classification algorithm, arXiv:1402.4052",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1402.4052"
+      },
+      "timeout_seconds": 60,
+      "title": "Resolve a quotient from a codepth-three classification"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.determinantal-module-annihilators",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "commalg.PolynomialRing.ideal",
+        "homalg.PresentedModule.annihilator",
+        "commalg.Ideal.colon",
+        "commalg.Ideal.normal_form",
+        "commalg.Ideal.certify_primary",
+        "commalg.PolynomialPrimaryCertificate.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 30,
+      "title": "Identify determinantal ideals as module annihilators"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "combin",
+        "linalg"
+      ],
+      "id": "homalg.divisor-poset-hibi-resolution",
+      "operations": [
+        "combin.Poset.leq",
+        "combin.Poset.height",
+        "combin.Poset.width",
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "David Cook II, Sonja Mapes, and Gwyneth Whieldon, Partially ordered sets in Macaulay2, arXiv:1304.7999",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1304.7999"
+      },
+      "timeout_seconds": 60,
+      "title": "Resolve the Hibi quotient of the divisor poset of 12"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "combin",
+        "linalg"
+      ],
+      "id": "homalg.four-cycle-morse-resolution",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Trung Chau, Selvi Kara, and Augustine O'Keefe, The MorseResolutions package for Macaulay2, arXiv:2307.03633",
+        "kind": "paper",
+        "license": "Creative Commons Attribution 4.0 International",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2307.03633"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve the edge ideal of a four-cycle"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.generic-two-by-four-minors-resolution",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Amelie Schreiber, Multiparameter Persistent Homology-Generic Structures and Quantum Computing, arXiv:2210.11433",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2210.11433"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve the generic two-by-four determinantal quotient"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.graded-minimal-free-resolution",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "linalg.Matrix.from_rows",
+        "homalg.ModuleMonomialOrder.term_over_position",
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 60,
+      "title": "Compute a graded minimal free resolution and Betti table"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.homalg-module-functors",
+      "operations": [
+        "homalg.PresentedModule.hom",
+        "homalg.PresentedModule.ext",
+        "homalg.PresentedModule.annihilator"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Homalg: A meta-package for homological algebra, arXiv:math/0701146",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/math/0701146"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute Hom and Ext of presented polynomial modules"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "geometry"
+      ],
+      "id": "homalg.line-arrangement-jacobian-syzygies",
+      "operations": [
+        "commalg.Polynomial.derivative",
+        "homalg.ModuleHomomorphism.kernel",
+        "homalg.Submodule.minimal_homogeneous_generators"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Alexandru Dimca and Gabriel Sticlaru, Syzygies of Jacobian ideals and weighted homogeneous singularities, arXiv:1407.0168",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1407.0168"
+      },
+      "timeout_seconds": 60,
+      "title": "Compute Jacobian syzygies of a singular line arrangement"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.oscar-module-kernel",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Vector.from_values",
+        "homalg.ModuleHomomorphism.kernel",
+        "homalg.ModuleHomomorphism.apply",
+        "homalg.Submodule.from_generators",
+        "homalg.Submodule.is_equal",
+        "homalg.Submodule.groebner_basis",
+        "homalg.ModuleGroebnerBasis.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko Boehm, Wolfram Decker, and Frank-Olaf Schreyer, Commutative Algebra and Algebraic Geometry using OSCAR, arXiv:2404.12085",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.12085"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute the kernel of a graded polynomial-module map"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg",
+        "topology"
+      ],
+      "id": "homalg.persistence-exterior-square",
+      "operations": [
+        "homalg.PresentedModule.exterior_power",
+        "homalg.PresentedModulePower.verify",
+        "homalg.PresentedModulePower.module",
+        "homalg.PresentedModule.annihilator",
+        "homalg.PresentedModule.fitting_ideal",
+        "commalg.Ideal.groebner_basis"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Leon Lampret, Tensor, Symmetric, Exterior, and Other Powers of Persistence Modules, arXiv:1503.08266",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1503.08266"
+      },
+      "timeout_seconds": 60,
+      "title": "Compute the underlying module of a persistence exterior square"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "numthy",
+        "geometry",
+        "linalg"
+      ],
+      "id": "homalg.rational-quartic-resolution",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Gregory G. Smith, Computing Global Extension Modules for Coherent Sheaves on a Projective Scheme, arXiv:math/9807170",
+        "kind": "paper",
+        "license": "citation-only independent restatement; no source artifact redistributed",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/math/9807170"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve a rational quartic curve over F32003"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "groups",
+        "linalg"
+      ],
+      "id": "homalg.s4-squarefree-quadratic-resolution",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Federico Galetto, Setting the scene for Betti characters, arXiv:2106.16062",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2106.16062"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve the S4-stable squarefree quadratic ideal"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg",
+        "geometry"
+      ],
+      "id": "homalg.second-veronese-betti-table",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Wouter Castryck, Filip Cools, Jeroen Demeyer, and Alexander Lemmens, Computing graded Betti tables of toric surfaces, arXiv:1606.08181",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1606.08181"
+      },
+      "timeout_seconds": 60,
+      "title": "Compute the second Veronese surface's graded Betti table"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "linalg"
+      ],
+      "id": "homalg.singularinterface-ideal-syzygies",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.ideal",
+        "commalg.Ideal.groebner_basis",
+        "commalg.Ideal.normal_form",
+        "linalg.Matrix.from_rows",
+        "linalg.Vector.from_values",
+        "homalg.ModuleHomomorphism.kernel",
+        "homalg.Submodule.is_equal"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Mohamed Barakat et al., SingularInterface commit 56dd255f8586b5cf55881ce3f56ffeedefea7d62, examples/example.g",
+        "kind": "repository",
+        "license": "GPL-2.0-or-later",
+        "redistribution": "citation-only",
+        "url": "https://github.com/gap-system/SingularInterface/blob/56dd255f8586b5cf55881ce3f56ffeedefea7d62/examples/example.g"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover an ideal Groebner basis and its two syzygies"
+    },
+    {
+      "domains": [
+        "homalg",
+        "commalg",
+        "combin",
+        "linalg"
+      ],
+      "id": "homalg.strongly-stable-betti-table",
+      "operations": [
+        "homalg.PresentedModule.minimal_free_resolution",
+        "homalg.FreeResolution.verify",
+        "homalg.FreeResolution.is_minimal",
+        "homalg.FreeResolution.graded_betti_table",
+        "homalg.GradedBettiTable.verify",
+        "homalg.GradedBettiTable.total"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Seth Ireland, Weighted Borel Generators, arXiv:2408.04120",
+        "kind": "paper",
+        "license": "Creative Commons Attribution 4.0 International",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2408.04120"
+      },
+      "timeout_seconds": 30,
+      "title": "Resolve a strongly stable ideal from weighted Borel generators"
+    },
+    {
+      "domains": [
+        "homalg",
+        "linalg"
+      ],
+      "id": "homalg.transverse-cone-cohomology",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "homalg.ChainComplex.from_coboundaries",
+        "homalg.ChainComplex.verify",
+        "homalg.ChainComplex.graded_cohomology",
+        "homalg.GradedHomology.verify",
+        "homalg.HomologyGroup.verify",
+        "homalg.HomologyGroup.dimension"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Computer Algebra Session Archive, 2026-08-26, saved/codex/2026-07-29/there/work/check_transverse_cone.py",
+        "kind": "repository",
+        "license": "No license stated",
+        "redistribution": "citation-only",
+        "url": null
+      },
+      "timeout_seconds": 15,
+      "title": "Cohomology of a reduced transverse-cone complex"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg"
+      ],
+      "id": "linalg.cubic-discriminant-matrix-factorization",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.__matmul__",
+        "linalg.Matrix.identity"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Eleonore Faber, Colin Ingalls, Simon May, and Marco Talarico, Matrix Factorizations of the discriminant of S_n, arXiv:2209.03375",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2209.03375"
+      },
+      "timeout_seconds": 10,
+      "title": "Verify a matrix factorization of the cubic discriminant"
+    },
+    {
+      "domains": [
+        "linalg",
+        "numthy"
+      ],
+      "id": "linalg.druzkowski-matrix-invariants",
+      "operations": [
+        "numthy.NumberField.generator",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank",
+        "linalg.Matrix.charpoly"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Tuyen Trung Truong, Some approaches toward the Jacobian conjecture, arXiv:1503.08733",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1503.08733"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute rank and characteristic polynomial over Q(i)"
+    },
+    {
+      "domains": [
+        "linalg",
+        "numthy",
+        "commalg"
+      ],
+      "id": "linalg.galois-orbit-cubic-independence",
+      "operations": [
+        "numthy.FiniteField.with_modulus",
+        "numthy.FiniteFieldElement.coefficients",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Shamil Asgarli, Dragos Ghioca, and Zinovy Reichstein, Linear system of hypersurfaces passing through a Galois orbit, arXiv:2310.10361",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2310.10361"
+      },
+      "timeout_seconds": 30,
+      "title": "Test cubics on a finite-field Galois orbit"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg",
+        "combin"
+      ],
+      "id": "linalg.generalized-mixed-discriminant",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "commalg.PolynomialRing.from_terms",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "commalg.Polynomial.terms"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Justin Chen and Papri Dey, Computing symmetric determinantal representations, arXiv:1905.07035",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1905.07035"
+      },
+      "timeout_seconds": 30,
+      "title": "Recover a generalized mixed discriminant as a determinant coefficient"
+    },
+    {
+      "domains": [
+        "linalg",
+        "numthy",
+        "commalg"
+      ],
+      "id": "linalg.golden-endomorphism-matrix",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "linalg.Matrix.charpoly"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Edgar Costa, Nicolas Mascot, Jeroen Sijsling, and John Voight, Rigorous computation of the endomorphism ring of a Jacobian, Math. Comp. 88 (2019), arXiv:1705.09248; examples/Ex8.1.1.m at edgarcosta/endomorphisms commit 691d1c1ceaa7f6dd139a83fffa1c98d1d8c4a50a",
+        "kind": "repository",
+        "license": "GPL-2.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/edgarcosta/endomorphisms"
+      },
+      "timeout_seconds": 10,
+      "title": "Certify a golden-ratio endomorphism matrix"
+    },
+    {
+      "domains": [
+        "linalg",
+        "combin"
+      ],
+      "id": "linalg.graph-minimum-rank-witness",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank",
+        "combin.Graph.from_unweighted",
+        "combin.Graph.degree_sequence"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Minimum rank of graphs: new results, arXiv:0812.0870",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0812.0870"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify an exact graph minimum-rank witness"
+    },
+    {
+      "domains": [
+        "linalg"
+      ],
+      "id": "linalg.hodge-diagonal-constraint-kernel",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank",
+        "linalg.Matrix.kernel",
+        "linalg.SolutionSpace.verify",
+        "linalg.SolutionSpace.dimension",
+        "linalg.Vector.to_values"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Computer Algebra Session Archive, 2026-08-26, saved/codex/2026-07-29/there/work/hodge_constraints.sage",
+        "kind": "repository",
+        "license": "No license stated",
+        "redistribution": "citation-only",
+        "url": null
+      },
+      "timeout_seconds": 15,
+      "title": "Kernel of fourfold Hodge-diagonal constraints"
+    },
+    {
+      "domains": [
+        "linalg",
+        "numthy",
+        "geometry"
+      ],
+      "id": "linalg.hyperbolic-face-cycle-vectors",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Symmetries of hyperbolic 4-manifolds, arXiv:1409.1910",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1409.1910"
+      },
+      "timeout_seconds": 30,
+      "title": "Enumerate short vectors in a face-cycle lattice"
+    },
+    {
+      "domains": [
+        "linalg",
+        "numthy",
+        "commalg"
+      ],
+      "id": "linalg.imaginary-quadratic-endomorphism-matrix",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "linalg.Matrix.charpoly"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Edgar Costa, Nicolas Mascot, Jeroen Sijsling, and John Voight, Rigorous computation of the endomorphism ring of a Jacobian, Math. Comp. 88 (2019), arXiv:1705.09248; examples/Ex8.1.5.m at edgarcosta/endomorphisms commit 691d1c1ceaa7f6dd139a83fffa1c98d1d8c4a50a",
+        "kind": "repository",
+        "license": "GPL-2.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/edgarcosta/endomorphisms"
+      },
+      "timeout_seconds": 10,
+      "title": "Certify an imaginary-quadratic endomorphism matrix"
+    },
+    {
+      "domains": [
+        "linalg",
+        "combin"
+      ],
+      "id": "linalg.matroid-intersection-form-rank",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; heron-rota-welsh.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 10,
+      "title": "Certify the rank and determinant of a matroid intersection form"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg"
+      ],
+      "id": "linalg.monomial-wlp-characteristic",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "A note on the weak Lefschetz property of monomial complete intersections in positive characteristic, arXiv:1003.0824",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1003.0824"
+      },
+      "timeout_seconds": 45,
+      "title": "Test weak Lefschetz behavior of a monomial complete intersection"
+    },
+    {
+      "domains": [
+        "linalg",
+        "geometry",
+        "numthy"
+      ],
+      "id": "linalg.picard-cremona-transformations",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.identity",
+        "linalg.Matrix.apply",
+        "linalg.Vector.from_values"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Lu\u00eds Gustavo Mendes and Liliana Puchuri, Negative Curves and Elliptic Fibrations on a Special Rational Surface, arXiv:2409.19235",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2409.19235"
+      },
+      "timeout_seconds": 30,
+      "title": "Compose Cremona transformations on divisor-class data"
+    },
+    {
+      "domains": [
+        "linalg",
+        "combin"
+      ],
+      "id": "linalg.rank3-quiver-mutation",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.transpose",
+        "linalg.Matrix.to_rows"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Boundedness criteria for real quivers of rank 3, arXiv:2505.16955",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2505.16955"
+      },
+      "timeout_seconds": 45,
+      "title": "Iterate exact mutations of rank-three quivers"
+    },
+    {
+      "domains": [
+        "linalg",
+        "combin"
+      ],
+      "id": "linalg.real-hyperplane-lct",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank",
+        "linalg.Matrix.rref"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Classification of real hyperplane singularities by real log canonical thresholds, arXiv:2411.13392",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2411.13392"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute a real log canonical threshold of a hyperplane arrangement"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg",
+        "geometry",
+        "combin"
+      ],
+      "id": "linalg.restricted-grassmannian-secant-rank",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.rank"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Dalton Bidleman and Luke Oeding, Restricted Secant Varieties of Grassmannians, arXiv:2211.01469",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2211.01469"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute a restricted Grassmannian secant rank"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg"
+      ],
+      "id": "linalg.semiclifford-rank-consistency",
+      "operations": [
+        "commalg.PolynomialRing.generators",
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "commalg.Polynomial.is_zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Nadish de Silva, semiclifford commit 7d318ea450eb7c1aa1b960914d2e55df208120f1, ConsistencyCheck.nb",
+        "kind": "notebook",
+        "license": "No license file found; mathematical matrix cited without notebook redistribution",
+        "redistribution": "citation-only",
+        "url": "https://github.com/ndesilva/semiclifford/blob/7d318ea450eb7c1aa1b960914d2e55df208120f1/ConsistencyCheck.nb"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify a symbolic rank bound from vanishing maximal minors"
+    },
+    {
+      "domains": [
+        "linalg",
+        "numthy",
+        "commalg"
+      ],
+      "id": "linalg.sqrt-two-endomorphism-matrix",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det",
+        "linalg.Matrix.charpoly"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Edgar Costa, Nicolas Mascot, Jeroen Sijsling, and John Voight, Rigorous computation of the endomorphism ring of a Jacobian, Math. Comp. 88 (2019), arXiv:1705.09248; examples/Ex6.1.6.m at edgarcosta/endomorphisms commit 691d1c1ceaa7f6dd139a83fffa1c98d1d8c4a50a",
+        "kind": "repository",
+        "license": "GPL-2.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/edgarcosta/endomorphisms"
+      },
+      "timeout_seconds": 10,
+      "title": "Certify a square-root-of-two endomorphism matrix"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg",
+        "combin"
+      ],
+      "id": "linalg.square-strip-chromatic-transfer",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.matmul",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Jes\u00fas Salas and Alan D. Sokal, Transfer Matrices and Partition-Function Zeros for Antiferromagnetic Potts Models I: General Theory and Square-Lattice Chromatic Polynomial, arXiv:cond-mat/0004330",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/cond-mat/0004330"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute a square-strip chromatic polynomial by transfer matrix"
+    },
+    {
+      "domains": [
+        "linalg",
+        "combin"
+      ],
+      "id": "linalg.tipsy-cop-markov-chain",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.matmul",
+        "linalg.Matrix.solve",
+        "linalg.Matrix.apply"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Markov models for the tipsy cop and robber game on graphs, arXiv:2102.13532",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2102.13532"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute exact tipsy cop-and-robber survival probabilities"
+    },
+    {
+      "domains": [
+        "linalg",
+        "commalg",
+        "combin"
+      ],
+      "id": "linalg.triangular-strip-chromatic-transfer",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.matmul",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Jesper Lykke Jacobsen, Jes\u00fas Salas, and Alan D. Sokal, Transfer Matrices and Partition-Function Zeros for Antiferromagnetic Potts Models III: Triangular-Lattice Chromatic Polynomial, arXiv:cond-mat/0204587",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/cond-mat/0204587"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute a triangular-strip chromatic polynomial by transfer matrix"
+    },
+    {
+      "domains": [
+        "linalg",
+        "geometry"
+      ],
+      "id": "linalg.vandermonde-general-position",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Ralf Gerkmann, Mao Sheng, and Kang Zuo, Computational details on the disproof of modularity, arXiv:0709.1054",
+        "kind": "paper",
+        "license": "No license stated",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0709.1054"
+      },
+      "timeout_seconds": 30,
+      "title": "Certify general position from all maximal Vandermonde minors"
+    },
+    {
+      "domains": [
+        "linalg"
+      ],
+      "id": "linalg.young-idempotent-matrix-check",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.__matmul__",
+        "linalg.Matrix.to_rows"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Bernd Fiedler, Self-adjoint symmetry operators connected with the magnetic Heisenberg ring, arXiv:0910.0447",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/0910.0447"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify a self-adjoint Young-symmetrizer idempotent"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.cubic-field-embeddings",
+      "operations": [
+        "numthy.NumberField.degree",
+        "numthy.NumberField.signature",
+        "numthy.NumberFieldElement.trace",
+        "numthy.NumberFieldElement.norm",
+        "numthy.NumberFieldElement.conjugates",
+        "RealBallField.interval",
+        "RealBall.overlaps",
+        "RealBall.contains_zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Claus Fieker and Tommy Hofmann, Number Theory in OSCAR, arXiv:2404.06858",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.06858"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute certified embeddings of a cubic number field"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg",
+        "combin"
+      ],
+      "id": "numthy.degree-eight-permutations-gf11",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Permutation polynomials of degree 8 over finite fields, arXiv:1905.04202",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1905.04202"
+      },
+      "timeout_seconds": 90,
+      "title": "Enumerate normalized degree-eight permutation polynomials over GF(11)"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg",
+        "combin"
+      ],
+      "id": "numthy.degree-eight-permutations-gf16",
+      "operations": [
+        "numthy.FiniteField.with_modulus",
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Xiang Fan, Permutation polynomials of degree 8 over finite fields of characteristic 2, arXiv:1903.10309",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1903.10309"
+      },
+      "timeout_seconds": 120,
+      "title": "Enumerate normalized degree-eight permutation polynomials over GF(16)"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg",
+        "combin"
+      ],
+      "id": "numthy.degree-seven-permutation-witnesses",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "commalg.PolynomialRing.generator",
+        "commalg.Polynomial.evaluate"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "A classification of permutation polynomials of degree 7 over finite fields, arXiv:1812.02080",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1812.02080"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify degree-seven permutation-polynomial witnesses over GF(11)"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.degree-six-ring-of-integers",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "numthy.NumberField.order",
+        "numthy.NumberField.maximal_order",
+        "numthy.NumberField.discriminant",
+        "numthy.NumberFieldElement.characteristic_polynomial",
+        "numthy.NumberFieldOrder.index",
+        "numthy.NumberFieldOrder.is_maximal"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Alain Chavarri Villarello, RingOfIntegersProject, commit b2bfff66bb5354694df289dff1507f29a9271df2; companion data for Baanen, Chavarri Villarello, and Dahmen, Certifying rings of integers in number fields, arXiv:2409.18030",
+        "kind": "repository",
+        "license": "Apache-2.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/alainchmt/RingOfIntegersProject"
+      },
+      "timeout_seconds": 30,
+      "title": "Certifying the ring of integers of a degree-six number field"
+    },
+    {
+      "domains": [
+        "numthy",
+        "combin"
+      ],
+      "id": "numthy.diagonal-quadric-local-density-sums",
+      "operations": [
+        "commalg.ResidueRing.__call__",
+        "commalg.ResidueClass.is_unit"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Cameron Wilson, Asymptotics for Local Solubility of Diagonal Quadrics Over a Split Quadric Surface, arXiv:2404.11489",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.11489"
+      },
+      "timeout_seconds": 30,
+      "title": "Evaluate local-density character sums modulo eight"
+    },
+    {
+      "domains": [
+        "numthy",
+        "linalg"
+      ],
+      "id": "numthy.error-tolerant-rational-reconstruction",
+      "operations": [
+        "linalg.Matrix.from_rows",
+        "linalg.Matrix.det"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Janko B\u00f6hm, Wolfram Decker, Claus Fieker, Santiago Laplagne, and Gerhard Pfister, Bad Primes in Computational Algebraic Geometry, arXiv:1702.06920",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1702.06920"
+      },
+      "timeout_seconds": 30,
+      "title": "Reconstruct a rational number despite bad modular residues"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.f4001-square-roots",
+      "operations": [
+        "numthy.FiniteField.prime",
+        "numthy.FiniteField.__call__",
+        "numthy.FiniteFieldElement.__mul__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Edgar Costa, Nicolas Mascot, Jeroen Sijsling, and John Voight, Rigorous computation of the endomorphism ring of a Jacobian, Math. Comp. 88 (2019), arXiv:1705.09248; examples/Ex5.2.17.m at edgarcosta/endomorphisms commit 691d1c1ceaa7f6dd139a83fffa1c98d1d8c4a50a",
+        "kind": "repository",
+        "license": "GPL-2.0",
+        "redistribution": "citation-only",
+        "url": "https://github.com/edgarcosta/endomorphisms"
+      },
+      "timeout_seconds": 10,
+      "title": "Verify two square roots in the field F_4001"
+    },
+    {
+      "domains": [
+        "numthy",
+        "linalg"
+      ],
+      "id": "numthy.finite-field-cyclic-dft",
+      "operations": [
+        "numthy.FiniteField.with_modulus",
+        "numthy.FiniteField.generator",
+        "numthy.FiniteField.zero"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Jackson Walters, The Modular DFT of the Symmetric Group, arXiv:2404.05796",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.05796"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute and invert a length-three DFT over F4"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.finite-field-isomorphism-f25",
+      "operations": [
+        "numthy.FiniteField.with_modulus",
+        "numthy.FiniteField.isomorphism_to",
+        "numthy.FiniteFieldIsomorphism.apply_inverse",
+        "numthy.FiniteFieldIsomorphism.verify",
+        "numthy.FiniteFieldElement.frobenius"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Ludovic Brieulle, Luca De Feo, Javad Doliskani, Jean-Pierre Flori, and Eric Schost, Computing isomorphisms and embeddings of finite fields, arXiv:1705.01221",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1705.01221"
+      },
+      "timeout_seconds": 15,
+      "title": "A checked isomorphism between two presentations of F_25"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.generalized-leibnitz-numbers",
+      "operations": [
+        "RationalField.__call__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Construction of a generalization of the Leibnitz numbers and their properties, arXiv:2011.13701",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2011.13701"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute generalized Leibnitz numbers from their finite double sum"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.generalized-stirling-recurrence",
+      "operations": [
+        "RationalField.__call__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Tong Niu, A short proof of Mathar's 2020 recurrence conjecture for the generalized-Stirling sequence A001711, arXiv:2605.11351",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2605.11351"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify Mathar's recurrence for generalized-Stirling sequence A001711"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.geometric-arithmetic-prime-progressions",
+      "operations": [
+        "numthy.is_prime"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Sameen Ahmed Khan, Primes in Geometric-Arithmetic Progression, arXiv:1203.2083",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1203.2083"
+      },
+      "timeout_seconds": 30,
+      "title": "Enumerate geometric-arithmetic prime progressions"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.googol-fibonacci-residue",
+      "operations": [
+        "commalg.ResidueRing.zero",
+        "commalg.ResidueRing.one",
+        "commalg.ResidueClass.representative"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Eric Rowland and Doron Zeilberger, A Case Study in Meta-AUTOMATION, arXiv:1311.4776",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1311.4776"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute Fibonacci number F_(10^100) modulo 1000"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.hodge-chern-orders",
+      "operations": [
+        "numthy.is_prime"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "The order of the top Chern class of the Hodge bundle on the moduli space of abelian varieties, arXiv:math/0302291",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/math/0302291"
+      },
+      "timeout_seconds": 30,
+      "title": "Compute the arithmetic factors bounding top Hodge Chern-class orders"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.isogeny-primes-quadratic-field",
+      "operations": [
+        "numthy.NumberField.signature",
+        "numthy.NumberField.discriminant",
+        "numthy.NumberField.maximal_order",
+        "numthy.NumberField.equation_order",
+        "numthy.NumberFieldOrder.index"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Barinder S. Banwait and Maarten Derickx, Explicit isogenies of prime degree over number fields, arXiv:2203.06009; tests at isogeny-primes/isogeny-primes commit ef6638ddfd0f2d68c447f31d282b60c9a00c12f1",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2203.06009"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the maximal order of Q(sqrt(-127))"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.isogeny-primes-smooth-factorization",
+      "operations": [
+        "numthy.factor",
+        "numthy.IntegerFactorization.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Barinder S. Banwait and Maarten Derickx, Explicit isogenies of prime degree over number fields, arXiv:2203.06009; test_character_enumeration.py at isogeny-primes/isogeny-primes commit ef6638ddfd0f2d68c447f31d282b60c9a00c12f1",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2203.06009"
+      },
+      "timeout_seconds": 10,
+      "title": "Certify a smooth factorization used in an isogeny-prime test"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.lehmer-comtet-recurrence",
+      "operations": [
+        "RationalField.__call__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Tong Niu, A short proof of Mathar's 2021 recurrence conjecture for the Lehmer-Comtet diagonal A045406, arXiv:2605.12839",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2605.12839"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify Mathar's recurrence for Lehmer-Comtet diagonal A045406"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.miura-elliptic-addition",
+      "operations": [
+        "numthy.EllipticCurve.verify",
+        "numthy.EllipticCurve.point",
+        "numthy.EllipticCurvePoint.__add__",
+        "numthy.EllipticCurvePoint.verify",
+        "numthy.EllipticCurvePoint.affine_coordinates"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Joe Suzuki, Miura: Divisor Class Group Arithmetic, arXiv:1512.08040",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1512.08040"
+      },
+      "timeout_seconds": 30,
+      "title": "Reproduce an exact Miura elliptic-curve addition"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.padic-newton-cube-root",
+      "operations": [
+        "numthy.PadicField.absolute_precision",
+        "numthy.PadicElement.inverse",
+        "numthy.PadicElement.valuation",
+        "numthy.PadicValuation.lower_bound",
+        "numthy.PadicElement.known_absolute_precision"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Douglas A. Torrance, Implementing p-adic numbers in Macaulay2 using its foreign function interface and FLINT, arXiv:2604.16799",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2604.16799"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute a cube root of two by 5-adic Newton iteration"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.prime-short-interval-counts",
+      "operations": [
+        "numthy.is_prime"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Two statements that are equivalent to a conjecture related to the distribution of prime numbers, arXiv:1406.4801",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1406.4801"
+      },
+      "timeout_seconds": 30,
+      "title": "Count primes in a family of square-root-length intervals"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.quadratic-field-arithmetic",
+      "operations": [
+        "commalg.PolynomialRing.generator",
+        "numthy.NumberField.degree",
+        "numthy.NumberField.signature",
+        "numthy.NumberField.discriminant",
+        "numthy.NumberField.maximal_order",
+        "numthy.NumberFieldElement.trace",
+        "numthy.NumberFieldElement.norm",
+        "numthy.NumberFieldOrder.basis",
+        "numthy.NumberFieldOrder.discriminant",
+        "numthy.NumberFieldOrder.is_maximal",
+        "numthy.NumberFieldOrder.prime_ideals_above",
+        "commalg.PrimeIdeal.verify",
+        "commalg.PrimeIdeal.norm",
+        "numthy.NumberFieldOrder.fractional_ideal",
+        "numthy.FractionalIdeal.norm",
+        "numthy.FractionalIdeal.factor"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Claus Fieker and Tommy Hofmann, Number Theory in OSCAR, arXiv:2404.06858",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2404.06858"
+      },
+      "timeout_seconds": 30,
+      "title": "Exact arithmetic in Q(sqrt(235))"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.rational-cubic-two-cycle",
+      "operations": [
+        "numthy.EllipticCurve.verify",
+        "numthy.EllipticCurve.point",
+        "numthy.EllipticCurvePoint.verify",
+        "numthy.EllipticCurvePoint.scalar_mul",
+        "numthy.EllipticCurvePoint.affine_coordinates"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Sompong Chuysurichay, Sawian Jaidee, Chatchawan Panraksa, and Teerapol Sukhonwimolmal, Rational 2-Cycles for x^3+bx+a and the Elliptic Family Y^2=X^3+4X^2+16t^2, arXiv:2606.15109",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2606.15109"
+      },
+      "timeout_seconds": 15,
+      "title": "Construct a rational cubic two-cycle from an elliptic point"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.rational-orbit-nonperiodicity",
+      "operations": [
+        "RationalField.__call__"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "George Spahn and Doron Zeilberger, Experimenting with Discrete Dynamical Systems, arXiv:2306.11929",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2306.11929"
+      },
+      "timeout_seconds": 30,
+      "title": "Test a rational recurrence for periods through 1000 terms"
+    },
+    {
+      "domains": [
+        "numthy",
+        "commalg"
+      ],
+      "id": "numthy.satotateg3-septic-factorization",
+      "operations": [
+        "commalg.Polynomial.factor",
+        "commalg.PolynomialFactorization.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Francesc Fit\u00e9, Kiran S. Kedlaya, and Andrew V. Sutherland, Sato-Tate groups of abelian threefolds, arXiv:2106.13759; Section8/check_galois_groups.sage at kedlaya/satotateg3 commit 7cea3a3f97bdeae586bca598b1edfc374855b8db",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2106.13759"
+      },
+      "timeout_seconds": 10,
+      "title": "Factor a septic polynomial from a genus-three Sato-Tate computation"
+    },
+    {
+      "domains": [
+        "numthy"
+      ],
+      "id": "numthy.weak-carmichael-examples",
+      "operations": [
+        "numthy.factor",
+        "numthy.IntegerFactorization.verify",
+        "numthy.is_prime"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Generalizations of Carmichael numbers I, arXiv:1305.1867",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1305.1867"
+      },
+      "timeout_seconds": 30,
+      "title": "Verify constructions of weak Carmichael numbers"
+    },
+    {
+      "domains": [
+        "topology"
+      ],
+      "id": "topology.bowtie-complex-homology",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.dimension",
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants",
+        "homalg.FinitelyGeneratedAbelianGroup.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Ben Hersey, Gregory G. Smith, and Alexandre Zotine, Simplicial complexes in Macaulay2, arXiv:2303.17659",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2303.17659"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the face counts and homology of a bowtie complex"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.hollow-triangle-homology",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants",
+        "homalg.FinitelyGeneratedAbelianGroup.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 10,
+      "title": "Integral homology of a hollow triangle"
+    },
+    {
+      "domains": [
+        "topology",
+        "combin",
+        "homalg"
+      ],
+      "id": "topology.incremental-dialogue-nerve",
+      "operations": [
+        "topology.SimplicialComplex.facets",
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants",
+        "homalg.FinitelyGeneratedAbelianGroup.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "An Incremental Framework for Topological Dialogue Semantics, arXiv:2506.00615",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2506.00615"
+      },
+      "timeout_seconds": 20,
+      "title": "Build a finite nerve incrementally and certify its homology"
+    },
+    {
+      "domains": [
+        "topology",
+        "combin",
+        "homalg"
+      ],
+      "id": "topology.matroid-independence-complex-homology",
+      "operations": [
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Taylor Brysiewicz and Michael Joswig, Polyhedral Geometry in OSCAR, arXiv:2308.07459; heron-rota-welsh.ipynb at micjoswig/oscar-notebooks commit b904e9172ee169eac3b5ef8ad8b08d1d09faa82f",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2308.07459"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the homology of a matroid independence complex"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.real-projective-plane-integral-homology",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.chain_complex",
+        "homalg.ChainComplex.verify",
+        "topology.SimplicialComplex.homology_invariants",
+        "homalg.FinitelyGeneratedAbelianGroup.verify"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Nathan Grieve, Abstract simplicial complexes in Macaulay2, arXiv:2504.10381",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2504.10381"
+      },
+      "timeout_seconds": 15,
+      "title": "Integral homology of a triangulated real projective plane"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.secondary-example-primary-operations",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.betti_number",
+        "topology.SimplicialComplex.cohomology_ring",
+        "topology.SimplicialCohomologyRing.verify",
+        "topology.SimplicialCohomologyRing.steenrod_square"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Rocio Gonzalez-Diaz and Pedro Real, Geometric Objects and Cohomology Operations, arXiv:1206.4345",
+        "kind": "paper",
+        "license": "arXiv nonexclusive distribution license",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/1206.4345"
+      },
+      "timeout_seconds": 60,
+      "title": "Compute primary-operation data for a secondary cohomology example"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.simplicial-cp2-homology",
+      "operations": [
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240; Homology.wlt at zplus11/simplicialhomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute the integral homology of a nine-vertex CP2"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.simplicial-klein-bottle-homology",
+      "operations": [
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240; Homology.wlt at zplus11/simplicialhomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the integral homology of an eight-vertex Klein bottle"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.simplicial-mobius-strip-homology",
+      "operations": [
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240; Homology.wlt at zplus11/simplicialhomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the integral homology of a triangulated Mobius strip"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg"
+      ],
+      "id": "topology.simplicial-torus-homology",
+      "operations": [
+        "topology.SimplicialComplex.count",
+        "topology.SimplicialComplex.euler_characteristic",
+        "topology.SimplicialComplex.homology_invariants"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman Taggar, SimplicialHomology: implementation of abstract simplicial complex in Mathematica, arXiv:2608.14240; Examples.wl at zplus11/simplicialhomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff",
+        "kind": "paper",
+        "license": "CC BY 4.0",
+        "redistribution": "citation-only",
+        "url": "https://arxiv.org/abs/2608.14240"
+      },
+      "timeout_seconds": 10,
+      "title": "Compute the integral homology of a seven-vertex torus"
+    },
+    {
+      "domains": [
+        "topology",
+        "homalg",
+        "linalg"
+      ],
+      "id": "topology.simplicialhomology-basic-betti-numbers",
+      "operations": [
+        "topology.SimplicialComplex.verify",
+        "topology.SimplicialComplex.dimension",
+        "topology.SimplicialComplex.betti_number",
+        "topology.SimplicialComplex.chain_complex",
+        "homalg.ChainComplex.verify",
+        "numthy.FiniteField.prime"
+      ],
+      "seed": null,
+      "source": {
+        "citation": "Naman T, SimplicialHomology commit da518624ff3fb4a89e29b0fc6c5de8f8451cf6ff, Tests/Homology.wlt",
+        "kind": "repository",
+        "license": "MIT",
+        "redistribution": "citation-only",
+        "url": "https://github.com/zplus11/SimplicialHomology/"
+      },
+      "timeout_seconds": 20,
+      "title": "Compute elementary simplicial Betti numbers over exact fields"
+    }
+  ],
+  "schema": "noether.corpus-acceptance.v1",
+  "source_noether_version": "0.2.0",
+  "source_repository": "tertius-ai/cas-corpus",
+  "source_revision": "2acf44db739ec7d523f84bcb072469fa1d55902c"
+}

@@ -1,0 +1,169 @@
+name: unpublished wheel candidates
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-candidate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  linux-x86-64:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Configure Rust compiler cache
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: "v0.17.0"
+
+      - name: Locate the compiler cache for the release container
+        run: echo "NOETHER_SCCACHE_BIN=$(command -v sccache)" >> "$GITHUB_ENV"
+
+      - name: Cache the pinned manylinux native stack
+        id: manylinux-flint-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .release-cache/flint
+          key: flint-manylinux2014-x86_64-${{ hashFiles('scripts/install-flint.sh', 'scripts/build-wheel-linux-container.sh') }}
+
+      - name: Build at the manylinux2014 floor
+        env:
+          NOETHER_FLINT_CACHE: ${{ github.workspace }}/.release-cache/flint
+          RUSTC_WRAPPER: sccache
+          SCCACHE_GHA_ENABLED: "true"
+          SCCACHE_GHA_VERSION: "noether-release-v1"
+        run: make candidate-linux
+
+      - name: Inspect the manylinux native cache
+        id: manylinux-flint-ready
+        if: always()
+        run: |
+          ready=false
+          prefix=.release-cache/flint
+          if test -f "$prefix/.tertius-native-build" \
+            && test -e "$prefix/lib/libflint.so" \
+            && test -e "$prefix/lib/libgmp.so" \
+            && test -e "$prefix/lib/libmpfr.so"; then
+            ready=true
+          fi
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+
+      - name: Save the pinned manylinux native stack
+        if: always() && steps.manylinux-flint-cache.outputs.cache-hit != 'true' && steps.manylinux-flint-ready.outputs.ready == 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .release-cache/flint
+          key: flint-manylinux2014-x86_64-${{ hashFiles('scripts/install-flint.sh', 'scripts/build-wheel-linux-container.sh') }}
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: noether-linux-x86_64
+          path: target/release-wheels/linux-x86_64
+          if-no-files-found: error
+
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            deployment_target: "11.0"
+            artifact_dir: macos-arm64
+          - runner: macos-15-intel
+            deployment_target: "10.13"
+            artifact_dir: macos-x86_64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 180
+    env:
+      # GMP 6.3's bundled libtool otherwise selects -flat_namespace on modern
+      # Darwin, which Apple ld-prime links incorrectly on x86_64.  These are
+      # also the explicit platform floors carried by the resulting wheels.
+      MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_GHA_VERSION: "noether-release-v1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.11.16"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install native build tools
+        run: brew install autoconf automake libtool pkg-config
+
+      - name: Install Rust toolchain
+        run: rustup show
+
+      - name: Configure Rust compiler cache
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: "v0.17.0"
+
+      - name: Fingerprint the native toolchain
+        id: native-toolchain
+        run: |
+          compiler=$(cc --version | shasum -a 256 | cut -d' ' -f1)
+          echo "compiler=$compiler" >> "$GITHUB_OUTPUT"
+
+      - name: Cache FLINT
+        id: flint-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .deps/flint
+          key: flint-3.6-${{ runner.os }}-${{ runner.arch }}-${{ matrix.deployment_target }}-${{ steps.native-toolchain.outputs.compiler }}-${{ hashFiles('scripts/install-flint.sh') }}
+
+      - name: Build FLINT
+        if: steps.flint-cache.outputs.cache-hit != 'true'
+        run: scripts/install-flint.sh
+
+      - name: Save FLINT
+        if: steps.flint-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .deps/flint
+          key: flint-3.6-${{ runner.os }}-${{ runner.arch }}-${{ matrix.deployment_target }}-${{ steps.native-toolchain.outputs.compiler }}-${{ hashFiles('scripts/install-flint.sh') }}
+
+      - name: Build and audit wheel
+        run: |
+          export FLINT_PREFIX="${{ github.workspace }}/.deps/flint"
+          echo "FLINT_PREFIX=${{ github.workspace }}/.deps/flint" >> "$GITHUB_ENV"
+          make candidate-macos
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: noether-${{ matrix.runner }}
+          path: target/release-wheels/${{ matrix.artifact_dir }}
+          if-no-files-found: error
+
+  release-bundle:
+    needs: [linux-x86-64, macos]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: noether-*
+          path: target/release-candidate/artifacts
+
+      - name: Assemble and verify the complete candidate
+        run: |
+          python3 scripts/assemble-release-candidate.py \
+            target/release-candidate/artifacts \
+            target/release-candidate/bundle \
+            --source-revision "$GITHUB_SHA"
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: noether-release-candidate-${{ github.sha }}
+          path: target/release-candidate/bundle
+          if-no-files-found: error

@@ -1,0 +1,63 @@
+[package]
+license.workspace = true
+name = "sparla"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal sparse exact linear algebra over Z and F_p — HNF, SNF, kernel, image, solve, det."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+build = "build.rs"
+
+[features]
+default = []
+# Build the slower FLINT dense parity tests + comparison bench. FLINT itself is
+# mandatory because sparse integer entries are FLINT-owned in every build.
+# Build with `FLINT_PREFIX=/usr cargo test --features flint
+# --test parity_flint` on a host with libflint installed.
+flint = []
+
+[dependencies]
+# The shared sparse contract: SparseRingStorage (zero-dep, pure Rust).
+spar-core = { workspace = true }
+# Shared safe ownership for FLINT-backed integer cells.
+flint-core.workspace = true
+
+[build-dependencies]
+tertius-build.workspace = true
+
+[dev-dependencies]
+# Raw FLINT matrices are independent parity/benchmark oracles only.
+flint-sys.workspace = true
+# Property-based correctness tests.
+proptest.workspace = true
+# Statistical benchmarking. `default-features = false` skips the
+# `rayon`-driven plot generation we don't use here.
+criterion = { version = "0.5", default-features = false }
+
+# FLINT bit-for-bit parity tests. Requires libflint at runtime.
+# Build with `FLINT_PREFIX=/path/to/flint cargo test --release
+# --features flint --test parity_flint`.
+[[test]]
+name = "parity_flint"
+path = "tests/parity_flint.rs"
+required-features = ["flint"]
+
+# Sparse vs FLINT-dense matmul bench. Requires libflint at runtime;
+# build with `FLINT_PREFIX=/path/to/flint cargo run --release
+# --features flint --example matmul_bench_flint`.
+[[example]]
+name = "matmul_bench_flint"
+path = "examples/matmul_bench_flint.rs"
+required-features = ["flint"]
+
+# Criterion-based statistical benchmarks. Run with `cargo bench`.
+[[bench]]
+name = "matmul"
+harness = false
+
+# Sparse F_p RREF benchmarks (F4-shaped + PH-sparse regimes).
+[[bench]]
+name = "rref_fp"
+harness = false

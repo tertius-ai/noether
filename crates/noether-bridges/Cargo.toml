@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Benjamin Antieau and Deven Manam
+[package]
+name = "noether-bridges"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish = false
+description = "Arm's-length subprocess backends to external mathematical tools."
+repository = "https://github.com/tertius-ai/noether"
+
+[features]
+default = []
+# Arm's-length `msolve` subprocess (CA — Gröbner / zero-dim solving). Links no
+# GPL; spawns a user-installed `msolve`. Conveyed-clean (subprocess), so it may
+# ship as an optional capability.
+msolve-subprocess = ["dep:tempfile"]
+# Arm's-length `M2` (Macaulay2) subprocess (CA — resolutions, Betti, Hilbert,
+# dimension, primary decomposition, …). Links no GPL; spawns a user-installed
+# `M2 --script`. Conveyed-clean.
+macaulay2-subprocess = ["dep:tempfile"]
+# Arm's-length `Singular` subprocess (CA / AG — scalable free resolutions, GF(q)
+# Gröbner / resolutions, singularity theory). Links no GPL; spawns a
+# user-installed `Singular`. Conveyed-clean. Mirrors the msolve / M2 tiers.
+singular-subprocess = ["dep:tempfile"]
+[dependencies]
+# Temp-file plumbing for the msolve / M2 subprocess tiers (both tools take a
+# `-f`/`--script` input file). Only pulled by those features.
+tempfile = { version = "3", optional = true }

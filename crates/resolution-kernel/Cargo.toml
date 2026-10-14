@@ -1,0 +1,22 @@
+[package]
+name = "resolution-kernel"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Tertius-internal degree-cell and Schreyer resolution kernels"
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[dependencies]
+groebner-kernel.workspace = true
+module-core.workspace = true
+poly-core.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+
+[[bench]]
+name = "betti"
+harness = false

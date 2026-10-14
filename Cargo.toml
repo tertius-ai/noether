@@ -1,0 +1,130 @@
+[workspace]
+resolver = "2"
+members = [
+    # Rust kernels
+    "crates/spar-core",   # shared sparse-LA contracts (SparseRingStorage)
+    "crates/sparb",
+    "crates/sparla",
+    "crates/poly-core",
+    "crates/module-core",
+    "crates/resolution-kernel",
+    "crates/groebner-kernel",
+    "crates/m4rst",
+    "crates/m4rst-distributed",
+    "crates/m4rste",
+    "crates/mzs",
+    "crates/pwvla",
+    "crates/graph-core",
+    "crates/geom-core",   # Euclidean geometry: predicates, Delaunay, Voronoi
+    "crates/perm-core",
+    "crates/convex-hull",
+    "crates/lattice-enum",
+    "crates/noether-bridges",
+    "crates/tertius-build", # shared build-script helpers
+    "crates/flint-core",    # safe owned FLINT values
+
+    # Public Rust facade and private PyO3 transport.
+    "crates/noether",
+    "crates/noether-python",
+
+]
+
+# Keep default Cargo commands usable on CPU-only hosts.
+default-members = [
+    "crates/spar-core",
+    "crates/sparb",
+    "crates/sparla",
+    "crates/poly-core",
+    "crates/module-core",
+    "crates/resolution-kernel",
+    "crates/groebner-kernel",
+    "crates/m4rst",
+    "crates/m4rste",
+    "crates/mzs",
+    "crates/pwvla",
+    "crates/graph-core",
+    "crates/geom-core",
+    "crates/perm-core",
+    "crates/convex-hull",
+    "crates/lattice-enum",
+    "crates/noether-bridges",
+    "crates/tertius-build",
+    "crates/flint-core",
+    "crates/noether",
+    "crates/noether-python",
+]
+
+# Path-deps for the sister crates resolved once at workspace level.
+# Individual crates that need these declare `sparb = { workspace = true }`.
+[workspace.dependencies]
+spar-core          = { path = "crates/spar-core" }
+sparb              = { path = "crates/sparb" }
+sparla             = { path = "crates/sparla" }
+poly-core          = { path = "crates/poly-core" }
+module-core        = { path = "crates/module-core" }
+resolution-kernel  = { path = "crates/resolution-kernel" }
+groebner-kernel    = { path = "crates/groebner-kernel" }
+m4rst              = { path = "crates/m4rst" }
+m4rst-distributed  = { path = "crates/m4rst-distributed" }
+m4rste             = { path = "crates/m4rste" }
+mzs                = { path = "crates/mzs" }
+pwvla              = { path = "crates/pwvla" }
+graph-core         = { path = "crates/graph-core" }
+geom-core          = { path = "crates/geom-core" }
+perm-core          = { path = "crates/perm-core" }
+convex-hull        = { path = "crates/convex-hull" }
+lattice-enum       = { path = "crates/lattice-enum" }
+noether-bridges    = { path = "crates/noether-bridges" }
+tertius-build      = { path = "crates/tertius-build" }
+flint-core          = { path = "crates/flint-core" }
+noether             = { path = "crates/noether" }
+
+flint-sys          = { package = "flint3-sys", version = "=3.6.0", features = ["use-system-libs"] }
+
+# Common external dependencies
+# NB: `extension-module` is deliberately NOT pinned here. That feature
+# tells pyo3 to leave the Python symbols (PyExc_*, PyUnicode_*, ...)
+# undefined so the cdylib resolves them from the interpreter at dlopen
+# time — correct for the shipped `.so`, but fatal for a standalone test
+# executable, which has no interpreter to borrow symbols from and fails
+# to link (`undefined symbol: PyExc_SystemError`) on hosts where the
+# build python is a shared build (e.g. CI's uv standalone interpreter).
+# It is enabled only for the wheel build through `pyproject.toml`. Leaving it
+# off here lets `cargo test` and `cargo doc` link libpython normally.
+pyo3      = { version = "0.29.2" }
+rayon     = "1.10"
+ahash     = "0.8.12"
+mpi       = { version = "0.8.2", default-features = false }
+
+# Canonical serialization and Rust-owned JSON schemas.
+serde       = { version = "1", features = ["derive"] }
+serde_json  = "1"
+schemars    = "1.2.2"
+
+# Test and benchmark support
+proptest    = "1"
+criterion   = "0.5"
+rand        = { version = "0.10.2", default-features = false, features = ["std", "chacha"] }
+
+# Build support
+cc          = "1.1"   # unified from { 1, 1.0, 1.1 } across crates
+
+[workspace.package]
+version      = "0.3.2"
+edition      = "2021"
+# 1.89 minimum: m4rste uses `_mm256_gf2p8mul_epi8` (SIMD GF(2^8)
+# multiply intrinsic, stabilised in 1.89). The other crates would
+# work fine on 1.87+ but we keep a single workspace-wide floor.
+rust-version = "1.89"
+authors      = ["Benjamin Antieau", "Deven Manam"]
+license      = "MIT"
+# publish stays false until the crates are renamed to the tertius-*
+# family and the names are claimed; flipping it early risks publishing
+# under the wrong name, which crates.io will not let us undo.
+publish      = false
+
+# Cargo honors release profiles only at the workspace root.
+[profile.release]
+opt-level     = 3
+lto           = "thin"
+codegen-units = 1

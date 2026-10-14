@@ -1,0 +1,57 @@
+site_name: Noether
+site_description: Deterministic scientific mathematics backed by Rust
+site_url: https://tertius-ai.github.io/noether/
+repo_url: https://github.com/tertius-ai/noether
+repo_name: tertius-ai/noether
+docs_dir: target/noether-docs-src
+site_dir: target/noether-docs
+use_directory_urls: false
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.indexes
+    - navigation.prune
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+
+copyright: Copyright &copy; 2026 Benjamin Antieau and Deven Manam

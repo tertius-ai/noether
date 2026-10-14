@@ -1,0 +1,100 @@
+[build-system]
+requires = ["maturin>=1.14,<2"]
+build-backend = "maturin"
+
+[project]
+name = "tertius-noether"
+version = "0.3.2"
+description = "Deterministic scientific mathematics backed by Rust"
+readme = "README.md"
+authors = [{ name = "Benjamin Antieau" }, { name = "Deven Manam" }]
+license = "MIT"
+license-files = ["LICENSE", "licenses/*.txt"]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Documentation = "https://tertius-ai.github.io/noether/"
+Issues = "https://github.com/tertius-ai/noether/issues"
+Repository = "https://github.com/tertius-ai/noether"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.100",
+    "maturin>=1.14,<2",
+    "mkdocs-material>=9.7,<10",
+    "mypy>=1.15",
+    "pytest>=7.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.12",
+]
+validation = [
+    "networkx>=3.0",
+]
+
+[tool.maturin]
+manifest-path = "crates/noether-python/Cargo.toml"
+module-name = "noether._engine"
+python-source = "python"
+python-packages = ["noether"]
+include = [
+    { path = "python/noether/*.json", format = "wheel" },
+    { path = "crates/m4rst-distributed/Cargo.toml", format = "sdist" },
+    { path = "crates/m4rst-distributed/README.md", format = "sdist" },
+    { path = "crates/m4rst-distributed/src/**/*", format = "sdist" },
+    { path = "crates/noether-bridges/Cargo.toml", format = "sdist" },
+    { path = "crates/noether-bridges/README.md", format = "sdist" },
+    { path = "crates/noether-bridges/src/**/*", format = "sdist" },
+]
+exclude = [
+    { path = "python/**/__pycache__/**", format = "wheel" },
+    { path = "python/**/*.pyc", format = "wheel" },
+    { path = "python/**/*.pyo", format = "wheel" },
+    { path = "crates/*/AGENTS.md", format = "sdist" },
+    { path = "crates/*/benches/**", format = "sdist" },
+    { path = "crates/*/examples/**", format = "sdist" },
+    { path = "crates/*/oracle/**", format = "sdist" },
+    { path = "crates/*/src/**/tests.rs", format = "sdist" },
+    { path = "crates/*/tests/**", format = "sdist" },
+]
+no-default-features = true
+features = ["extension-module", "abi3-py310"]
+
+[tool.pytest.ini_options]
+testpaths = ["validation/unit"]
+addopts = "--import-mode=importlib"
+markers = [
+    "slow: tests that take 2–60 seconds each (run with -m slow)",
+    "very_slow: tests that take minutes to hours (run with -m very_slow)",
+    "benchmark: opt-in timing benchmarks; never gated in CI",
+    "gap_oracle: parity test that requires a GAP subprocess",
+    "gp_oracle: parity test that requires a PARI/GP subprocess",
+    "magma_oracle: parity test that requires a Magma subprocess",
+    "sage_oracle: parity test that requires a Sage subprocess",
+    "transport_type: Rust-owned types projected through the Python boundary",
+    "validation_homology_fast: fast pairwise-agreement homology tests",
+    "validation_homology_full: full homology leaderboard run",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["python"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+mypy_path = "python"
+files = ["examples"]

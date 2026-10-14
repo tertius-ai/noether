@@ -1,0 +1,32 @@
+[package]
+name = "convex-hull"
+version.workspace = true
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Safe-Rust exact-rational bounded-polytope kernel with V/H conversion and face lattices"
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+build = "build.rs"
+
+[features]
+default = []
+# Opt-in CPU parallelism. Keep it off by default until pinned benchmarks
+# identify a stable winning regime.
+parallel = ["dep:rayon"]
+
+[dependencies]
+flint-core.workspace = true
+rayon        = { version = "1", optional = true }
+
+[dev-dependencies]
+criterion.workspace = true
+proptest.workspace = true
+
+[[bench]]
+name = "kernel"
+harness = false
+
+[build-dependencies]
+tertius-build.workspace = true

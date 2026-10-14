@@ -1,0 +1,858 @@
+{
+  "schema": "noether.magma-release-manifest.v1",
+  "suite": "public-release-core",
+  "measurement": {
+    "samples": 7,
+    "warmup_runs": 2,
+    "target_sample_seconds": 0.05,
+    "maximum_loops_per_sample": 1048576,
+    "material_slowdown_ratio": 1.25,
+    "maximum_relative_standard_deviation": 0.15,
+    "threads": 1,
+    "magma_seed": 5929
+  },
+  "cases": [
+    {
+      "id": "integer_factorization",
+      "operation": "complete factorization over Z",
+      "timing_scope": "factor the already-materialized integer",
+      "input": {
+        "integer": "1000036000099"
+      }
+    },
+    {
+      "id": "integer_determinant",
+      "operation": "dense determinant over Z",
+      "timing_scope": "determinant of an already-materialized 48 by 48 matrix",
+      "input": {
+        "generator": "affine-mod-matrix-v1",
+        "rows": 48,
+        "columns": 48,
+        "modulus": 1009,
+        "offset": 504,
+        "row": 17,
+        "column": 23,
+        "cross": 3,
+        "row_square": 5,
+        "column_square": 7,
+        "bias": 11
+      }
+    },
+    {
+      "id": "integer_smith",
+      "operation": "witnessless Smith invariant factors over Z",
+      "timing_scope": "Smith form of an already-materialized 32 by 40 matrix; transformations are not requested",
+      "input": {
+        "generator": "unimodular-smith-matrix-v1",
+        "rows": 32,
+        "columns": 40,
+        "seed": 5929,
+        "row_rounds": 160,
+        "column_rounds": 200,
+        "invariant_factors": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          6,
+          30,
+          210,
+          210,
+          420,
+          1260,
+          2520,
+          7560,
+          15120,
+          45360,
+          90720
+        ]
+      }
+    },
+    {
+      "id": "integer_hermite",
+      "operation": "canonical row Hermite form over Z",
+      "timing_scope": "Hermite form of an already-materialized 24 by 24 integer matrix",
+      "input": {
+        "generator": "unimodular-smith-matrix-v1",
+        "rows": 24,
+        "columns": 24,
+        "seed": 11717,
+        "row_rounds": 120,
+        "column_rounds": 120,
+        "invariant_factors": [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          2, 2, 6, 6, 30, 30, 210, 210, 420, 1260, 2520, 7560
+        ]
+      }
+    },
+    {
+      "id": "rational_determinant",
+      "operation": "dense determinant over Q",
+      "timing_scope": "determinant of an already-materialized 32 by 32 rational matrix",
+      "input": {
+        "generator": "rational-matrix-v1",
+        "rows": 32,
+        "columns": 32,
+        "numerator_modulus": 211,
+        "numerator_offset": 105,
+        "denominator_modulus": 17,
+        "row": 31,
+        "column": 19,
+        "cross": 7,
+        "bias": 13
+      }
+    },
+    {
+      "id": "rational_elimination",
+      "operation": "reduced row echelon form over Q, with rank checked from the result",
+      "timing_scope": "RREF of an already-materialized invertible 32 by 32 rational matrix; result normalization checks rank outside timing",
+      "input": {
+        "generator": "unimodular-matrix-v1",
+        "size": 32,
+        "seed": 17749,
+        "row_rounds": 192
+      }
+    },
+    {
+      "id": "f2_matmul",
+      "operation": "dense matrix multiplication over F_2",
+      "timing_scope": "multiply two already-materialized 384 by 384 matrices",
+      "input": {
+        "generator": "binary-matrix-pair-v1",
+        "rows": 384,
+        "inner": 384,
+        "columns": 384,
+        "left_seed": 2654435761,
+        "right_seed": 2246822519
+      }
+    },
+    {
+      "id": "f2_rectangular_matmul",
+      "operation": "rectangular dense matrix multiplication over F_2",
+      "timing_scope": "multiply already-materialized 320 by 448 and 448 by 288 matrices",
+      "input": {
+        "generator": "binary-matrix-pair-v1",
+        "rows": 320,
+        "inner": 448,
+        "columns": 288,
+        "left_seed": 1013904223,
+        "right_seed": 3266489917
+      }
+    },
+    {
+      "id": "f2_large_matmul",
+      "operation": "large dense matrix multiplication over F_2",
+      "timing_scope": "multiply two already-materialized 1536 by 1536 matrices",
+      "input": {
+        "generator": "binary-matrix-pair-v1",
+        "rows": 1536,
+        "inner": 1536,
+        "columns": 1536,
+        "left_seed": 608135816,
+        "right_seed": 2242054355
+      }
+    },
+    {
+      "id": "f2_large_rectangular_matmul",
+      "operation": "large non-word-aligned rectangular matrix multiplication over F_2",
+      "timing_scope": "multiply already-materialized 1025 by 1537 and 1537 by 769 matrices",
+      "input": {
+        "generator": "binary-matrix-pair-v1",
+        "rows": 1025,
+        "inner": 1537,
+        "columns": 769,
+        "left_seed": 320440878,
+        "right_seed": 57701188
+      }
+    },
+    {
+      "id": "f2_elimination",
+      "operation": "reduced row echelon form over F_2, with rank checked from the result",
+      "timing_scope": "RREF of an already-materialized invertible 192 by 192 binary matrix; result normalization checks rank outside timing",
+      "input": {
+        "generator": "full-rank-mod-matrix-v1",
+        "rows": 192,
+        "columns": 192,
+        "modulus": 2,
+        "seed": 2654435761,
+        "row_rounds": 1152
+      }
+    },
+    {
+      "id": "f2_rectangular_elimination",
+      "operation": "reduced row echelon form of a rank-deficient rectangular matrix over F_2, with rank checked from the result",
+      "timing_scope": "RREF of an already-materialized rank-96 matrix with 128 rows and 192 columns; result normalization checks rank outside timing",
+      "input": {
+        "generator": "rank-factorized-mod-matrix-v1",
+        "rows": 128,
+        "columns": 192,
+        "rank": 96,
+        "modulus": 2,
+        "seed": 3735928559
+      }
+    },
+    {
+      "id": "prime_field_charpoly",
+      "operation": "characteristic polynomial over a prime field",
+      "timing_scope": "characteristic polynomial of an already-materialized 96 by 96 matrix over F_65537",
+      "input": {
+        "generator": "affine-mod-matrix-v1",
+        "rows": 96,
+        "columns": 96,
+        "modulus": 65537,
+        "offset": 0,
+        "row": 257,
+        "column": 263,
+        "cross": 17,
+        "row_square": 29,
+        "column_square": 31,
+        "bias": 37
+      }
+    },
+    {
+      "id": "prime_field_elimination",
+      "operation": "reduced row echelon form over F_65537, with rank checked from the result",
+      "timing_scope": "RREF of an already-materialized invertible 64 by 64 matrix; result normalization checks rank outside timing",
+      "input": {
+        "generator": "full-rank-mod-matrix-v1",
+        "rows": 64,
+        "columns": 64,
+        "modulus": 65537,
+        "seed": 2246822519,
+        "row_rounds": 384
+      }
+    },
+    {
+      "id": "residue_ring_linalg",
+      "operation": "determinant and characteristic polynomial over Z/25Z",
+      "timing_scope": "both invariants of an already-materialized 40 by 40 matrix",
+      "input": {
+        "generator": "affine-mod-matrix-v1",
+        "rows": 40,
+        "columns": 40,
+        "modulus": 25,
+        "offset": 0,
+        "row": 7,
+        "column": 11,
+        "cross": 3,
+        "row_square": 5,
+        "column_square": 9,
+        "bias": 13
+      }
+    },
+    {
+      "id": "extension_field_arithmetic",
+      "operation": "inverse, power, Frobenius, trace, and norm in F_25",
+      "timing_scope": "all five operations on the already-materialized element 3 + 4a",
+      "input": {
+        "characteristic": 5,
+        "modulus_low_to_high": [2, 0, 1],
+        "element_low_to_high": [3, 4],
+        "power": 12345
+      }
+    },
+    {
+      "id": "extension_field_elimination",
+      "operation": "reduced row echelon form over F_25, with rank checked from the result",
+      "timing_scope": "RREF of an already-materialized invertible 24 by 24 matrix; result normalization checks rank outside timing",
+      "input": {
+        "generator": "full-rank-quadratic-field-matrix-v1",
+        "characteristic": 5,
+        "modulus_low_to_high": [2, 0, 1],
+        "size": 24,
+        "seed": 3266489917,
+        "row_rounds": 160
+      }
+    },
+    {
+      "id": "extension_field_rectangular_elimination",
+      "operation": "reduced row echelon form of a rank-deficient rectangular matrix over F_25, with rank checked from the result",
+      "timing_scope": "RREF of an already-materialized rank-18 matrix with 30 rows and 36 columns; result normalization checks rank outside timing",
+      "input": {
+        "generator": "rank-factorized-quadratic-field-matrix-v1",
+        "characteristic": 5,
+        "modulus_low_to_high": [2, 0, 1],
+        "rows": 30,
+        "columns": 36,
+        "rank": 18,
+        "seed": 668265263
+      }
+    },
+    {
+      "id": "integer_polynomial",
+      "operation": "complete factorization over Z[x]",
+      "timing_scope": "factor the already-materialized degree-32 product",
+      "input": {
+        "factors_low_to_high": [
+          {"coefficients": [-1, 1], "multiplicity": 2},
+          {"coefficients": [1, 1], "multiplicity": 2},
+          {"coefficients": [1, 1, 1]},
+          {"coefficients": [1, 0, 1]},
+          {"coefficients": [1, -1, 1]},
+          {"coefficients": [1, 0, 0, 0, 1]},
+          {"coefficients": [1, -1, 1, -1, 1]},
+          {"coefficients": [1, 0, -1, 0, 1]},
+          {"coefficients": [1, -1, 1, -1, 1, -1, 1]},
+          {"coefficients": [1, 0, 0, 1, 0, 0, 1]}
+        ]
+      }
+    },
+    {
+      "id": "rational_polynomial_gcd",
+      "operation": "monic polynomial GCD over Q[x]",
+      "timing_scope": "GCD of already-materialized degree-61 and degree-55 polynomials",
+      "input": {
+        "common_low_to_high": [1, -2, 3, 1, -4, 2, 5, -3, 1, 4, -1, 2, 6, -5, 2, 3, -2, 1, 4, -3, 2, 1, -1, 2, 1],
+        "left_cofactor_low_to_high": [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        "right_cofactor_low_to_high": [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+      }
+    },
+    {
+      "id": "prime_field_polynomial",
+      "operation": "complete factorization over F_65537[x]",
+      "timing_scope": "factor one already-materialized dense monic polynomial of degree 80",
+      "input": {
+        "generator": "dense-monic-polynomial-v1",
+        "degree": 80,
+        "modulus": 65537,
+        "seed": 5929,
+        "linear": 257,
+        "quadratic": 17,
+        "cubic": 3
+      }
+    },
+    {
+      "id": "rational_groebner",
+      "operation": "reduced Groebner basis over Q[x,y,z,w]",
+      "timing_scope": "construct the cyclic-4 ideal and compute its reduced grevlex basis",
+      "input": {"family": "cyclic-4", "coefficient_field": "Q", "order": "grevlex"}
+    },
+    {
+      "id": "prime_field_groebner",
+      "operation": "reduced Groebner basis over F_32003[x,y,z,w]",
+      "timing_scope": "construct the cyclic-4 ideal and compute its reduced grevlex basis",
+      "input": {"family": "cyclic-4", "modulus": 32003, "order": "grevlex"}
+    },
+    {
+      "id": "rational_lex_groebner",
+      "operation": "lexicographic Groebner basis over Q[x,y,z,w]",
+      "timing_scope": "construct the cyclic-4 ideal and compute its reduced lexicographic basis",
+      "input": {"family": "cyclic-4", "coefficient_field": "Q", "order": "lex"}
+    },
+    {
+      "id": "prime_field_lex_groebner",
+      "operation": "lexicographic Groebner basis over F_32003[x,y,z,w]",
+      "timing_scope": "construct the cyclic-4 ideal and compute its reduced lexicographic basis",
+      "input": {"family": "cyclic-4", "modulus": 32003, "order": "lex"}
+    },
+    {
+      "id": "rational_katsura_groebner",
+      "operation": "inhomogeneous zero-dimensional Groebner basis over Q[x0,x1,x2,x3]",
+      "timing_scope": "construct the Katsura-3 system and compute its reduced grevlex basis",
+      "input": {"family": "katsura-3", "coefficient_field": "Q", "order": "grevlex"}
+    },
+    {
+      "id": "prime_field_katsura_groebner",
+      "operation": "inhomogeneous zero-dimensional Groebner basis over F_32003[x0,x1,x2,x3]",
+      "timing_scope": "construct the Katsura-3 system and compute its reduced grevlex basis",
+      "input": {"family": "katsura-3", "modulus": 32003, "order": "grevlex"}
+    },
+    {
+      "id": "number_field_invariants",
+      "operation": "trace, norm, minimal polynomial, and maximal-order discriminant",
+      "timing_scope": "compute all four invariants in the already-materialized quartic field",
+      "input": {
+        "defining_polynomial_low_to_high": [1, -1, 0, 0, 1],
+        "element_low_to_high": [1, 2, 0, 1],
+        "generator_name": "a"
+      }
+    },
+    {
+      "id": "number_field_cubic_invariants",
+      "operation": "trace, norm, minimal polynomial, and maximal-order discriminant in a cubic field",
+      "timing_scope": "compute all four invariants in the already-materialized cubic field",
+      "input": {
+        "defining_polynomial_low_to_high": [-1, -1, 0, 1],
+        "element_low_to_high": [1, 2, 1],
+        "generator_name": "d"
+      }
+    },
+    {
+      "id": "number_field_order",
+      "operation": "maximal order and discriminant in a quadratic field",
+      "timing_scope": "construct the maximal order of Q(sqrt(5)) from the already-materialized field",
+      "input": {
+        "defining_polynomial_low_to_high": [-5, 0, 1],
+        "generator_name": "b"
+      }
+    },
+    {
+      "id": "number_field_cubic_order",
+      "operation": "maximal order and discriminant in a cubic field",
+      "timing_scope": "construct the maximal order of the discriminant-minus-23 cubic field from the already-materialized field",
+      "input": {
+        "defining_polynomial_low_to_high": [-1, -1, 0, 1],
+        "generator_name": "e"
+      }
+    },
+    {
+      "id": "number_field_prime_decomposition",
+      "operation": "prime-ideal decomposition in a maximal order",
+      "timing_scope": "decompose 5 in the already-materialized maximal order of Q(i)",
+      "input": {
+        "defining_polynomial_low_to_high": [1, 0, 1],
+        "generator_name": "c",
+        "prime": 5
+      }
+    },
+    {
+      "id": "number_field_cubic_prime_decomposition",
+      "operation": "prime-ideal decomposition in a cubic maximal order",
+      "timing_scope": "decompose 2 in the already-materialized maximal order of the discriminant-minus-23 cubic field",
+      "input": {
+        "defining_polynomial_low_to_high": [-1, -1, 0, 1],
+        "generator_name": "f",
+        "prime": 2
+      }
+    },
+    {
+      "id": "elliptic_curve_arithmetic",
+      "operation": "scalar multiplication and exact point order over F_101",
+      "timing_scope": "compute 17P and verify the exact order of an already-materialized point",
+      "input": {
+        "field_order": 101,
+        "coefficients": [0, 0, 0, 2, 3],
+        "point": [3, 6],
+        "scalar": 17,
+        "exact_order": 12
+      }
+    },
+    {
+      "id": "elliptic_curve_generalized_arithmetic",
+      "operation": "scalar multiplication and exact point order on a generalized Weierstrass curve over F_101",
+      "timing_scope": "compute 17P and verify the exact order through the internal word-prime projective path",
+      "input": {
+        "field_order": 101,
+        "coefficients": [1, 0, 1, 2, 3],
+        "point": [0, 17],
+        "scalar": 17,
+        "exact_order": 44
+      }
+    },
+    {
+      "id": "permutation_group",
+      "operation": "permutation-group order, orbit, and point stabilizer",
+      "timing_scope": "compute the three invariants for an already-materialized degree-48 group",
+      "input": {
+        "degree": 48,
+        "cycles_zero_based": [
+          [0, 1],
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ]
+        ],
+        "point": 0
+      }
+    },
+    {
+      "id": "permutation_group_cyclic_nonprefix",
+      "operation": "cyclic permutation-group order, orbit, and non-prefix point stabilizer",
+      "timing_scope": "compute the three invariants for an already-materialized regular cyclic group of degree 64 at point 37",
+      "input": {
+        "degree": 64,
+        "cycles_zero_based": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]],
+        "point": 37
+      }
+    },
+    {
+      "id": "permutation_group_structure",
+      "operation": "permutation-group structure, Sylow subgroup, and conjugacy classes",
+      "timing_scope": "construct S_8 and compute structural predicates, a Sylow-2 order, and all class sizes",
+      "input": {
+        "degree": 8,
+        "cycles_zero_based": [[0, 1], [0, 1, 2, 3, 4, 5, 6, 7]],
+        "membership_cycles_zero_based": [[0, 2, 4], [1, 3]],
+        "sylow_prime": 2
+      }
+    },
+    {
+      "id": "permutation_group_structure_nonsymmetric",
+      "operation": "non-symmetric permutation-group structure, Sylow subgroup, and conjugacy classes",
+      "timing_scope": "construct A_5 and compute structural predicates, a Sylow-2 order, and all class sizes",
+      "input": {
+        "degree": 5,
+        "cycles_zero_based": [[0, 1, 2], [0, 1, 2, 3, 4]],
+        "membership_cycles_zero_based": [[0, 1], [2, 3]],
+        "sylow_prime": 2
+      }
+    },
+    {
+      "id": "permutation_group_structure_s4",
+      "operation": "S_4 structure, Sylow subgroup, membership, and conjugacy classes",
+      "timing_scope": "construct S_4 and compute structural predicates, a Sylow-2 order, and every class size",
+      "input": {
+        "degree": 4,
+        "cycles_zero_based": [[0, 1], [0, 1, 2, 3]],
+        "membership_cycles_zero_based": [[0, 2, 1]],
+        "sylow_prime": 2
+      }
+    },
+    {
+      "id": "permutation_group_structure_dihedral",
+      "operation": "dihedral-group structure, Sylow subgroup, membership, and conjugacy classes",
+      "timing_scope": "construct the transitive dihedral group of order 16 and compute its structural data",
+      "input": {
+        "degree": 8,
+        "generator_cycles_zero_based": [[[0, 1, 2, 3, 4, 5, 6, 7]], [[1, 7], [2, 6], [3, 5]]],
+        "membership_cycles_zero_based": [[0, 2, 4, 6], [1, 3, 5, 7]],
+        "sylow_prime": 2
+      }
+    },
+    {
+      "id": "permutation_group_structure_cyclic",
+      "operation": "odd cyclic-group structure, Sylow subgroup, membership, and conjugacy classes",
+      "timing_scope": "construct the regular cyclic group C_15 and compute its structural data",
+      "input": {
+        "degree": 15,
+        "cycles_zero_based": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]],
+        "membership_cycles_zero_based": [[0, 5, 10], [1, 6, 11], [2, 7, 12], [3, 8, 13], [4, 9, 14]],
+        "sylow_prime": 3
+      }
+    },
+    {
+      "id": "permutation_group_structure_quaternion",
+      "operation": "quaternion-group structure, Sylow subgroup, membership, and conjugacy classes",
+      "timing_scope": "construct the regular quaternion group Q_8 and compute its structural data",
+      "input": {
+        "degree": 8,
+        "generator_cycles_zero_based": [[[0, 2, 1, 3], [4, 6, 5, 7]], [[0, 4, 1, 5], [2, 7, 3, 6]]],
+        "membership_cycles_zero_based": [[0, 1], [2, 3], [4, 5], [6, 7]],
+        "sylow_prime": 2
+      }
+    },
+    {
+      "id": "permutation_group_structure_a6",
+      "operation": "A_6 structure, Sylow subgroup, membership, and conjugacy classes",
+      "timing_scope": "construct A_6 and compute structural predicates, a Sylow-3 order, and every class size",
+      "input": {
+        "degree": 6,
+        "cycles_zero_based": [[0, 1, 2], [1, 2, 3, 4, 5]],
+        "membership_cycles_zero_based": [[0, 1], [2, 3]],
+        "sylow_prime": 3
+      }
+    },
+    {
+      "id": "permutation_group_structure_product",
+      "operation": "intransitive direct-product structure, Sylow subgroup, membership, and conjugacy classes",
+      "timing_scope": "construct S_3 times S_3 on two blocks and compute its structural data",
+      "input": {
+        "degree": 6,
+        "cycles_zero_based": [[0, 1, 2], [0, 1], [3, 4, 5], [3, 4]],
+        "membership_cycles_zero_based": [[0, 1], [3, 4]],
+        "sylow_prime": 2
+      }
+    },
+    {
+      "id": "permutation_group_set_stabilizer",
+      "operation": "setwise stabilizer in S_8",
+      "timing_scope": "construct S_8 and compute the setwise stabilizer of a four-point subset",
+      "input": {"degree": 8, "subset_zero_based": [0, 1, 2, 3]}
+    },
+    {
+      "id": "permutation_group_set_stabilizer_nonsymmetric",
+      "operation": "setwise stabilizer in A_6",
+      "timing_scope": "construct A_6 and compute the setwise stabilizer of a three-point subset",
+      "input": {"degree": 6, "subset_zero_based": [0, 1, 2], "expected_order": 18}
+    },
+    {
+      "id": "permutation_group_normalizer",
+      "operation": "normalizer of a regular cyclic subgroup in S_8",
+      "timing_scope": "construct C_8 and compute its normalizer inside S_8",
+      "input": {"degree": 8, "cycle_zero_based": [0, 1, 2, 3, 4, 5, 6, 7]}
+    },
+    {
+      "id": "permutation_group_normalizer_nonregular",
+      "operation": "normalizer of a nonregular cyclic subgroup in S_8",
+      "timing_scope": "construct a six-cycle with two fixed points and compute its normalizer inside S_8",
+      "input": {"degree": 8, "cycle_zero_based": [0, 1, 2, 3, 4, 5], "expected_order": 24}
+    },
+    {
+      "id": "permutation_group_intersection",
+      "operation": "intersection of A_5 with a point stabilizer S_4",
+      "timing_scope": "construct both subgroups of S_5 and compute their exact intersection order",
+      "input": {"degree": 5, "expected_order": 12}
+    },
+    {
+      "id": "permutation_group_double_cosets",
+      "operation": "double-coset decomposition in S_4",
+      "timing_scope": "compute H backslash S_4 / K for H generated by a transposition and K generated by a four-cycle",
+      "input": {"degree": 4, "expected_count": 3}
+    },
+    {
+      "id": "integer_homology",
+      "operation": "finitely generated integral H_0",
+      "timing_scope": "compute H_0 of a two-term complex with an already-materialized 40 by 32 boundary",
+      "input": {
+        "generator": "unimodular-smith-matrix-v1",
+        "rows": 40,
+        "columns": 32,
+        "seed": 27183,
+        "row_rounds": 192,
+        "column_rounds": 160,
+        "invariant_factors": [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          2, 2, 6, 6, 30, 30, 210, 210, 420, 420, 1260, 1260, 2520, 7560, 15120, 45360
+        ]
+      }
+    },
+    {
+      "id": "prime_field_homology",
+      "operation": "H_0 dimension over F_2",
+      "timing_scope": "compute H_0 of a two-term complex with an already-materialized full-rank 160 by 128 boundary",
+      "input": {
+        "generator": "full-rank-mod-matrix-v1",
+        "rows": 160,
+        "columns": 128,
+        "modulus": 2,
+        "seed": 3141592653,
+        "row_rounds": 768
+      }
+    },
+    {
+      "id": "integer_higher_homology",
+      "operation": "finitely generated integral H_1",
+      "timing_scope": "compute H_1 from already-materialized 20 by 64 and 64 by 32 adjacent boundaries",
+      "input": {
+        "generator": "split-h1-smith-complex-v1",
+        "c0_rank": 20,
+        "c1_rank": 64,
+        "c2_rank": 32,
+        "seed": 1618033,
+        "row_rounds": 224,
+        "column_rounds": 192,
+        "invariant_factors": [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          2, 2, 6, 6, 30, 30, 210, 210, 420, 420, 1260, 1260, 2520, 7560, 15120, 45360
+        ]
+      }
+    },
+    {
+      "id": "prime_field_higher_homology",
+      "operation": "H_1 dimension over F_2",
+      "timing_scope": "compute H_1 from already-materialized 64 by 192 and 192 by 96 adjacent boundaries",
+      "input": {
+        "generator": "split-h1-field-complex-v1",
+        "c0_rank": 64,
+        "c1_rank": 192,
+        "c2_rank": 96,
+        "modulus": 2,
+        "seed": 2718281828,
+        "row_rounds": 768
+      }
+    },
+    {
+      "id": "odd_prime_higher_homology",
+      "operation": "H_1 dimension over F_7",
+      "timing_scope": "compute H_1 from already-materialized 24 by 96 and 96 by 48 adjacent boundaries",
+      "input": {
+        "generator": "split-h1-field-complex-v1",
+        "c0_rank": 24,
+        "c1_rank": 96,
+        "c2_rank": 48,
+        "modulus": 7,
+        "seed": 1414213562,
+        "row_rounds": 384
+      }
+    },
+    {
+      "id": "rational_graded_resolution",
+      "operation": "minimal graded free resolution over Q[x,y,z,w]",
+      "timing_scope": "construct and minimally resolve the specified twisted-cubic quotient; coefficient ring setup is excluded",
+      "input": {
+        "family": "twisted-cubic",
+        "coefficient_field": "Q",
+        "order": "grevlex"
+      }
+    },
+    {
+      "id": "rational_complete_intersection_resolution",
+      "operation": "minimal Koszul resolution over Q[x,y,z]",
+      "timing_scope": "construct and minimally resolve Q[x,y,z]/(x^2,y^2,z^2); coefficient ring setup is excluded",
+      "input": {
+        "family": "quadratic-complete-intersection",
+        "coefficient_field": "Q",
+        "order": "grevlex"
+      }
+    },
+    {
+      "id": "prime_field_graded_resolution",
+      "operation": "minimal graded free resolution over F_32003[x,y,z,w]",
+      "timing_scope": "construct and minimally resolve the specified twisted-cubic quotient; coefficient ring setup is excluded",
+      "input": {
+        "family": "twisted-cubic",
+        "modulus": 32003,
+        "order": "grevlex"
+      }
+    },
+    {
+      "id": "prime_field_generic_determinantal_resolution",
+      "operation": "minimal graded free resolution over F_32003[a,b,c,d,e,f]",
+      "timing_scope": "construct and minimally resolve the quotient by the three maximal minors of a generic 2 by 3 matrix; coefficient ring setup is excluded",
+      "input": {
+        "family": "generic-two-by-three-minors",
+        "modulus": 32003,
+        "order": "grevlex"
+      }
+    },
+    {
+      "id": "prime_field_complete_intersection_resolution",
+      "operation": "minimal Koszul resolution over F_32003[x,y,z]",
+      "timing_scope": "construct and minimally resolve F_32003[x,y,z]/(x^2,y^2,z^2); coefficient ring setup is excluded",
+      "input": {
+        "family": "quadratic-complete-intersection",
+        "modulus": 32003,
+        "order": "grevlex"
+      }
+    },
+    {
+      "id": "rational_mixed_complete_intersection_resolution",
+      "operation": "minimal mixed-degree Koszul resolution over Q[x,y,z]",
+      "timing_scope": "construct and minimally resolve Q[x,y,z]/(x^2,y^3,z^4); coefficient ring setup is excluded",
+      "input": {"family": "mixed-complete-intersection", "coefficient_field": "Q", "order": "grevlex"}
+    },
+    {
+      "id": "prime_field_mixed_complete_intersection_resolution",
+      "operation": "minimal mixed-degree Koszul resolution over F_32003[x,y,z]",
+      "timing_scope": "construct and minimally resolve F_32003[x,y,z]/(x^2,y^3,z^4); coefficient ring setup is excluded",
+      "input": {"family": "mixed-complete-intersection", "modulus": 32003, "order": "grevlex"}
+    },
+    {
+      "id": "rational_cycle_resolution",
+      "operation": "minimal non-complete-intersection resolution over Q[a,b,c,d,e]",
+      "timing_scope": "construct and minimally resolve the edge ideal quotient of the five-cycle",
+      "input": {"family": "cycle-five-edge-ideal", "coefficient_field": "Q", "order": "grevlex"}
+    },
+    {
+      "id": "prime_field_cycle_resolution",
+      "operation": "minimal non-complete-intersection resolution over F_32003[a,b,c,d,e]",
+      "timing_scope": "construct and minimally resolve the edge ideal quotient of the five-cycle",
+      "input": {"family": "cycle-five-edge-ideal", "modulus": 32003, "order": "grevlex"}
+    },
+    {
+      "id": "rational_module_groebner_syzygy",
+      "operation": "module Groebner basis and first syzygy module over Q[x,y,z]",
+      "timing_scope": "compute both objects for three already-specified generators of a rank-two free module",
+      "input": {
+        "family": "rank-two-chain",
+        "coefficient_field": "Q",
+        "order": "grevlex",
+        "module_order": "term-over-position"
+      }
+    },
+    {
+      "id": "prime_field_module_groebner_syzygy",
+      "operation": "module Groebner basis and first syzygy module over F_32003[x,y,z]",
+      "timing_scope": "compute both objects for the rank-two chain generators over a large prime field",
+      "input": {"family": "rank-two-chain", "modulus": 32003, "order": "grevlex", "module_order": "term-over-position"}
+    },
+    {
+      "id": "prime_field_module_groebner_syzygy_nonmonomial",
+      "operation": "module Groebner basis and first syzygy module over F_32003[x,y,z] after a nonmonomial source change",
+      "timing_scope": "compute both objects for three already-specified generators of a rank-two free module",
+      "input": {"family": "rank-two-nonmonomial-source-change", "modulus": 32003, "order": "grevlex", "module_order": "term-over-position"}
+    },
+    {
+      "id": "graph_petersen_automorphisms",
+      "operation": "automorphism group of the Petersen graph",
+      "timing_scope": "construct the ten-vertex graph from its frozen edge list and compute its automorphism-group order",
+      "input": {
+        "vertices": 10,
+        "edges_zero_based": [[0,1],[1,2],[2,3],[3,4],[4,0],[0,5],[1,6],[2,7],[3,8],[4,9],[5,7],[7,9],[9,6],[6,8],[8,5]],
+        "expected_automorphism_order": 120
+      }
+    },
+    {
+      "id": "graph_asymmetric_tree_automorphisms",
+      "operation": "automorphism group of an asymmetric tree",
+      "timing_scope": "construct the seven-vertex tree with three unequal branches and compute its automorphism-group order",
+      "input": {
+        "vertices": 7,
+        "edges_zero_based": [[0,1],[0,2],[2,3],[0,4],[4,5],[5,6]],
+        "expected_automorphism_order": 1
+      }
+    },
+    {
+      "id": "kahler_cotangent",
+      "operation": "cotangent-space dimensions on a cusp",
+      "timing_scope": "evaluate the retained Kahler presentation at one singular and one smooth rational point",
+      "input": {
+        "equation": "y^2-x^3",
+        "points": [[0, 0], [1, 1]]
+      }
+    }
+  ]
+}

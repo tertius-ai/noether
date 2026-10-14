@@ -1,0 +1,118 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    # PR CI verifies release semantics without paying artifact-grade LTO on
+    # every clean runner. Release-candidate builds use Cargo.toml's exact
+    # ThinLTO/codegen-units=1 profile.
+    env:
+      CARGO_PROFILE_RELEASE_LTO: "false"
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
+      RUSTC_WRAPPER: "sccache"
+      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_GHA_VERSION: "noether-ci-v2"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Install native build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            autoconf automake build-essential clang libclang-dev libtool pkg-config \
+            libgmp-dev libmpfr-dev libopenmpi-dev openmpi-bin
+
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.11.16"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install Rust toolchain
+        run: rustup show
+
+      # Cache compiler outputs rather than target/: the repository cache is
+      # bounded to 10 GB, while a developer target tree can grow far larger.
+      - name: Configure Rust compiler cache
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: "v0.17.0"
+
+      - name: Fingerprint the native toolchain
+        id: native-toolchain
+        run: |
+          compiler=$(cc --version | sha256sum | cut -d' ' -f1)
+          echo "compiler=$compiler" >> "$GITHUB_OUTPUT"
+
+      - name: Cache FLINT
+        id: flint-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .deps/flint
+          key: flint-${{ runner.os }}-${{ runner.arch }}-${{ steps.native-toolchain.outputs.compiler }}-${{ hashFiles('scripts/install-flint.sh') }}
+
+      - name: Build FLINT
+        if: steps.flint-cache.outputs.cache-hit != 'true'
+        run: scripts/install-flint.sh
+
+      # Save the completed native prefix now. A later lint/test failure must
+      # not force the next run to rebuild an unchanged FLINT stack.
+      - name: Save FLINT
+        if: steps.flint-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .deps/flint
+          key: flint-${{ runner.os }}-${{ runner.arch }}-${{ steps.native-toolchain.outputs.compiler }}-${{ hashFiles('scripts/install-flint.sh') }}
+
+      - name: Configure FLINT
+        run: echo "FLINT_PREFIX=${{ github.workspace }}/.deps/flint" >> "$GITHUB_ENV"
+
+      - name: Install Python development environment
+        run: uv sync --locked --no-install-project --group dev --group validation
+
+      # check-version proves that Cargo.lock resolves without network access.
+      # Fetch the locked graph once on a clean runner; the later build reuses it.
+      - name: Fetch Rust dependencies
+        run: cargo fetch --locked
+
+      - name: Lint
+        run: make lint
+
+      - name: Build Python extension
+        run: make engine
+
+      - name: Test Rust kernels
+        run: make test-rust
+
+      - name: Test PyO3 engine
+        run: make test-engine
+
+      - name: Test Python surface
+        run: make test-py
+
+      - name: Audit conveyed feature profile
+        run: scripts/check-no-gpl.sh release
+
+      # The release and doctest graphs are each large enough that retaining
+      # both can exhaust a clean hosted runner.  The Python extension is
+      # already installed outside Cargo's target tree, and the release audit
+      # above is the last consumer of the optimized artifacts.
+      - name: Reclaim Cargo profiles before Rust documentation
+        run: rm -rf target/release target/debug
+
+      - name: Test Rust documentation
+        run: make test-doc

@@ -1,0 +1,18 @@
+[package]
+license.workspace = true
+name = "spar-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal shared contracts for the sparse-LA kernels — the ring-independent structural surface (SparseRingStorage)."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[features]
+default = []
+
+# Zero runtime dependencies: this crate is pure contracts (traits +
+# defaulted methods) that the sparse kernels (sparla / sparb)
+# implement. Everyone depends UP into it; it depends on nothing.
+[dependencies]

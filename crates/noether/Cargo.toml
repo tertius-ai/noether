@@ -1,0 +1,115 @@
+[package]
+name = "noether"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Public Rust facade for deterministic scientific mathematics"
+repository = "https://github.com/tertius-ai/noether"
+build = "build.rs"
+
+[features]
+default = []
+msolve-subprocess = ["dep:noether-bridges", "noether-bridges/msolve-subprocess"]
+macaulay2-subprocess = ["dep:noether-bridges", "noether-bridges/macaulay2-subprocess"]
+singular-subprocess = ["dep:noether-bridges", "noether-bridges/singular-subprocess"]
+distributed = ["dep:m4rst-distributed"]
+
+[dependencies]
+noether-bridges = { workspace = true, optional = true }
+flint-core = { workspace = true, features = ["serde"] }
+flint-sys.workspace = true
+m4rst = { workspace = true, features = ["parallel"] }
+m4rst-distributed = { workspace = true, optional = true }
+m4rste.workspace = true
+mzs.workspace = true
+pwvla.workspace = true
+graph-core.workspace = true
+perm-core.workspace = true
+geom-core.workspace = true
+convex-hull.workspace = true
+spar-core.workspace = true
+sparla.workspace = true
+sparb.workspace = true
+poly-core.workspace = true
+module-core.workspace = true
+resolution-kernel.workspace = true
+groebner-kernel.workspace = true
+lattice-enum.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+schemars.workspace = true
+rayon.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+proptest.workspace = true
+
+[build-dependencies]
+tertius-build.workspace = true
+
+[[bench]]
+name = "generic_matmul"
+harness = false
+
+[[bench]]
+name = "sparse_f2_matmul"
+harness = false
+
+[[bench]]
+name = "facade_kernels"
+harness = false
+
+[[bench]]
+name = "homology_playbooks"
+harness = false
+
+[[bench]]
+name = "padic_sparse_smith"
+harness = false
+
+[[bench]]
+name = "power_series"
+harness = false
+
+[[bench]]
+name = "polynomial_arithmetic"
+harness = false
+
+[[bench]]
+name = "macaulay2_commalg"
+harness = false
+
+[[bench]]
+name = "quotient_arithmetic"
+harness = false
+
+[[example]]
+name = "distributed_acceptance"
+required-features = ["distributed"]
+
+[[bench]]
+name = "finite_group_cohomology"
+harness = false
+
+[[bench]]
+name = "exact_linear_systems"
+harness = false
+
+[[bench]]
+name = "intersection_theory"
+harness = false
+
+[[bench]]
+name = "exterior_algebra"
+harness = false
+
+[[bench]]
+name = "arithmetic_boundaries"
+harness = false
+
+[[bench]]
+name = "field_elimination"
+harness = false

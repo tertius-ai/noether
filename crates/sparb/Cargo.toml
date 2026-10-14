@@ -1,0 +1,48 @@
+[package]
+license.workspace = true
+name = "sparb"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal sparse interval (Arb ball) linear algebra — CSR over Arb, rigorous SpMV."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+build = "build.rs"
+
+[features]
+default = []
+# Parallel SpMV via rayon — opt-in because rayon is a non-trivial
+# Rust dependency (and parallel pays off only above a few hundred
+# microseconds of serial work). Enable via `--features parallel`;
+# `par_spmv` is gated behind it.
+parallel = ["dep:rayon"]
+
+[dependencies]
+# The shared sparse contract: SparseRingStorage (zero-dep, pure Rust).
+spar-core = { workspace = true }
+# Shared safe FLINT ball ownership and scalar arithmetic.
+flint-core.workspace = true
+rayon = { version = "1", optional = true }
+
+[dev-dependencies]
+# Raw FLINT matrices are parity and benchmark oracles only.
+flint-sys.workspace = true
+# Property-based randomised correctness tests.
+proptest.workspace = true
+# Statistical benchmarking. `default-features = false` skips the
+# `rayon`-driven plot generation we don't use here.
+criterion = { version = "0.5", default-features = false }
+
+[build-dependencies]
+tertius-build.workspace = true
+[[bench]]
+name = "spmv"
+harness = false
+
+# Sparse/dense crossover comparison: sparb CSR against FLINT's dense
+# arb_mat and acb_mat on identical real- and complex-ball fixtures.
+# Run through scripts/bench-pin.sh; the example prints Markdown tables.
+[[example]]
+name = "bench_compare"
+path = "examples/bench_compare.rs"

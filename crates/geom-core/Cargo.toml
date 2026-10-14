@@ -1,0 +1,38 @@
+[package]
+license.workspace = true
+name = "geom-core"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+description = "Tertius-internal exact Euclidean geometry kernel — orientation / in-sphere predicates in general dimension, Delaunay and regular triangulations, circumspheres and minimum enclosing balls."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+build = "build.rs"
+
+[dependencies]
+# Exact fallback for the predicate filter. Only reached when the
+# floating-point error bound cannot decide a sign, which generic input
+# essentially never triggers — so this is a correctness backstop, not a
+# hot-path dependency.
+flint-core.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+proptest.workspace = true
+# Oracles, never runtime dependencies. `robust` is a Rust port of
+# Shewchuk's adaptive predicates and covers d = 2, 3 only; `spade` is a
+# 2-D Delaunay triangulator. Both MIT/Apache-2.0. They exist here for the
+# same reason GUDHI and Ripser exist under validation/: an
+# independent implementation to differential-test against. Neither is
+# reachable from a non-test build.
+robust = "1.2"
+spade = "2.15"
+
+[[bench]]
+name = "kernel"
+harness = false
+
+[build-dependencies]
+tertius-build.workspace = true

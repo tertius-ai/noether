@@ -1,0 +1,33 @@
+# Version-control and local application state
+.git
+.claude
+.na
+.tertius
+
+# Host build products and environments
+.deps
+target
+**/target
+.venv
+.venv-*
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.so
+**/*.egg-info
+.coverage
+.hypothesis
+.mypy_cache
+.pytest_cache
+.ruff_cache
+
+# Inputs that are neither needed to build the installed artifact nor allowed
+# in a runtime image. The public package is generated from Rust and python/.
+docs
+.github
+
+# Local editor and operating-system files
+.DS_Store
+.idea
+.vscode
+*.swp

@@ -1,0 +1,13 @@
+[package]
+name = "module-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Tertius-internal sparse module-term and Schreyer-order kernels"
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[dependencies]
+poly-core.workspace = true

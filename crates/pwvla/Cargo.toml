@@ -1,0 +1,60 @@
+[package]
+license.workspace = true
+name = "pwvla"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal packed-kernel crate — dense matmul over Z/2^n (native) and Z/p^n (packed Barrett) with SIMD."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+
+[lib]
+crate-type = ["rlib"]
+
+[features]
+default = []
+parallel = ["dep:rayon"]
+# Build the head-to-head Z/2^n vs FLINT benchmark example. FLINT remains
+# absent from the ordinary kernel build; the benchmark uses the workspace's
+# pinned, generated bindings when explicitly requested.
+flint = ["dep:flint-sys"]
+
+[dependencies]
+flint-sys = { workspace = true, optional = true }
+rayon = { version = "1", optional = true }
+
+[dev-dependencies]
+rand.workspace = true
+# Property-based correctness tests.
+proptest.workspace = true
+criterion = { version = "0.5", default-features = false, features = ["cargo_bench_support"] }
+
+[build-dependencies]
+tertius-build.workspace = true
+
+[[bench]]
+name = "matmul"
+harness = false
+
+[[bench]]
+name = "zpn_matmul"
+harness = false
+
+[lints.clippy]
+# Math code: explicit `for i in 0..n` indexing is idiomatic for pivot
+# loops, Gauss-Jordan, and SIMD index arithmetic. The iterator-rewrite
+# clippy suggests is less readable here.
+needless_range_loop = "allow"
+# BLIS-style micro-kernels take 9-10 parameters by design (output ptr,
+# input ptrs, tile bounds, ring params). The clippy 7-arg limit doesn't
+# fit register-blocked numeric kernels.
+too_many_arguments = "allow"
+# `|x, y| foo(x, y)` is often clearer than bare `foo` when the closure
+# documents the call shape; we don't enforce point-free style.
+redundant_closure = "allow"
+
+# Head-to-head pwvla-vs-FLINT bench over Z/2^n. Gated on the `flint`
+[[example]]
+name = "bench_z2n_flint"
+path = "examples/bench_z2n_flint.rs"
+required-features = ["flint"]

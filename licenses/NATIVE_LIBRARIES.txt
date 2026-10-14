@@ -1,0 +1,46 @@
+Noether conveyed native libraries
+=================================
+
+Noether itself is MIT-licensed. Binary artifacts dynamically link and convey
+separate builds of these libraries:
+
+  FLINT 3.6.0, including Arb/Acb   LGPL-3.0-or-later
+  GMP 6.3.0                       LGPL-3.0-or-later (chosen from its dual license)
+  MPFR 4.2.2                      LGPL-3.0-or-later
+
+The complete GNU GPL 3.0 and LGPL 3.0 texts accompany this notice. Noether
+carries no private modifications to these libraries. Source is available at:
+
+  https://github.com/flintlib/flint/releases/download/v3.6.0/flint-3.6.0.tar.gz
+  sha256 b95e2c7792f5eea4a1c8d2d42c4098434756832e57a094b295eb5dfdc9b4c36b
+
+  https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+  sha256 a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898
+
+  https://www.mpfr.org/mpfr-4.2.2/mpfr-4.2.2.tar.xz
+  sha256 b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01
+
+Every Noether GitHub release also retains these three exact, checksum-pinned
+source archives beside the conveyed binaries. They are assembled into the
+release candidate before publication rather than relying on the continued
+availability of an upstream download service.
+
+The portable CPU wheel keeps FLINT, GMP, and MPFR as distinct shared libraries
+beside the extension. The reference MPI image keeps the same libraries under
+`/opt/noether-native/lib` and adds Debian's dynamically linked Open MPI
+4.1.4-3+b1 runtime (BSD-3-Clause). Its MPI wheel is an image-intermediate
+artifact, not a standalone release: building it against one MPI and loading it
+with another is unsupported. A cluster-native build instead links the MPI
+selected by that site's modules.
+
+A recipient may replace FLINT, GMP, and MPFR with modified, ABI-compatible
+builds by preserving the installed filenames and SONAMEs. Alternatively,
+rebuild the artifact: build compatible shared GMP/MPFR libraries, point
+FLINT's configure step at them, set FLINT_PREFIX to the resulting shared FLINT
+prefix, and run the corresponding wheel or image target.
+
+The CPU wheel's CycloneDX SBOM records its exact conveyed library files. The
+MPI image carries a separate CycloneDX inventory of its exact native files and
+installed Debian packages. The wheel and image gates reject embedded
+build-host paths, missing license material, and forbidden GPL-linked math
+libraries.

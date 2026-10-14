@@ -1,0 +1,63 @@
+[package]
+license.workspace = true
+name = "m4rste"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal pure-Rust dense linear algebra over GF(2^e), e <= 16. The GF(2^e) counterpart to m4rst's F_2 kernel; an M4RIE replacement with no GPL obligation."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+build = "build.rs"
+
+[features]
+default = []
+# Opt-in CPU parallelism via rayon. Off by default — mirrors m4rst's
+# posture. Not yet wired into any kernel (the v0.1 kernel is
+# serial-only); reserved so the feature name is stable.
+parallel = ["dep:rayon"]
+# Link libm4rie + libm4ri for the bench / parity oracle. Testing only —
+# libm4rie is GPL-2; never enable in a shipped build. Compiles
+# `oracle/m4rie_oracle.c` via the `cc` build-dep and gates both the
+# `bench_vs_m4rie` example and the `parity_libm4rie` test.
+validate-libm4rie = []
+
+[dependencies]
+# m4rste is built on m4rst the way M4RIE is built on M4RI: a GF(2^e)
+# matrix is `e` F_2 bit-planes, and matmul reduces to F_2 matmuls run
+# by m4rst's kernel. Sibling path dep — m4rst lives next to m4rste in
+# the Tertius checkout (and adjacent in the noether-engine build).
+m4rst = { path = "../m4rst" }
+rayon = { version = "1", optional = true }
+
+[dev-dependencies]
+proptest.workspace = true
+criterion.workspace = true
+
+[build-dependencies]
+# Only invoked when `validate-libm4rie` is on; otherwise build.rs is a
+# no-op. Apache-2.0/MIT.
+cc.workspace = true
+[[example]]
+# Benchmark vs the external GPL libm4rie. The filename keeps the
+# `_m4rie` suffix because it's what we benchmark *against* — the
+# external library, by its actual name. Gated by the
+# `validate-libm4rie` feature; the example is NOT built unless that
+# feature is on (otherwise cargo's example auto-discovery would
+# build it un-gated and the link fails on hosts without libm4rie).
+name = "bench_vs_m4rie"
+path = "examples/bench_vs_m4rie.rs"
+required-features = ["validate-libm4rie"]
+
+# libm4rie bit-equality parity tests; same gate posture as
+# m4rst's `parity_libm4ri`. Cargo feature compiles the FFI bridge;
+# `M4RSTE_VALIDATE_LIBM4RIE=1` env var actually runs the asserts.
+[[test]]
+name = "parity_libm4rie"
+path = "tests/parity_libm4rie.rs"
+required-features = ["validate-libm4rie"]
+
+# Criterion statistical benchmarks. Run with `cargo bench -p m4rste`.
+[[bench]]
+name = "m4rste"
+harness = false

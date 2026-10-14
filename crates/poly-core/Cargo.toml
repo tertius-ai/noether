@@ -1,0 +1,30 @@
+[package]
+name = "poly-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Tertius-internal packed monomial, sparse polynomial, and truncated-series kernels"
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[features]
+# Noether's generic polynomial lane uses bounded, worker-private product
+# chunks for sufficiently large inputs.  The exact serial implementation is
+# retained under `--no-default-features` for differential tests and callers
+# that deliberately avoid a thread pool.
+default = ["parallel"]
+parallel = ["dep:rayon"]
+
+[dependencies]
+ahash.workspace = true
+rayon = { workspace = true, optional = true }
+
+[dev-dependencies]
+proptest.workspace = true
+criterion.workspace = true
+
+[[bench]]
+name = "polynomial"
+harness = false

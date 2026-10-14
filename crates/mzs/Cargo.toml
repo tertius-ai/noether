@@ -1,0 +1,36 @@
+[package]
+license.workspace = true
+name = "mzs"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Sparse indexed-row linear algebra over F_2"
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[features]
+default = []
+# Opt-in CPU parallelism via rayon. Off by default — short-N matmuls
+# pay more in thread-pool overhead than they recover from parallelism;
+# callers explicitly invoke `matmul_parallel` (or set the feature) when
+# they want the parallel path.
+parallel = ["dep:rayon"]
+
+[dependencies]
+rayon = { version = "1", optional = true }
+
+[dev-dependencies]
+proptest.workspace = true
+criterion = { version = "0.5", default-features = false }
+rand.workspace = true
+[lints.clippy]
+# Math code: explicit `for i in 0..n` indexing is idiomatic for
+# pivot loops and Gauss-Jordan. The iterator-rewrite clippy
+# suggests is less readable. Same call as in pwvla / sparla.
+needless_range_loop = "allow"
+
+# Criterion-based statistical benchmarks. Run with `cargo bench`.
+[[bench]]
+name = "matmul"
+harness = false

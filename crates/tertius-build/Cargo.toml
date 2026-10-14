@@ -1,0 +1,9 @@
+[package]
+license.workspace = true
+name = "tertius-build"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal shared build-script helpers for crates that link native libraries. Used ONLY as a [build-dependencies] entry — never a runtime/shipped dependency, so it is compatible with the pure-Rust kernels' no-shipped-deps invariant."
+publish = false
+repository = "https://github.com/tertius-ai/noether"

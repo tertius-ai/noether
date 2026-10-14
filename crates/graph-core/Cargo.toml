@@ -1,0 +1,24 @@
+[package]
+license.workspace = true
+name = "graph-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal pure-Rust graph kernel — CSR adjacency storage, BFS/DFS traversal, connected components, Dijkstra/BFS shortest paths, typed edge/vertex labels."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[features]
+default = []
+# Opt-in CPU parallelism via Rayon. The default stays serial and dependency
+# light. Pure Apache-2.0/MIT, no GPL.
+parallel = ["dep:rayon"]
+
+[dependencies]
+rayon = { version = "1", optional = true }
+serde.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+serde_json.workspace = true

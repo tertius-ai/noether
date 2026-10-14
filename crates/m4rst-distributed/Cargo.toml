@@ -1,0 +1,33 @@
+[package]
+name = "m4rst-distributed"
+description = "MPI-distributed dense bit-packed linear algebra over F_2"
+repository = "https://github.com/tertius-ai/noether"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+parallel = ["m4rst/parallel", "dep:rayon"]
+
+[dependencies]
+m4rst.workspace = true
+mpi.workspace = true
+rayon = { workspace = true, optional = true }
+serde.workspace = true
+serde_json.workspace = true
+
+[[example]]
+name = "representation_acceptance"
+path = "examples/representation_acceptance.rs"
+
+[[example]]
+name = "operations_acceptance"
+path = "examples/operations_acceptance.rs"
+
+[[example]]
+name = "factorization_acceptance"
+path = "examples/factorization_acceptance.rs"

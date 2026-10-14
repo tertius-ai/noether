@@ -1,0 +1,45 @@
+# Native dependencies and Rust builds
+.deps/
+target/
+
+# Python builds and environments
+.venv/
+.venv-*/
+*.egg-info/
+*.py[cod]
+*.so
+__pycache__/
+build/
+dist/
+
+# Tests and tools
+.coverage
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+*.log
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local agent/application state
+.claude/
+.na/
+.tertius/
+
+# Generated validation and benchmark outputs
+bench-runs/
+heavy_results*.jsonl
+validation/results/rubi_sweep_latest.jsonl
+
+# Generated package/reference artifacts
+API_REFERENCE.md
+API_REFERENCE.json
+python/noether/API_REFERENCE_PY.json
+python/noether/ENGINE_SCHEMAS.json
+python/noether/USAGE_INDEX.json
+python/tertius_noether.libs/

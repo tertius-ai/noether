@@ -1,0 +1,13 @@
+[env]
+# Native build scripts read these variables. Explicit shell exports win.
+FLINT_PREFIX = { value = "", force = false }
+# flint3-sys discovers dynamic FLINT through pkg-config. This default makes a
+# plain Cargo invocation reuse the managed artifact; explicit shell exports win.
+PKG_CONFIG_PATH = { value = ".deps/flint/lib/pkgconfig", relative = true, force = false }
+SUITESPARSE_PREFIX = { value = "", force = false }
+PYO3_PYTHON = { value = ".venv/bin/python", relative = true, force = false }
+
+# Conveyed x86_64 artifacts require AVX2, FMA, and BMI2. Wider instruction
+# sets remain runtime-dispatched over scalar fallbacks inside each kernel.
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "target-cpu=x86-64-v3"]

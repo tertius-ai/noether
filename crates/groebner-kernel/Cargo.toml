@@ -1,0 +1,36 @@
+[package]
+name = "groebner-kernel"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Tertius-internal F4, signature, modular, and strong Groebner kernels"
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[features]
+# Large F4 target blocks have an exact dependency-free projection phase. Keep
+# that private parallel dispatch enabled in the shipped kernel; callers can
+# still build a strictly serial correctness floor with `--no-default-features`.
+default = ["parallel"]
+parallel = ["dep:rayon"]
+
+[dependencies]
+poly-core.workspace = true
+module-core.workspace = true
+m4rst.workspace = true
+mzs.workspace = true
+m4rste.workspace = true
+sparla.workspace = true
+flint-core.workspace = true
+ahash.workspace = true
+rayon = { workspace = true, optional = true }
+
+[dev-dependencies]
+proptest.workspace = true
+criterion.workspace = true
+
+[[bench]]
+name = "groebner"
+harness = false

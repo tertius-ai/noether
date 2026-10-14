@@ -1,0 +1,80 @@
+[package]
+license.workspace = true
+name = "m4rst"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Tertius-internal pure-Rust dense F_2 linear algebra. Matmul, PLUQ, solve, nullspace; bit-equal to and competitive with libm4ri."
+publish = false
+repository = "https://github.com/tertius-ai/noether"
+readme = "README.md"
+
+[features]
+default = []
+# Opt-in CPU parallelism via rayon. Off by default — the typical
+# noether workload has many small matmul calls where thread-pool
+# overhead exceeds the gain. Apache-2.0/MIT, no GPL.
+parallel = ["dep:rayon"]
+# Link libm4ri for the parity / bench oracle. Testing only — libm4ri
+# is GPL-2; never enable in a shipped build. Compiles
+# `oracle/m4ri_oracle.c` via the `cc` build-dep and gates the
+# `parity_libm4ri` test plus the `bench_*` examples.
+validate-libm4ri = []
+
+[dependencies]
+rayon = { version = "1", optional = true }
+
+[dev-dependencies]
+proptest.workspace = true
+criterion = { version = "0.5", default-features = false }
+
+[build-dependencies]
+# Only invoked when `validate-libm4ri` is on; otherwise build.rs is a
+# no-op. Apache-2.0/MIT.
+cc.workspace = true
+
+[[test]]
+name = "parity_libm4ri"
+path = "tests/parity_libm4ri.rs"
+required-features = ["validate-libm4ri"]
+
+# Bench examples that link libm4ri for head-to-head comparison.
+[[example]]
+name = "bench_systematic"
+path = "examples/bench_systematic.rs"
+required-features = ["validate-libm4ri"]
+
+[[example]]
+name = "bench_shootout"
+path = "examples/bench_shootout.rs"
+required-features = ["validate-libm4ri"]
+
+[[example]]
+name = "bench_fair_dispatch"
+path = "examples/bench_fair_dispatch.rs"
+required-features = ["validate-libm4ri"]
+
+[[example]]
+name = "bench_threads"
+path = "examples/bench_threads.rs"
+required-features = ["validate-libm4ri"]
+
+[[example]]
+name = "bench_elimination"
+path = "examples/bench_elimination.rs"
+required-features = ["validate-libm4ri"]
+
+# User-facing example — no external deps, runs with plain `cargo run`.
+[[example]]
+name = "getting_started"
+path = "examples/getting_started.rs"
+
+# Perf cliff hunt around dispatcher thresholds. No libm4ri linkage.
+[[example]]
+name = "bench_cliff"
+path = "examples/bench_cliff.rs"
+
+# Criterion-based statistical benchmarks. Run with `cargo bench`.
+[[bench]]
+name = "matmul"
+harness = false

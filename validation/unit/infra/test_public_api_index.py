@@ -197,26 +197,24 @@ def test_each_shipped_example_has_a_documented_headline_operation() -> None:
     assert all(entries[name]["summary"] for name in headlines)
 
 
-def test_every_accepted_public_symbol_has_a_useful_summary() -> None:
+def test_missing_descriptions_are_reported_without_invented_prose() -> None:
     entries = _generator_module().build_index()
-    undocumented = sorted(
-        entry["canonical_name"]
-        for entry in entries
-        if not entry["summary"] or entry["summary"] == "Typed public projection."
-    )
-
-    assert undocumented == []
+    assert any(entry["summary_source"] == "missing" for entry in entries)
+    for entry in entries:
+        assert (not entry["summary"]) == (entry["summary_source"] == "missing")
+        assert entry["summary_source"] != "derived projection vocabulary"
 
 
-def test_routine_derived_summaries_are_specific_and_marked() -> None:
+def test_missing_operator_and_evidence_descriptions_stay_empty() -> None:
     entries = {entry["canonical_name"]: entry for entry in _generator_module().build_index()}
 
     multiplication = entries["ComplexBall.__mul__"]
-    assert multiplication["summary"] == "Multiply this value by another compatible value."
-    assert multiplication["summary_source"] == "derived projection vocabulary"
+    assert multiplication["summary"] == ""
+    assert multiplication["summary_source"] == "missing"
 
     replay = entries["IntegerFiniteFieldMap.verify"]
-    assert replay["summary"].startswith("Replay and verify the mathematical evidence")
+    assert replay["summary"] == ""
+    assert replay["summary_source"] == "missing"
 
     authored = entries["linalg.Matrix.rank"]
     assert authored["summary"] == "Rank over a field context."

@@ -1,6 +1,18 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Compose cells, compute polygraphic homology, and inspect the Street model."""
+"""Cells and homology of the 2-oriental
+
+Construct the 2-oriental, compose two consecutive 1-cells, and
+calculate its polygraphic homology. Inspect a finite Street-nerve
+skeleton and the weight-2 component-poset slice separately.
+
+## Result
+
+The cell counts are `[3, 4, 1]`, and polygraphic H₀ has free rank 1.
+The weight-2 component-poset slice has six elements. A bounded nerve
+skeleton and a particle-weight slice are different finite observations
+of the categorical-homology presentation.
+"""
 
 from noether.category import AtomId, SteinerCategory
 

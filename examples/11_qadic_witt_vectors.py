@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Use the fixed-precision Witt ring W(F_9)."""
+"""Teichmüller lifts in a Witt ring
+
+Construct the unramified Witt ring of 𝔽₉ at absolute precision 4 and
+lift a residue-field element by the Teichmüller map.
+
+## Result
+
+Reduction returns the original residue. The lift satisfies t⁹ = t
+at the fixed precision. The residue field is supplied explicitly when
+constructing `QadicRing`.
+"""
 
 from noether.numthy import FiniteField, QadicRing
 

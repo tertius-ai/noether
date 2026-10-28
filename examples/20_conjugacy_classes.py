@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Compute all conjugacy classes of A5 and verify orbit-stabilizer."""
+"""Conjugacy classes of A₅
+
+Generate A₅ using a 3-cycle and a 5-cycle. Enumerate its conjugacy
+classes and compute each centralizer.
+
+## Result
+
+The class sizes are 1, 12, 12, 15, and 20, summing to 60. For each
+representative, its centralizer order times its class size equals 60.
+The two classes of size 12 are distinct classes of 5-cycles.
+"""
 
 from noether.groups import Permutation, PermutationGroup
 

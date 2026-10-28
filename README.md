@@ -76,15 +76,16 @@ print(op.signatures, op.supported_rings, op.evidence, op.errors)
 ```
 
 For a guided introduction, read
-[Using Noether](https://github.com/tertius-ai/noether/blob/main/docs/USING_NOETHER.md).
-[Contexts and precision](https://github.com/tertius-ai/noether/blob/main/docs/CONTEXTS_AND_PRECISION.md)
+[Using Noether](https://tertius-ai.github.io/noether/guide.html).
+[Contexts and precision](https://tertius-ai.github.io/noether/contexts.html)
 explains rings, fields, maps, and fixed precision; the
-[architecture paper](https://github.com/tertius-ai/noether/blob/main/docs/ARCHITECTURE.md)
+[Architecture](https://tertius-ai.github.io/noether/architecture.html)
 explains the Rust/Python/kernel boundary. The 40
-[executable examples](https://github.com/tertius-ai/noether/tree/main/examples) are compact
-end-to-end workflows.
-Build the unified local Python and Rust reference with `make docs`, then open
-`target/noether-docs/index.html`.
+[worked examples](https://tertius-ai.github.io/noether/examples/index.html)
+introduce mathematical problems and explain the results.
+Build the local guide, worked examples, and Python reference with `make docs`,
+then open `target/noether-docs/index.html`. `make docs-rust` builds the separate
+public Rust facade reference under `target/doc/noether/`.
 
 ## Correctness contract
 

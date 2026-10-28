@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Solve an underdetermined rational system and verify its affine space."""
+"""Solving a rational linear system
+
+Solve `x + 2*y + 3*z = 1` and `2*x + 4*y + 6*z = 2` over the rationals.
+The second equation repeats the first, leaving two free directions.
+
+## Result
+
+`particular` is one solution and `dimension` is 2, the dimension of the
+homogeneous solution space. Every solution is the particular solution plus
+a linear combination of those homogeneous directions.
+"""
 
 from noether import Q
 from noether.linalg import Matrix, Vector

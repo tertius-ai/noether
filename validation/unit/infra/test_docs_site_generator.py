@@ -1,132 +1,129 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Source-level invariants for the unified documentation generator."""
+"""Publication preserves authored semantics and executable examples."""
 
 from __future__ import annotations
 
+import ast
+import contextlib
 import importlib.util
+import io
+import json
+import re
+import subprocess
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
 
 
 def _generator():
-    path = ROOT / "scripts" / "gen_docs_site.py"
-    spec = importlib.util.spec_from_file_location("gen_docs_site", path)
+    spec = importlib.util.spec_from_file_location(
+        "gen_docs_site", ROOT / "scripts/gen_docs_site.py"
+    )
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
 
-def test_every_accepted_domain_has_declared_backing_kernels() -> None:
-    module = _generator()
-    entries = module._load_json(module.PYTHON_INDEX)
-    assert {entry["domain"] for entry in entries} == set(module.DOMAIN_KERNELS)
-    assert all(module.DOMAIN_KERNELS.values())
-
-
-def test_operation_dispatch_is_not_confused_with_domain_inventory() -> None:
-    module = _generator()
+def _entry(**updates):
     entry = {
-        "canonical_name": "homalg.FreeModule.exterior_algebra",
-        "domain": "homalg",
-        "qualified_name": "FreeModule.exterior_algebra",
-        "name": "exterior_algebra",
+        "canonical_name": "linalg.Matrix.rank",
+        "domain": "linalg",
+        "qualified_name": "Matrix.rank",
+        "name": "rank",
         "kind": "method",
-        "summary": "Construct an exterior algebra.",
-        "signatures": ["(self) -> ExteriorAlgebra[R]"],
-        "backends": ["noether", "module-core"],
+        "summary": "",
+        "doc": "",
+        "signatures": ["(self) -> int"],
     }
-    rendered = module._entry_markdown(
-        entry,
-        {
-            "path": "noether::homalg::FreeModule::exterior_algebra",
-            "declaration": "pub fn exterior_algebra(&self)",
-            "url": "rustdoc/noether/index.html",
-            "direct": True,
-        },
-        [],
-    )
+    entry.update(updates)
+    return entry
 
-    assert "| Dispatch / backing | noether, module-core |" in rendered
+
+def test_missing_description_does_not_become_a_guarantee() -> None:
+    module = _generator()
+    for name in ("linalg.Matrix.rank", "RealBall.spectrum"):
+        rendered = module._entry_markdown(_entry(canonical_name=name), [], {})
+        assert name in rendered
+        assert "checked deterministic result" not in rendered
+        assert "rigorous enclosure" not in rendered
+        assert "numeric bound" not in rendered
+        assert "Guarantee" not in rendered
+        assert "GIL" not in rendered
+        assert "Rust" not in rendered
+
+
+def test_authored_restrictions_are_visible_and_implementation_inventory_is_absent() -> None:
+    module = _generator()
+    rendered = module._entry_markdown(
+        _entry(
+            doc="Rank over a field. Unsupported coefficient rings raise an error.",
+            supported_rings=["Q", "finite fields"],
+            errors=["incompatible coefficient context"],
+            validity=["conditional:specified hypothesis"],
+            backends=["m4rst", "flint"],
+            type_id="noether/linalg/Matrix@1",
+        ),
+        [],
+        {},
+    )
+    assert "Unsupported coefficient rings raise an error." in rendered
+    assert "**Coefficient contexts:** Q; finite fields." in rendered
+    assert "conditional:specified hypothesis" in rendered
+    assert "???" not in rendered
     assert "m4rst" not in rendered
+    assert "Semantic ID" not in rendered
 
-    entry.pop("backends")
-    rendered = module._entry_markdown(
-        entry,
-        {
-            "path": "noether::homalg::FreeModule::exterior_algebra",
-            "declaration": "pub fn exterior_algebra(&self)",
-            "url": "rustdoc/noether/index.html",
-            "direct": True,
-        },
+
+def test_stale_inferred_summary_is_not_published() -> None:
+    rendered = _generator()._entry_markdown(
+        _entry(
+            summary="Compute a vague result for this value.",
+            summary_source="derived projection vocabulary",
+        ),
         [],
+        {},
     )
-    assert "Domain implementation crates" in rendered
+    assert "Compute a vague result" not in rendered
 
 
-def test_guarantee_classification_is_total() -> None:
+def test_multiline_authored_description_is_not_repeated_as_a_summary() -> None:
+    rendered = _generator()._entry_markdown(
+        _entry(
+            summary="Rank over a field context.",
+            doc="Rank over a\nfield context.",
+        ),
+        [],
+        {},
+    )
+    assert " ".join(rendered.split()).count("Rank over a field context.") == 1
+
+
+def test_examples_are_not_attributed_by_an_ambiguous_method_name() -> None:
     module = _generator()
-    entries = module._load_json(module.PYTHON_INDEX)
-    for entry in entries:
-        assert module._guarantee(entry)
+    records = module._workflow_records()
+    assert module._entry_examples(_entry(canonical_name="linalg.Matrix.apply"), records) == []
+    sparse = module._entry_examples(_entry(canonical_name="linalg.SparseMatrix"), records)
+    assert [r["path"].stem for r in sparse] == ["05_sparse_exact_operators"]
+    smith = module._entry_examples(_entry(worked_examples=["04_smith_normal_form"]), records)
+    assert [r["path"].stem for r in smith] == ["04_smith_normal_form"]
 
 
-def test_rustdoc_projection_extracts_the_real_declaration(tmp_path: Path) -> None:
+def test_python_forms_distinguish_constructors_aliases_and_methods() -> None:
     module = _generator()
-    rustdoc = tmp_path / "target" / "doc" / "noether" / "linalg"
-    rustdoc.mkdir(parents=True)
-    (rustdoc / "struct.Matrix.html").write_text(
-        '<pre class="rust item-decl"><code>pub struct Matrix&lt;R&gt;</code></pre>'
-        '<section id="method.rank" class="method">'
-        '<h4 class="code-header">pub fn rank(&amp;self) -&gt; usize</h4></section>'
-        '<section id="method.rank-1" class="method">'
-        '<h4 class="code-header">pub fn rank(&amp;self) -&gt; u64</h4></section>',
-        encoding="utf-8",
+    assert (
+        module._python_form(
+            {
+                "kind": "class",
+                "name": "PolynomialRing",
+                "signatures": ["(self, coefficient_ring: C, variables: Sequence[str]) -> None"],
+            }
+        )
+        == "PolynomialRing(coefficient_ring: C, variables: Sequence[str])"
     )
-    module.REPO_ROOT = tmp_path
-    module.RUSTDOC_ROOT = tmp_path / "target" / "doc" / "noether"
-    projection = module._rust_projection({"domain": "linalg", "qualified_name": "Matrix.rank"})
-    assert projection["direct"] is True
-    assert projection["declaration"] == "pub fn rank(&self) -> usize\npub fn rank(&self) -> u64"
-    assert projection["url"] == "rustdoc/noether/linalg/struct.Matrix.html#method.rank"
-
-
-def test_rustdoc_projection_preserves_authored_implementation_contract(tmp_path: Path) -> None:
-    module = _generator()
-    rustdoc = tmp_path / "target" / "doc" / "noether" / "numthy"
-    rustdoc.mkdir(parents=True)
-    (rustdoc / "struct.FiniteField.html").write_text(
-        '<details class="toggle method-toggle" open><summary>'
-        '<section id="method.extension" class="method">'
-        '<h4 class="code-header">pub fn extension(p: u64) -&gt; Result&lt;Self, Error&gt;'
-        '</h4></section></summary><div class="docblock">'
-        "<p>Construct the Conway presentation.</p><p>Missing tables return an error.</p>"
-        "</div></details>",
-        encoding="utf-8",
-    )
-    module.REPO_ROOT = tmp_path
-    module.RUSTDOC_ROOT = tmp_path / "target" / "doc" / "noether"
-
-    projection = module._rust_projection(
-        {"domain": "numthy", "qualified_name": "FiniteField.extension"}
-    )
-
-    assert "Missing tables return an error." in projection["doc"]
-
-
-def test_python_forms_distinguish_constructors_aliases_and_values() -> None:
-    module = _generator()
-
-    constructor = module._python_form(
-        {
-            "kind": "class",
-            "name": "PolynomialRing",
-            "signatures": ["(self, coefficient_ring: C, variables: Sequence[str]) -> None"],
-        }
-    )
-    assert constructor == "PolynomialRing(coefficient_ring: C, variables: Sequence[str])"
     assert (
         module._python_form(
             {
@@ -137,119 +134,180 @@ def test_python_forms_distinguish_constructors_aliases_and_values() -> None:
         )
         == "type BeatPointKind = Literal['up', 'down']"
     )
-
-
-def test_entry_anchors_distinguish_protocol_and_named_operations() -> None:
-    module = _generator()
-
-    assert module._entry_anchor("linalg.Matrix.matmul") == "linalg-matrix-matmul"
-    assert module._entry_anchor("linalg.Matrix.__matmul__") == ("linalg-matrix-dunder-matmul")
-    entry = {
-        "domain": "linalg",
-        "qualified_name": "Matrix.__matmul__",
-        "canonical_name": "linalg.Matrix.__matmul__",
-        "kind": "method",
-        "name": "__matmul__",
-    }
-    assert module._entry_url(entry).startswith("reference/linalg/matrix.md#")
-
-
-def test_usage_links_stay_inside_the_deployed_site_or_use_github() -> None:
-    module = _generator()
-
+    assert module._python_form(_entry()) == "Matrix.rank() -> int"
     assert (
-        module._usage_url("examples/38_exact_linear_systems.py:14")
-        == "examples/38-exact-linear-systems.md"
+        module._python_form(
+            _entry(
+                kind="property",
+                qualified_name="Matrix.shape",
+                name="shape",
+                signatures=["(self) -> tuple[int, int]"],
+            )
+        )
+        == "Matrix.shape: tuple[int, int]"
     )
-    assert module._usage_url("validation/unit/test_validity.py:9") == (
-        "https://github.com/tertius-ai/noether/blob/main/validation/unit/test_validity.py#L9"
-    )
-    assert module._usage_url("examples/distributed/f2_linear_algebra.py:14") == (
-        "https://github.com/tertius-ai/noether/blob/main/"
-        "examples/distributed/f2_linear_algebra.py#L14"
-    )
 
 
-def test_material_owns_navigation_search_and_code_presentation() -> None:
-    config = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
-
-    assert "name: material" in config
-    assert "navigation.indexes" in config
-    assert "navigation.prune" in config
-    assert "toc.follow" in config
-    assert "content.code.copy" in config
-    assert "- search" in config
-    assert "extra_css:" not in config
-
-
-def test_living_markdown_stays_markdown_and_drops_example_metadata() -> None:
+def test_protocol_and_named_operations_have_distinct_anchors() -> None:
     module = _generator()
-    source_path = ROOT / "docs" / "ARCHITECTURE.md"
-    rendered = module._guide_source(
-        "# Exact contexts\n\nUse `Matrix<R>`.\n\n- explicit ring\n"
-        "  with fixed precision\n- checked map\n\n"
-        "```python example=examples/04_smith_normal_form.py\n"
-        "assert x < y\n```\n",
-        source_path,
+    assert module._entry_anchor("linalg.Matrix.matmul") != module._entry_anchor(
+        "linalg.Matrix.__matmul__"
     )
 
-    assert rendered.startswith("# Exact contexts")
-    assert "- explicit ring\n  with fixed precision" in rendered
-    assert "```python\nassert x < y\n```" in rendered
-    assert "example=" not in rendered
 
-
-def test_living_guide_links_map_to_generated_workflows_or_repository_source() -> None:
+def test_colliding_reference_names_fail_instead_of_overwriting_a_page() -> None:
     module = _generator()
-    source_path = ROOT / "docs" / "ARCHITECTURE.md"
-    rendered = module._guide_source(
-        "[Smith](../examples/04_smith_normal_form.py) and "
-        "[MPI](../crates/m4rst-distributed/README.md).\n",
-        source_path,
-    )
 
+    def entry(owner, method):
+        return _entry(
+            canonical_name=f"linalg.{owner}.{method}",
+            qualified_name=f"{owner}.{method}",
+            name=method,
+        )
+
+    with pytest.raises(RuntimeError, match="duplicate reference destination"):
+        module._validate_reference_paths([entry("Matrix", "foo_bar"), entry("Matrix", "foo__bar")])
+    with pytest.raises(RuntimeError, match="reference page collision"):
+        module._validate_reference_paths([entry("Some_Type", "a"), entry("Some__Type", "b")])
+    module._validate_reference_paths([entry("Matrix", "matmul"), entry("Matrix", "__matmul__")])
+
+
+def test_living_links_keep_local_guides_and_pin_source_links() -> None:
+    module = _generator()
+    source = ROOT / "docs/ARCHITECTURE.md"
+    rendered = module._guide_source(
+        "[Contexts](CONTEXTS_AND_PRECISION.md#fixed-precision)\n"
+        "[Smith](../examples/04_smith_normal_form.py)\n"
+        "[MPI](../crates/m4rst-distributed/README.md#build)\n"
+        "```python example=examples/04_smith_normal_form.py\nassert x < y\n```\n",
+        source,
+        "abc123",
+    )
+    assert "[Contexts](contexts.md#fixed-precision)" in rendered
     assert "[Smith](examples/04-smith-normal-form.md)" in rendered
-    assert "[MPI](https://github.com/tertius-ai/noether/blob/main/" in rendered
-    assert "crates/m4rst-distributed/README.md)" in rendered
+    assert "/blob/abc123/crates/m4rst-distributed/README.md#build" in rendered
+    assert "```python\nassert x < y\n```" in rendered
 
 
-def test_workflow_pages_and_owner_examples_show_complete_source() -> None:
+def test_source_identity_checks_both_tag_commit_and_project_version(
+    tmp_path: Path, monkeypatch
+) -> None:
     module = _generator()
-    record = module._workflow_records()[0]
+    module.REPO_ROOT = tmp_path
 
-    workflow = module._workflow_page(record)
-    owner_example = module._owner_example(record, "../../")
+    def git(*args):
+        return subprocess.check_output(
+            [
+                "git",
+                "-c",
+                "user.name=Documentation test",
+                "-c",
+                "user.email=docs@example.invalid",
+                *args,
+            ],
+            cwd=tmp_path,
+            text=True,
+        ).strip()
 
-    assert record["source"] in workflow
-    assert record["source"] in owner_example
-    assert "???" not in workflow
-    assert "<details" not in workflow
-    assert "Continuously checked" in workflow
-    assert "## Worked example" in owner_example
+    project = tmp_path / "pyproject.toml"
+    project.write_text('[project]\nversion = "1.0.0"\n')
+    git("init", "-q")
+    git("add", "pyproject.toml")
+    git("commit", "-qm", "Release")
+    git("tag", "v1.0.0")
+    monkeypatch.setenv("NOETHER_DOC_TAG", "v1.0.0")
+    identity = module._source_identity()
+    assert identity == {
+        "version": "1.0.0",
+        "commit": git("rev-parse", "HEAD"),
+        "tag": "v1.0.0",
+        "dirty": False,
+    }
+    project.write_text('[project]\nversion = "1.0.1"\n')
+    with pytest.raises(RuntimeError, match="source commit or project version"):
+        module._source_identity()
+    project.write_text('[project]\nversion = "1.0.0"\n')
+    git("commit", "--allow-empty", "-qm", "Development")
+    with pytest.raises(RuntimeError, match="source commit or project version"):
+        module._source_identity()
 
 
-def test_workflow_inventory_is_source_derived_and_complete() -> None:
+@pytest.mark.parametrize(
+    "source",
+    [
+        '"""An example."""\nfrom fractions import Fraction\ndef main():\n    # Keep this explanation.\n    print(Fraction(2, 3))\nif __name__ == "__main__":\n    main()\n',
+        '"""An example."""\nvalue = 3\ndef twice(x):\n    return 2*x\nprint(twice(value))\n',
+    ],
+)
+def test_displayed_calculation_preserves_script_behavior(source: str) -> None:
+    module = _generator()
+    displayed = module._example_code(ast.parse(source), source)
+    outputs = []
+    for code in (source, displayed):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            exec(compile(code, "example", "exec"), {"__name__": "__main__"})
+        outputs.append(out.getvalue())
+    assert outputs[0] == outputs[1]
+    assert "def main" not in displayed
+    assert "__main__" not in displayed
+
+
+def test_missing_example_explanation_fails_the_build(tmp_path: Path) -> None:
+    module = _generator()
+    module.EXAMPLES_ROOT = tmp_path
+    (tmp_path / "01_example.py").write_text('"""A title with no explanation."""\nprint(1)\n')
+    with pytest.raises(RuntimeError, match="document the problem"):
+        module._workflow_records()
+
+
+def test_site_has_complete_reference_pinned_sources_and_developer_navigation(
+    tmp_path: Path,
+) -> None:
+    module = _generator()
+    module._source_identity = lambda: {
+        "version": "0.3.2",
+        "commit": "abc123",
+        "tag": "v0.3.2",
+        "dirty": False,
+    }
+    output = tmp_path / "source"
+    stats = module.build(output)
+    entries = module._load_json(module.PYTHON_INDEX)
+    assert stats["entries"] == len(entries)
+    assert stats["examples"] == len(list((ROOT / "examples").glob("[0-9][0-9]_*.py")))
+    assert stats["missing_descriptions"] == sorted(
+        e["canonical_name"] for e in entries if not e["summary"]
+    )
+    assert not (output / "rustdoc").exists()
+    for entry in entries:
+        page = output / module._entry_url(entry).partition("#")[0]
+        assert "#" + module._entry_anchor(entry["canonical_name"]) in page.read_text()
+    home = (output / "index.md").read_text()
+    assert "**v0.3.2**" in home
+    assert "pseudocode" not in home
+    assert "declarations" not in home
+    assert (output / "architecture.md").read_text().startswith("# Architecture\n")
+    assert (output / "developer/schemas.md").is_file()
+    assert "## Linear systems" in (output / "reference/linalg/index.md").read_text()
+    assert "## Alphabetical index" in (output / "reference/linalg/index.md").read_text()
+    config = json.loads((tmp_path / "noether-mkdocs.yml").read_text())
+    assert {"Architecture": "architecture.md"} in config["nav"][-1]["Developers"]
+    for page in output.rglob("*.md"):
+        text = page.read_text()
+        assert "rustdoc/" not in text
+        assert not re.search(r"blob/main|tree/main", text)
+
+
+def test_worked_examples_include_explanations_without_script_scaffolding() -> None:
     module = _generator()
     records = module._workflow_records()
-
     assert len(records) == 40
-    assert records[0]["path"].name == "01_bezout_certificates.py"
-    assert records[-1]["path"].name == "40_exterior_algebra.py"
-    assert all(record["title"] and record["domains"] for record in records)
-
-
-def test_representative_tasks_resolve_to_api_and_executable_workflows() -> None:
-    module = _generator()
-    entries = {entry["canonical_name"]: entry for entry in module._load_json(module.PYTHON_INDEX)}
-    usages = module._load_json(module.USAGE_INDEX)["symbols"]
-    workflow_stems = {record["path"].stem for record in module._workflow_records()}
-
-    assert len(module.TASK_ROUTES) >= len(module.DOMAIN_KERNELS)
-    for _, canonical_name, workflow_stem in module.TASK_ROUTES:
-        entry = entries[canonical_name]
-        assert entry["summary"]
-        assert module._python_form(entry)
-        assert entry["backends"]
-        assert entry["errors"]
-        assert usages[canonical_name]["usages"]
-        assert workflow_stem in workflow_stems
+    for record in records:
+        rendered = module._workflow_page(record, "abc123")
+        assert record["problem"] in rendered
+        assert record["result"] in rendered
+        assert "# SPDX" not in rendered
+        assert "def main" not in rendered
+        assert "Continuously checked" not in rendered
+        assert "/blob/abc123/" in rendered

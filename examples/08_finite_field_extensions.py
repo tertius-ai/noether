@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Calculate trace and norm in a concrete quadratic finite field."""
+"""Trace and norm in a finite field
+
+Construct the field with 25 elements using Noether's canonical quadratic
+presentation over 𝔽₅. Let a be its distinguished generator.
+
+## Result
+
+The generator satisfies a² + 4a + 2 = 0. Its trace and norm to 𝔽₅ are
+1 and 2, respectively, the negative linear coefficient and constant
+coefficient of this monic quadratic.
+"""
 
 from noether.numthy import FiniteField
 

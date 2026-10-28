@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""See a one-cycle appear and die in a filtered triangle."""
+"""Persistence of a triangular loop
+
+Add the vertices and edges of a triangle at the listed filtration
+values, then fill its 2-simplex at value 3. Compute persistent homology
+over 𝔽₂.
+
+## Result
+
+The one-dimensional class is born at 2, when the last edge completes
+the loop, and dies at 3, when the triangle is filled. At 2.5 the Betti
+numbers are `[1, 1]`: one connected component and one loop.
+"""
 
 from noether.numthy import FiniteField
 from noether.topology import FilteredComplex

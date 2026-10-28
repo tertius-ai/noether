@@ -1,6 +1,15 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Recover the exact face structure of a rational square."""
+"""Faces of a rational convex hull
+
+Take the convex hull of the four corners of a unit square and its
+center. Supply the center as exact rational coordinates.
+
+## Result
+
+The center is not a vertex. The f-vector `[1, 4, 4, 1]` counts the
+empty face, four vertices, four edges, and the square itself.
+"""
 
 from fractions import Fraction
 

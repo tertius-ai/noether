@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Reduce a finite Poset and its order complex with replayable evidence."""
+"""Reducing a poset and its order complex
+
+Construct a four-element chain, remove beat points to obtain its
+core, and compute a discrete Morse reduction of its order complex.
+
+## Result
+
+The poset core has one element and the Morse complex has one critical
+cell. The surviving H₀ has free rank 1, as expected for a contractible
+simplex. The two reductions retain different kinds of evidence.
+"""
 
 from noether import Z
 from noether.combin import Poset

@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Build and verify an isomorphism between two presentations of F_25."""
+"""Changing a finite-field presentation
+
+Construct two presentations of 𝔽₂₅: the canonical one and the quotient
+by x² + 2. Build an explicit isomorphism between them.
+
+## Result
+
+`generator_image` determines where the source generator goes in the
+target field. Applying the map and its inverse recovers the original
+value. Equal field orders do not authorize mixing elements from the two
+presentations without a map.
+"""
 
 from noether.numthy import FiniteField
 

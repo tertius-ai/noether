@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Reduce and specialize an exact rational function."""
+"""Reducing and evaluating rational functions
+
+Construct `(x**2 - 1)/(x - 1)` in the rational-function field ℚ(x),
+reduce it, add one half, and evaluate at x = 2.
+
+## Result
+
+The reduced rational function is x + 1. After adding one half its
+value at 2 is 7/2. Rational-function equality identifies fractions
+after cancellation; it does not record a removable hole in an original
+expression's domain.
+"""
 
 from fractions import Fraction
 

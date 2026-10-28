@@ -1,6 +1,18 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Use a ramified local field, its maximal order, and explicit precision loss."""
+"""A ramified local field and its precision
+
+Adjoin a root π of T² + 3 to the unramified degree-2 extension of
+the 3-adic integers. Inspect its maximal order and coefficient Frobenius
+map at the explicitly chosen local precision.
+
+## Result
+
+The uniformizer lies in the maximal order. Coefficient Frobenius maps
+to its recorded target field. Asking `precision_restriction()` to
+increase the fixed cap from 7 to 8 raises `ValueError`; more digits
+cannot be recovered by a restriction map.
+"""
 
 from noether.commalg import PolynomialRing
 from noether.numthy import FiniteField, PadicLocalField, PadicLocalPrecision, QadicRing

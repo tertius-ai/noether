@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Compute exact additive and Cartan--Serre invariants of Eilenberg--Mac Lane spaces."""
+"""Homology of Eilenberg–Mac Lane spaces
+
+Compute integral homology of K(ℤ², 2) through degree 6. Separately,
+compute a mod-two cohomology presentation of K(ℤ, 3) through degree 16.
+
+## Result
+
+The integral ranks are `[1, 0, 2, 0, 3, 0, 4]`, as for a product of
+two copies of infinite complex projective space. The bounded mod-two
+presentation has generator degrees 3, 5, and 9. Its agreement with the
+full cohomology ring is claimed only through the recorded degree bound.
+"""
 
 from noether.homalg import FinitelyGeneratedAbelianGroup
 from noether.numthy import FiniteField

@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Construct S4 natively and inspect its stabilizer chain consequences."""
+"""Constructing the symmetric group S₄
+
+Generate a permutation group with a transposition and a 4-cycle.
+Compute its order, a point stabilizer, and a seeded random element.
+
+## Result
+
+The group has order 24 and acts transitively on four points. The
+stabilizer of 0 has order 6, in agreement with orbit–stabilizer.
+The explicit seed makes the random sample reproducible.
+"""
 
 from noether.groups import Permutation, PermutationGroup
 

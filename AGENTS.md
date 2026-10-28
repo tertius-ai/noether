@@ -157,7 +157,7 @@ make engine        # wheel-compatible Python extension
 make test          # acceptance smoke tests
 make test-all      # required local pre-PR gate
 make test-stress   # expanded properties and bounded slow/ignored tests
-make docs          # unified local Python/Rust documentation
+make docs          # local guide, worked examples, and Python reference
 make candidate-linux # unpublished manylinux wheel candidate and interpreter checks
 make candidate-macos # unpublished native macOS wheel candidate and interpreter checks
 make validate      # explicitly enabled external-CAS lanes

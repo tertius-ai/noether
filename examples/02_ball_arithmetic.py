@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Certify a familiar identity with real and complex balls."""
+"""Real and complex ball arithmetic
+
+Represent one third at 192-bit working precision and calculate with the
+imaginary unit. A ball records an enclosure of a value, so this example
+uses `overlaps()` to compare enclosures.
+
+## Result
+
+The enclosure for three times one third overlaps the enclosure for 1,
+and that for i² overlaps the enclosure for −1. Overlap alone does not
+prove equality of arbitrary represented values.
+"""
 
 from fractions import Fraction
 

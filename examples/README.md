@@ -14,5 +14,8 @@ Run one from the repository root after `make engine`:
 
 Run the complete collection with `make test-examples`. The ordinary pytest
 suite also executes every file and rejects examples that import a third-party
-package other than Noether. `make docs` publishes the same tested sources as a
-browsable, searchable guide at `target/noether-docs/examples/index.html`.
+package other than Noether. `make docs` builds worked examples at
+`target/noether-docs/examples/index.html`. Each script's module docstring
+introduces the problem and explains the result under `## Result`. The site
+extracts imports and calculations from the script, omits the license header
+and entry point, and links to the complete source.

@@ -1,6 +1,15 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Decompose a polynomial by a nonstandard positive grading."""
+"""Weighted homogeneous components
+
+Give x, y, and z weights 1, 2, and 3, and decompose
+`1 + x**2 + y + z` into weighted homogeneous components.
+
+## Result
+
+The nonzero components have degrees 0, 2, and 3. The degree-2 component
+is x² + y. A grading assigns degrees; it does not truncate polynomials.
+"""
 
 from noether import Z
 from noether.commalg import PolynomialRing, WeightedGrading

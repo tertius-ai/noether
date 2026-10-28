@@ -1,6 +1,15 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Compute the Tutte polynomial of the uniform matroid U(2, 3)."""
+"""The Tutte polynomial of a uniform matroid
+
+Describe the rank-2 uniform matroid on three elements by listing
+its three bases, then compute its Tutte polynomial.
+
+## Result
+
+The polynomial is x² + x + y. The coefficient queries use exponent
+vectors `[x_degree, y_degree]`.
+"""
 
 from noether.combin import Matroid
 

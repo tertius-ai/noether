@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Calculate in a fixed-cap multivariate weighted power-series ring."""
+"""Weighted power-series truncation
+
+Use variables of weights 1, 2, and 3 and retain only monomials of
+weighted degree less than 6. Expand `(1 + x + y)**4` in that context.
+
+## Result
+
+The term x⁶ vanishes because it meets the truncation bound. Terms
+x²z and yz remain because each has weight 5. The coefficient-capacity
+bound limits the number of retained monomials, including those with
+zero coefficients.
+"""
 
 from noether import Z
 from noether.commalg import PowerSeriesRing, SeriesTruncation

@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Enumerate and certify rational points on a finite-field hyperbola."""
+"""Counting points on a finite-field hyperbola
+
+Construct the affine scheme xy = 1 over 𝔽₅. Count its rational points
+and compare the count with explicit enumeration.
+
+## Result
+
+There are four points: choose any nonzero x and set y to its inverse.
+The certificate checks the count against the scheme. `shards=3` partitions
+the counting work; it does not change the field or point set.
+"""
 
 from noether.commalg import AffineSpace
 from noether.numthy import FiniteField

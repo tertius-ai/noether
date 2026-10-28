@@ -1,6 +1,18 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Compute in an exterior algebra and induce a linear map on two-forms."""
+"""Exterior powers and induced maps
+
+Construct the exterior algebra of a rank-3 free module over ℚ[t].
+Calculate products and contraction, then induce the displayed linear
+map on the second exterior power.
+
+## Result
+
+Generators anticommute and their squares vanish. Contracting the
+volume element with the first dual basis vector gives e₁∧e₂.
+The induced map sends e₁∧e₂ to 2(e₀∧e₂ + e₁∧e₂); its action follows
+by applying the original map to each factor.
+"""
 
 from noether import Q
 from noether.commalg import PolynomialRing

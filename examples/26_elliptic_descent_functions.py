@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Reproduce Fisher's order-five elliptic-function normalization."""
+"""Functions attached to a point of order five
+
+Work over ℚ(λ) with the displayed Weierstrass curve and its point
+P = (0, 0). Construct functions using Miller's algorithm and a
+Riemann–Roch space, then compare their normalizations.
+
+## Result
+
+The point has exact order 5. The two constructed functions differ by
+a nonzero constant. The normalization obtained from their indicated
+point evaluations is trivial in ℚ(λ)*/ℚ(λ)*⁵.
+"""
 
 from noether import Q
 from noether.commalg import RationalFunctionField, WeilDivisor

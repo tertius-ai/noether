@@ -1,6 +1,15 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Apply and multiply canonical sparse exact operators."""
+"""Applying a sparse matrix
+
+Construct a 3-by-3 integer matrix from four nonzero triplets, apply it
+to `(5, 7, 11)`, and multiply it by itself.
+
+## Result
+
+The image is `[-1, 21, 20]`. The square has four nonzero entries, reported
+by `nnz`. Triplets use zero-based row and column indices.
+"""
 
 from noether import Z
 from noether.linalg import SparseMatrix, Vector

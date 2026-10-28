@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Normalize the cusp y^2=x^3 with exact conductor evidence."""
+"""Normalizing the cusp
+
+Normalize the affine cusp y² = x³ over ℚ and compute its conductor.
+The source algebra is ℚ[x,y]/(y² − x³).
+
+## Result
+
+The normalization is ℚ[t], with x ↦ t² and y ↦ t³. The conductor in
+the source is the ideal (x, y). `is_normal` describes the original
+algebra, which is not normal.
+"""
 
 from noether import Q
 from noether.commalg import PolynomialRing

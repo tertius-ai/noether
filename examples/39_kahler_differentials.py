@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Differentiate exactly and distinguish a cusp's smooth and singular points."""
+"""Differentials and tangent dimensions of a cusp
+
+For A = ℚ[x,y]/(y² − x³), construct the module of Kähler differentials,
+check the product rule, and compare cotangent spaces at (0,0) and (1,1).
+
+## Result
+
+The differential relation is 2y dy − 3x² dx = 0. At the origin it
+gives no linear relation, so the cotangent dimension is 2; at (1,1)
+it gives one relation, leaving dimension 1. The hypersurface cotangent
+complex has amplitude [−1,0].
+"""
 
 from noether import Q
 from noether.commalg import KahlerDifferentials, PolynomialRing

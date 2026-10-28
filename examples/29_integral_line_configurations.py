@@ -1,6 +1,18 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Certify symmetries, realizations, and completions of integral lines."""
+"""Symmetries and shortest-line realizations
+
+Compute integral symmetries of the two coordinate axes, then seek a
+Gram matrix realizing three prescribed A₂ lines as the shortest lines.
+Also complete the two-axis configuration to a shortest-line shell.
+
+## Result
+
+The axis symmetry group has order 8. Both searches return positive
+results in this example. In general, inspect `status`: reaching an
+iteration bound can be inconclusive, so a missing realization does
+not establish nonexistence.
+"""
 
 from noether.linalg import IntegralLineConfiguration
 

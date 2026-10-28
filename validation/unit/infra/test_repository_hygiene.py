@@ -284,11 +284,13 @@ def test_ordinary_local_gates_do_not_require_optional_system_mpi() -> None:
     for name in ("coverage-rust", "test-rust", "test-doc", "test-stress", "clippy"):
         target = makefile.split(f".PHONY: {name}", 1)[1].split("\n.PHONY:", 1)[0]
         assert "--exclude m4rst-distributed" in target, name
-    docs = makefile.split(".PHONY: docs docs-mpi", 1)[1].split("\n.PHONY:", 1)[0]
+    docs = makefile.split(".PHONY: docs docs-rust docs-mpi", 1)[1].split("\n.PHONY:", 1)[0]
     assert "docs: require-docs api-docs" in docs
-    assert "NOETHER_DOC_FEATURES := --features distributed" in docs
-    assert "docs-mpi: docs" in docs
+    assert "docs-mpi: require-flint" in docs
+    assert "docs-rust: require-flint" in docs
+    assert "--features distributed" in docs.split("docs-mpi:", 1)[1]
     assert "--features distributed" not in docs.split("docs-mpi:", 1)[0]
+    assert "cargo doc" not in docs.split("docs-rust:", 1)[0]
     assert "test-all: lint test-rust test-engine test-doc test-py" in makefile
     assert "test-py: engine" in makefile
     assert "test-mpi: engine-mpi" in makefile
@@ -298,6 +300,7 @@ def test_portable_build_simd_and_optional_profiles_are_documented_truthfully() -
     manifest = (ROOT / "crates/noether/Cargo.toml").read_text(encoding="utf-8")
     package = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     guide = (ROOT / "docs/USING_NOETHER.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs/ARCHITECTURE.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
     assert 'm4rst = { workspace = true, features = ["parallel"] }' in manifest
@@ -307,19 +310,20 @@ def test_portable_build_simd_and_optional_profiles_are_documented_truthfully() -
     assert 'distributed = ["noether/distributed"]' not in package
 
     for kernel in ("`m4rst`", "`m4rste`", "`pwvla`"):
-        assert kernel in guide
+        assert kernel in architecture
     assert kernel in readme
-    assert "A locally built portable wheel is not a scalar-only build" in guide
-    assert "does **not** apply `target-cpu=native`" in guide
-    assert re.search(r"excludes the\s+system-MPI `distributed` feature", guide)
-    assert "validation-only libm4ri/libm4rie linkage" in guide
+    assert "A locally built portable wheel is not a scalar-only build" in architecture
+    assert "does **not** apply `target-cpu=native`" in architecture
+    assert re.search(r"excludes the\s+system-MPI `distributed` feature", architecture)
+    assert "validation-only libm4ri/libm4rie linkage" in architecture
+    assert guide.index("## First calculation") < guide.index("## Rust")
 
 
-def test_architecture_paper_is_one_living_document_not_a_parallel_tree() -> None:
+def test_architecture_is_one_developer_reference_not_a_parallel_tree() -> None:
     paper = (ROOT / "docs" / "ARCHITECTURE.md").read_text(encoding="utf-8")
 
-    assert "## Abstract" in paper
-    assert "## 11. Publication form" in paper
+    assert paper.startswith("# Architecture\n")
+    assert "## Documentation builds" in paper
     assert "example=examples/" in paper
     assert not (ROOT / "paper").exists()
 

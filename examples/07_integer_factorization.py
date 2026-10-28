@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Factor an integer and construct a cyclotomic polynomial."""
+"""Integer factorization and cyclotomic polynomials
+
+Factor `2**20 * 3**7 * 101` into primes, then construct the twelfth
+cyclotomic polynomial.
+
+## Result
+
+The factorization has prime-exponent pairs `(2, 20)`, `(3, 7)`, and
+`(101, 1)`. The polynomial is Φ₁₂(x) = x⁴ − x² + 1;
+`terms()` stores exponents as lists.
+"""
 
 from noether.numthy import cyclotomic_polynomial, factor, is_prime
 

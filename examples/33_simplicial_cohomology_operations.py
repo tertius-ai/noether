@@ -1,6 +1,15 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Compute the mod-two cohomology ring of RP2 and its Steenrod square."""
+"""Cohomology and Steenrod squares of ℝP²
+
+Build a six-vertex triangulation of the real projective plane and
+compute its cohomology ring over 𝔽₂. Apply Sq¹ to the degree-1 class.
+
+## Result
+
+The ring is 𝔽₂[h]/(h³), with h of degree 1. Its basis has degrees
+0, 1, and 2; the product h·h is the degree-2 class, and Sq¹(h) = h².
+"""
 
 from noether.numthy import FiniteField
 from noether.topology import AdmissibleCohomologyOperation, SimplicialComplex

@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Enumerate and verify the six shortest vectors of the A2 lattice."""
+"""Shortest vectors in the A₂ lattice
+
+Describe the A₂ lattice by its Gram matrix `[[2, -1], [-1, 2]]` and
+enumerate all its shortest nonzero vectors.
+
+## Result
+
+There are six signed shortest vectors, each of squared norm 2.
+`verify(lattice)` checks the enumeration against the specified lattice.
+Opposite vectors count separately.
+"""
 
 from noether import Z
 from noether.linalg import Lattice, Matrix

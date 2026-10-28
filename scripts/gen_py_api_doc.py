@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import ast
 import json
-import re
 import sys
 from collections.abc import Iterable
 from pathlib import Path
@@ -58,6 +57,105 @@ def _is_type_alias_node(node: ast.AST) -> bool:
 # representative calculations make every accepted domain discoverable without
 # pretending that routine storage routing is a user-facing plan.
 _DISCOVERY_METADATA: dict[str, dict[str, Any]] = {
+    "linalg.Matrix": {
+        "doc": """A dense matrix with entries in one coefficient context.
+
+Construct a matrix with `Matrix.from_rows(ring, rows)`, `Matrix.zeros(ring,
+shape)`, or `Matrix.identity(ring, size)`. Rows and columns are indexed from
+zero. `A[i, j]` reads one entry; iteration yields rows.
+
+Use `A + B` and `A - B` for addition and subtraction, `A @ B` for matrix
+multiplication, and `A * c` for scalar multiplication. Matrix operations
+require matching coefficient contexts and compatible dimensions.
+
+`solve`, `kernel`, `image`, `rank`, and `rref` require field coefficients.
+Use `solve_exact` for integer equations or congruences, including composite
+moduli. Integer, residue-ring, and fixed-precision p-adic normal forms have
+separate methods with their own coefficient restrictions.
+
+Matrices are immutable. `to_rows()` materializes a Python list of rows;
+accessing one entry does not require exporting the entire matrix.""",
+        "related": ("linalg.Matrix.from_rows", "linalg.Vector", "linalg.SparseMatrix"),
+    },
+    "linalg.Matrix.from_rows": {
+        "doc": """Construct a matrix from an iterable of rows over `ring`.
+
+`ring` supplies the coefficient context and converts each entry. All rows
+must have the same length. An empty outer iterable constructs a 0-by-0
+matrix; use `zeros(ring, (0, n))` to retain a specified column count.
+
+Returns a `Matrix` over the supplied context. Ragged rows raise `ValueError`;
+entries that cannot be converted to that context are rejected.""",
+        "related": ("linalg.Matrix.zeros", "linalg.Matrix.identity"),
+    },
+    "linalg.Matrix.zeros": {
+        "doc": """Construct the zero matrix over `ring` with shape `(rows, columns)`.
+
+Both dimensions must be nonnegative. Zero dimensions are allowed and
+preserved, including `(0, n)` and `(m, 0)`. Returns a `Matrix`.""",
+    },
+    "linalg.Matrix.identity": {
+        "doc": """Construct the `size`-by-`size` identity matrix over `ring`.
+
+`size` must be nonnegative. The size-zero identity has shape `(0, 0)`.
+The diagonal entries are the context's multiplicative identity.""",
+    },
+    "linalg.Matrix.shape": {"summary": "The pair (number of rows, number of columns)."},
+    "linalg.Matrix.ring": {"summary": "The coefficient context used to construct this matrix."},
+    "linalg.Matrix.input_dimension": {
+        "summary": "The number of columns, the dimension of the map's domain."
+    },
+    "linalg.Matrix.output_dimension": {
+        "summary": "The number of rows, the dimension of the map's codomain."
+    },
+    "linalg.Matrix.__len__": {"summary": "The number of rows."},
+    "linalg.Matrix.__iter__": {
+        "summary": "Materialize the matrix as Python row lists and iterate over them."
+    },
+    "linalg.Matrix.__getitem__": {
+        "summary": "Read the coefficient at zero-based index (row, column); out-of-range indices raise IndexError."
+    },
+    "linalg.Matrix.__add__": {
+        "summary": "Add matrices with equal shapes and coefficient contexts, entry by entry."
+    },
+    "linalg.Matrix.__sub__": {
+        "summary": "Subtract matrices with equal shapes and coefficient contexts, entry by entry."
+    },
+    "linalg.Matrix.__neg__": {"summary": "Negate each matrix entry."},
+    "linalg.Matrix.__mul__": {
+        "summary": "Multiply every matrix entry by a scalar in the coefficient context."
+    },
+    "linalg.Matrix.__rmul__": {"summary": "Multiply every matrix entry by a scalar on the left."},
+    "linalg.Matrix.__matmul__": {
+        "summary": "Multiply matrices with matching coefficient contexts and matching inner dimensions."
+    },
+    "linalg.Matrix.matmul": {
+        "summary": "Multiply matrices with matching coefficient contexts and matching inner dimensions.",
+        "related": ("linalg.Matrix.apply",),
+    },
+    "linalg.Matrix.apply": {
+        "summary": "Apply the matrix to a vector in the same coefficient context; its length must equal the column count."
+    },
+    "linalg.Matrix.apply_block": {
+        "summary": "Apply the matrix to all columns of a matrix with matching context and inner dimension."
+    },
+    "linalg.Matrix.to_rows": {"summary": "Materialize all entries as a Python list of row lists."},
+    "linalg.Matrix.transpose": {"summary": "Return the transpose, interchanging rows and columns."},
+    "linalg.Matrix.solve": {
+        "worked_examples": ("03_exact_linear_systems",),
+        "doc": """Solve `self @ x = rhs` over a field and return a `SolutionSpace`.
+
+`rhs` must have the same coefficient context as the matrix and length
+equal to its row count. The returned affine space records a particular
+solution and a basis of homogeneous directions. Every solution is a particular
+solution plus a linear combination of those directions.
+
+Use `solve_exact()` for integer or residue-ring coefficients. Context
+mismatches raise `ContextMismatchError`; incompatible dimensions raise
+`ValueError`. An inconsistent field system raises `ValueError`; it does
+not return a `SolutionSpace`.""",
+        "related": ("linalg.Matrix.solve_exact", "linalg.Matrix.kernel", "linalg.SolutionSpace"),
+    },
     "NoetherError": {"summary": "Base exception for failures reported by Noether."},
     "UnsupportedOperationError": {
         "summary": "The requested operation is unavailable for a mathematical context."
@@ -128,6 +226,7 @@ else:
         "evidence": ("PointCountCertificate.verify",),
     },
     "geometry.convex_hull": {
+        "worked_examples": ("25_exact_geometry",),
         "algorithms": ("exact_rational_convex_hull",),
         "backends": ("convex-hull", "flint"),
         "evidence": ("Polytope.verify",),
@@ -137,6 +236,7 @@ result = convex_hull([[0, 0], [1, 0], [0, 1]])
 result.verify()""",
     },
     "groups.PermutationGroup.from_generators": {
+        "worked_examples": ("19_permutation_groups",),
         "algorithms": ("stabilizer_chain",),
         "backends": ("perm-core",),
         "errors": ("degree mismatch", "non-permutation generator"),
@@ -147,6 +247,7 @@ result = PermutationGroup.from_generators(3, [transposition, cycle])
 assert result.order == 6""",
     },
     "category.SteinerCategory.oriental": {
+        "worked_examples": ("28_steiner_categories",),
         "algorithms": ("Street oriental construction",),
         "backends": ("noether",),
         "evidence": ("SteinerCategory.verify",),
@@ -163,6 +264,20 @@ result = complex_.graded_homology()
 result.verify()""",
     },
     "linalg.Matrix.smith_normal_form": {
+        "worked_examples": ("04_smith_normal_form",),
+        "doc": """Compute the Smith normal form invariant factors of an integer matrix.
+
+Returns `SmithNormalForm`. Its nonzero invariant factors `d_1, ..., d_r`
+are positive and satisfy `d_i | d_(i+1)`. For an m-by-n matrix, the cokernel
+is the direct sum of the cyclic groups Z/d_i and a free group of rank m-r.
+The result retains the input so `verify()` can recheck its claim.
+Transformation matrices are available from `smith_normal_form_with_transforms()`.
+
+The default `algorithm="auto"` and `algorithm="exact"` use the unconditional
+exact algorithm. `algorithm="smooth"` requires an inclusive `smooth_bound`
+and records its smoothness assumption unless the deterministic bound is
+fully covered. Inspect the returned validity before using a conditional result.
+An invalid smoothness bound raises `ValueError`.""",
         "supported_rings": ("Z",),
         "algorithms": ("exact", "smooth_local"),
         "backends": ("flint", "native"),
@@ -176,6 +291,7 @@ assert result.invariant_factors == [2, 6]
 result.verify()""",
     },
     "linalg.Matrix.solve_exact": {
+        "worked_examples": ("38_exact_linear_systems",),
         "supported_rings": ("Z", "Z/nZ, including composite n"),
         "algorithms": ("Smith normal form", "integer lift and Howell form"),
         "backends": ("flint", "pwvla"),
@@ -191,6 +307,7 @@ result.verify()""",
         "evidence": ("LatticeEnumeration.verify",),
     },
     "numthy.factor": {
+        "worked_examples": ("07_integer_factorization",),
         "summary": "Return the complete proved factorization of a nonzero integer.",
         "algorithms": ("proved_integer_factorization",),
         "backends": ("flint",),
@@ -216,6 +333,7 @@ assert result.verify(-360)""",
         "summary": "Coefficient Frobenius on a fixed-precision unramified field."
     },
     "numthy.FiniteField.extension": {
+        "worked_examples": ("08_finite_field_extensions", "09_finite_field_isomorphisms"),
         "summary": "Construct the canonical Conway-style extension field of order p^degree.",
         "supported_rings": ("word-sized prime-power finite fields",),
         "algorithms": ("deterministic Conway presentation",),
@@ -227,6 +345,7 @@ assert result.verify(-360)""",
         ),
     },
     "commalg.Ideal.groebner_basis": {
+        "worked_examples": ("15_groebner_twisted_cubic",),
         "supported_rings": ("polynomial rings over exact admitted coefficient contexts",),
         "algorithms": ("canonical reduced Groebner basis",),
         "backends": ("groebner-kernel",),
@@ -243,6 +362,7 @@ assert result.verify(-360)""",
         "errors": ("cochain grading", "incompatible differential contexts"),
     },
     "commalg.QuotientRing.kahler_differentials": {
+        "worked_examples": ("39_kahler_differentials",),
         "supported_rings": ("affine algebras over Q", "affine algebras over finite fields"),
         "algorithms": ("exact conormal presentation", "module Groebner normal form"),
         "backends": ("noether", "groebner-kernel", "module-core"),
@@ -250,6 +370,7 @@ assert result.verify(-360)""",
         "errors": ("unsupported coefficient context", "invalid quotient presentation"),
     },
     "homalg.FreeModule.exterior_algebra": {
+        "worked_examples": ("40_exterior_algebra",),
         "supported_rings": ("supported exact commutative coefficient contexts",),
         "algorithms": ("canonical sparse exterior basis",),
         "backends": ("noether", "module-core"),
@@ -269,6 +390,7 @@ assert result.get(1).free_rank == 1
 result.verify()""",
     },
     "topology.FilteredComplex.persistent_homology": {
+        "worked_examples": ("24_homology_and_persistence",),
         "supported_rings": ("Q", "finite fields"),
         "algorithms": ("specialized prime-field reduction", "generic exact reduction"),
         "backends": ("m4rst", "m4rste", "noether generic"),
@@ -635,91 +757,6 @@ def _summary(doc: str) -> str:
     return paragraph if end < 0 else paragraph[: end + 1]
 
 
-_OPERATOR_SUMMARIES = {
-    "__add__": "Add another compatible value to this value.",
-    "__call__": "Coerce the supplied input through this context or mathematical map.",
-    "__contains__": "Test whether the supplied value belongs to this object.",
-    "__eq__": "Test mathematical equality with another value.",
-    "__getitem__": "Return the entry selected by the supplied index.",
-    "__iter__": "Iterate over the canonical finite contents of this object.",
-    "__len__": "Return the number of stored items in this object.",
-    "__matmul__": "Multiply this value by another compatible value.",
-    "__mul__": "Multiply this value by another compatible value.",
-    "__neg__": "Return the additive inverse of this value.",
-    "__next__": "Return the next value in this canonical iterator.",
-    "__pow__": "Raise this value to the supplied power.",
-    "__radd__": "Add this value to a compatible value on its left.",
-    "__repr__": "Return the bounded canonical representation of this value.",
-    "__rmul__": "Multiply this value by a compatible value on its left.",
-    "__rsub__": "Subtract this value from a compatible value on its left.",
-    "__rtruediv__": "Divide a compatible value on the left by this value.",
-    "__sub__": "Subtract another compatible value from this value.",
-    "__truediv__": "Divide this value by another compatible value.",
-}
-
-
-def _words(identifier: str) -> str:
-    """Turn a Python identifier into a short phrase for derived documentation."""
-
-    identifier = identifier.strip("_")
-    identifier = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", identifier)
-    return identifier.replace("_", " ").lower()
-
-
-def _derived_summary(canonical_name: str, kind: str) -> str:
-    """Supply honest routine documentation when a wrapper has no docstring.
-
-    Mathematical and claim-bearing operations should carry authored Rust or
-    Python documentation.  This fallback covers the regular projection
-    vocabulary—operators, accessors, constructors, conversion, and evidence
-    replay—so every accepted declaration remains useful to discovery clients.
-    """
-
-    parts = canonical_name.split(".")
-    leaf = parts[-1]
-    owner = parts[-2] if len(parts) >= 2 else leaf
-    owner_code = f"`{owner}`"
-    phrase = _words(leaf)
-
-    if kind == "type_alias":
-        return f"Accepted type alias for {_words(leaf)} values."
-    if kind == "value":
-        return f"Public {_words(leaf)} value."
-    if kind == "class":
-        return f"Public {phrase} value."
-    if leaf in _OPERATOR_SUMMARIES:
-        return _OPERATOR_SUMMARIES[leaf]
-    if leaf == "verify":
-        return f"Replay and verify the mathematical evidence carried by this {owner_code}."
-    if leaf == "to_json":
-        return f"Serialize this {owner_code} to its canonical typed JSON representation."
-    if leaf == "from_json":
-        return f"Deserialize and revalidate a {owner_code} from typed JSON."
-    if leaf.startswith(("is_", "has_")):
-        return f"Test whether this {owner_code} {phrase}."
-    if leaf.startswith("supports"):
-        return f"Test whether this installation supports {phrase.removeprefix('supports ')}."
-    if leaf.startswith("from_") or kind in {"classmethod", "staticmethod"}:
-        construction = phrase.removeprefix("from ")
-        return f"Construct a {owner_code} using {construction}."
-    if leaf.startswith("to_"):
-        target = phrase.removeprefix("to ")
-        return f"Convert this {owner_code} to {target}."
-    if leaf.startswith("as_"):
-        target = phrase.removeprefix("as ")
-        return f"View this {owner_code} as {target}."
-    if leaf.startswith("with_"):
-        change = phrase.removeprefix("with ")
-        return f"Return this {owner_code} with {change}."
-    if leaf == "apply":
-        return f"Apply this {owner_code} to the supplied value."
-    if leaf == "compose":
-        return f"Compose this {owner_code} with another compatible map."
-    if kind == "property":
-        return f"Return the {phrase} recorded by this {owner_code}."
-    return f"Compute {phrase} for this {owner_code}."
-
-
 def _engine_docs() -> tuple[dict[str, str], dict[str, str], set[str]]:
     if str(SRC_ROOT) not in sys.path:
         sys.path.insert(0, str(SRC_ROOT))
@@ -882,14 +919,15 @@ def _base_entry(
     if type_id is not None:
         entry["type_id"] = type_id
     entry.update(_DISCOVERY_METADATA.get(canonical_name, {}))
+    metadata = _DISCOVERY_METADATA.get(canonical_name, {})
+    if "doc" in metadata and "summary" not in metadata:
+        entry["summary"] = _summary(entry["doc"])
     if not entry["summary"]:
-        entry["summary"] = _derived_summary(canonical_name, kind)
-        entry["summary_source"] = "derived projection vocabulary"
+        entry["summary_source"] = "missing"
     else:
         entry["summary_source"] = (
             "editorial metadata"
-            if canonical_name in _DISCOVERY_METADATA
-            and "summary" in _DISCOVERY_METADATA[canonical_name]
+            if "summary" in metadata or "doc" in metadata
             else "public docstring"
         )
     return entry
@@ -1080,6 +1118,13 @@ def main() -> int:
         print(f"ERROR: {error}", file=sys.stderr)
         return 1
     OUTPUT.write_text(render_json(entries), encoding="utf-8")
+    missing = [entry["canonical_name"] for entry in entries if not entry["summary"]]
+    if missing:
+        print(
+            f"Missing authored descriptions: {len(missing)}; "
+            "inspect entries with summary_source='missing' in the generated index.",
+            file=sys.stderr,
+        )
     domains = {entry["domain"] for entry in entries}
     operations = sum(entry["kind"] not in {"class", "type_alias", "value"} for entry in entries)
     print(

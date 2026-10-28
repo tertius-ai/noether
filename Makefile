@@ -48,8 +48,9 @@ help:
 	@echo "  make engine-native build the engine with target-cpu=native"
 	@echo "  make engine-mpi    build the baseline engine with system MPI"
 	@echo "  make engine-mpi-native build the MPI engine with target-cpu=native"
-	@echo "  make docs          build unified Python and non-MPI Rust docs"
-	@echo "  make docs-mpi      build unified docs including the system-MPI API"
+	@echo "  make docs          build the user guide, examples, and Python reference"
+	@echo "  make docs-rust     build the public Rust facade reference locally"
+	@echo "  make docs-mpi      build the local Rust reference with system MPI"
 	@echo "  make wheel         build and audit one tertius-noether wheel"
 	@echo "  make candidate-linux build and fully verify the manylinux wheel"
 	@echo "  make candidate-macos build and fully verify one native macOS wheel"
@@ -153,17 +154,17 @@ api-docs: require-flint
 	@$(TEST_PRELOAD) $(PY) scripts/gen_usage_index.py --summary
 	@echo "Python API reference: $(CURDIR)/API_REFERENCE.md"
 
-.PHONY: docs docs-mpi
+.PHONY: docs docs-rust docs-mpi
 docs: require-docs api-docs
-	@rm -rf $(CURDIR)/target/doc
-	@cargo doc --no-deps -p noether $(NOETHER_DOC_FEATURES)
-	@cargo doc --no-deps --workspace --exclude noether --exclude noether-python --exclude m4rst-distributed
 	@$(PY) scripts/gen_docs_site.py --output $(CURDIR)/target/noether-docs-src
-	@$(VENV)/bin/mkdocs build --strict --config-file $(CURDIR)/mkdocs.yml
-	@echo "Unified API reference: $(CURDIR)/target/noether-docs/index.html"
+	@$(VENV)/bin/mkdocs build --strict --config-file $(CURDIR)/target/noether-mkdocs.yml
+	@echo "Documentation: $(CURDIR)/target/noether-docs/index.html"
 
-docs-mpi: NOETHER_DOC_FEATURES := --features distributed
-docs-mpi: docs
+docs-rust: require-flint
+	@cargo doc --no-deps -p noether
+
+docs-mpi: require-flint
+	@cargo doc --no-deps -p noether --features distributed
 
 .PHONY: wheel
 # API generation needs a current extension, but building it with the release

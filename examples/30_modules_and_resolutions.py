@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Reduce a module element and certify a minimal free resolution."""
+"""Module reduction and a free resolution
+
+Reduce an explicitly generated module element by a module Gröbner
+basis. Then compute the minimal graded free resolution of the
+twisted-cubic coordinate ring.
+
+## Result
+
+The reduction certifies membership. The resolution has one generator
+in degree 0, three relations in degree 2, and two syzygies in degree 3:
+0 → S(−3)² → S(−2)³ → S → S/I → 0.
+"""
 
 from noether import Q
 from noether.commalg import Degree, MonomialOrder, PolynomialRing

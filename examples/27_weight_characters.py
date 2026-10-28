@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Weight characters and second Chern classes for polynomial GL representations."""
+"""Characters and second Chern classes
+
+Enumerate semistandard tableaux of shape (2, 1), then compute
+dimensions and second Chern indices of polynomial GL representations.
+
+## Result
+
+There are eight tableaux of that shape with entries in three letters.
+The exterior square in dimension 4 has dimension 6 and second Chern
+index 2. The shape-(2,1) representation in dimension 6 has dimension
+70 and second Chern index 33.
+"""
 
 from noether.combin import Partition, Tableau
 from noether.groups import PolynomialGlRepresentation

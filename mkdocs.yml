@@ -1,5 +1,5 @@
 site_name: Noether
-site_description: Deterministic scientific mathematics backed by Rust
+site_description: Exact arithmetic, algebra, geometry, and topology in Python and Rust
 site_url: https://tertius-ai.github.io/noether/
 repo_url: https://github.com/tertius-ai/noether
 repo_name: tertius-ai/noether
@@ -19,7 +19,6 @@ theme:
     - search.suggest
     - search.highlight
     - content.code.copy
-    - content.tabs.link
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default

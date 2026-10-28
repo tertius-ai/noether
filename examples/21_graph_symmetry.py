@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Canonically label a cycle and compute its automorphism group."""
+"""Automorphisms of a cycle graph
+
+Construct the undirected 5-cycle, compute a canonical labeling, and
+inspect its automorphism group and graph Laplacian.
+
+## Result
+
+The automorphism group has order 10: five rotations and five reflections.
+The first Laplacian row has diagonal entry 2 and entries −1 at the
+two neighbors of vertex 0.
+"""
 
 from noether.combin import Graph
 

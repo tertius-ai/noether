@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Benjamin Antieau and Deven Manam
-"""Lift a simple square root from F_5 to fixed-precision Z_5."""
+"""Hensel lifting a square root
+
+Lift the root 1 of x² − 6 modulo 5 to a root modulo 5⁶. The derivative
+at that residue is 2, which is invertible modulo 5.
+
+## Result
+
+The returned representative squares to 6 modulo 15625. This is a
+fixed-precision 5-adic calculation; the result carries the precision
+chosen in `PadicRing`.
+"""
 
 from noether.commalg import PolynomialRing
 from noether.numthy import PadicRing

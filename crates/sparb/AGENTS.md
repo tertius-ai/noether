@@ -24,4 +24,9 @@ cargo test -p sparb --release --features parallel
 cargo clippy -p sparb --all-targets --features parallel -- -D warnings
 scripts/bench-pin.sh cargo bench -p sparb --bench spmv --features parallel
 scripts/bench-pin.sh cargo run --release -p sparb --example bench_compare
+crates/sparb/scripts/bench.sh
 ```
+
+The runner retains source, native-library, and CPU/cache provenance under
+`bench-runs/sparb`. The README distinguishes its current real/complex-ball
+comparison from the restored historical f64/MPFR/Arb measurements.

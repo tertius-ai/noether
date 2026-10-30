@@ -70,6 +70,12 @@ Record CPU/cache placement, absolute median time, input, precision, and thread
 count. Dispatcher thresholds change only with pinned paired measurements and
 differential cases on both sides of the boundary.
 
+Keep useful comparison tables and reproducible commands in the owning crate's
+README. Preserve historical numbers with their measurement context and label
+missing provenance explicitly; fresh dispatch claims still require pinned
+paired measurements. Comparison runners are development tools with a current
+validation role, even when they do not enter production dependencies.
+
 SIMD is runtime-dispatched over an always-present scalar fallback. Each vector
 path has bit-identical differential tests and a benchmark. Unsafe code is
 confined to the modules listed in the crate's `AGENTS.md`; each block documents

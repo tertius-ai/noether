@@ -6,7 +6,7 @@
 //!
 //! Run from the repository root for one point at a time:
 //! ```text
-//! scripts/bench-pin.sh env N_VALS=16384 NUM_THREADS=8 \
+//! TERTIUS_BENCH_CPUS=group scripts/bench-pin.sh env N_VALS=16384 NUM_THREADS=8 \
 //!   OMP_NUM_THREADS=8 RAYON_NUM_THREADS=8 \
 //!   cargo run --release --features validate-libm4ri,parallel \
 //!     -p m4rst --example bench_threads
@@ -80,13 +80,33 @@ fn main() {
     let sizes = parse_sizes();
     for n in sizes {
         let (warmup, runs) = runs_for(n);
+        eprintln!("# N={n} warmup={warmup} runs={runs} seeds=0xA,0xB");
         let a = Mzd::random(n, n, 0xA);
         let b = Mzd::random(n, n, 0xB);
+
+        // Check complete outputs outside the timed region, including padding
+        // at non-word-aligned sizes. Release the oracle buffer before timing.
+        let skip_serial = std::env::var("SKIP_SERIAL").is_ok();
+        let expected = m4ri::matmul_words(&a, &b);
+        if !skip_serial {
+            assert_eq!(
+                matmul_m4rm_ntables(&a, &b).as_words(),
+                expected,
+                "serial eight-table product differs from libm4ri at N={n}"
+            );
+        }
+        #[cfg(feature = "parallel")]
+        assert_eq!(
+            matmul_m4rm_ntables_parallel(&a, &b).as_words(),
+            expected,
+            "parallel eight-table product differs from libm4ri at N={n}"
+        );
+        drop(expected);
 
         // m4rst serial — same kernel regardless of thread count;
         // skip when `SKIP_SERIAL` is set so the shell driver can
         // measure it once at threads=1 and reuse the number.
-        let t_serial = if std::env::var("SKIP_SERIAL").is_ok() {
+        let t_serial = if skip_serial {
             f64::NAN
         } else {
             measure(
@@ -122,7 +142,7 @@ fn main() {
         );
 
         println!(
-            "{},{},{:.3},{:.3},{:.3}",
+            "{},{},{:.6},{:.6},{:.6}",
             n, threads, t_serial, t_par, t_lib
         );
     }

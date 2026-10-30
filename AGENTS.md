@@ -137,8 +137,12 @@ codenames, planning, or strategy. The permanent design set is:
 - `docs/CONTEXTS_AND_PRECISION.md`;
 - `docs/USING_NOETHER.md`.
 
-Planning and measurement records belong in issues and pull requests;
-nontechnical organizational strategy belongs outside this repository. Routine
+Planning and per-run measurement records belong in issues and pull requests.
+Crate READMEs retain useful benchmark comparison tables and reproduction
+commands. Label historical results with their original setup and limitations;
+do not replace them with an unsupported current-performance claim or remove
+their runnable comparison tools during documentation cleanup.
+Nontechnical organizational strategy belongs outside this repository. Routine
 feature detail belongs in rustdoc, Python docstrings, an existing design
 document, or the owning component's `AGENTS.md`.
 

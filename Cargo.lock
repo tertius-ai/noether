@@ -721,6 +721,7 @@ name = "mzs"
 version = "0.3.2"
 dependencies = [
  "criterion",
+ "m4rst",
  "proptest",
  "rand 0.10.2",
  "rayon",

@@ -46,6 +46,12 @@ LIVING_DOCS = {
     "docs/USING_NOETHER.md",
 }
 SOURCE_SUFFIXES = {".py", ".rs", ".sh"}
+CRATE_BENCHMARK_SCRIPTS = {
+    "crates/m4rst/scripts/bench_fair_dispatch.sh",
+    "crates/m4rst/scripts/bench_threads.sh",
+    "crates/m4rst/scripts/summarize_threads.py",
+    "crates/sparb/scripts/bench.sh",
+}
 
 
 def _tracked(*patterns: str) -> list[str]:
@@ -93,7 +99,16 @@ def test_workspace_has_no_nested_policy_or_build_residue() -> None:
     assert not {
         path for path in tracked if path.startswith("crates/") and path.endswith(".gitignore")
     }
-    assert not {path for path in tracked if "/scripts/" in path and path.startswith("crates/")}
+    # Retained benchmark tools belong with their kernel and have explicit
+    # callers. Keep rejecting unrelated nested scripts and build residue.
+    nested_scripts = {
+        path for path in tracked if "/scripts/" in path and path.startswith("crates/")
+    }
+    assert nested_scripts == CRATE_BENCHMARK_SCRIPTS
+    for relative in nested_scripts:
+        owner = Path(relative).parts[1]
+        readme = (ROOT / "crates" / owner / "README.md").read_text(encoding="utf-8")
+        assert relative in readme, f"{relative} has no documented caller in its owning README"
 
     crate_directories = {
         path.parent for path in (ROOT / "crates").glob("*/Cargo.toml") if path.is_file()

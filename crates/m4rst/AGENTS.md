@@ -24,7 +24,12 @@ cargo test -p m4rst --release --features parallel
 cargo test -p m4rst --release --features validate-libm4ri
 cargo clippy -p m4rst --all-targets --features parallel -- -D warnings
 scripts/bench-pin.sh cargo bench -p m4rst --bench matmul --features parallel
+crates/m4rst/scripts/bench_fair_dispatch.sh
+crates/m4rst/scripts/bench_threads.sh
+.venv/bin/python crates/m4rst/scripts/summarize_threads.py
 ```
 
 libm4ri is a validation oracle only and must never enter a conveyed dependency
-closure.
+closure. The sweep scripts use `scripts/bench-pin.sh`, retain provenance under
+`bench-runs/m4rst`, and accept `M4RI_PREFIX` for a custom installation. The
+README records sampling, thread/size controls, and historical results.

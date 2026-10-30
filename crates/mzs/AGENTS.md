@@ -23,4 +23,12 @@ named module with runtime detection and scalar differential tests.
 cargo test -p mzs --release
 cargo clippy -p mzs --all-targets -- -D warnings
 scripts/bench-pin.sh cargo bench -p mzs --bench matmul
+TERTIUS_BENCH_CPUS=group scripts/bench-pin.sh \
+  cargo run --release -p mzs --features parallel --example bench_vs_m4rst
+cargo test -p mzs --features parallel --example bench_vs_m4rst
 ```
+
+The comparison example uses m4rst only as a development dependency. Its
+streaming checks compare complete packed rows without quadratic byte buffers.
+Use `N_VALS`, `DENSITIES`, `WARMUP`, and `RUNS` for a bounded sweep; the README
+documents the historical grid and measured limits.

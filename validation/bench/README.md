@@ -77,6 +77,32 @@ scripts/bench-pin.sh cargo run -p sparb --release \
   --example bench_compare
 ```
 
+The [m4rst README](../../crates/m4rst/README.md#reproducing-the-comparisons)
+also documents the automated dispatcher and raw-kernel thread sweeps:
+
+```bash
+crates/m4rst/scripts/bench_fair_dispatch.sh
+crates/m4rst/scripts/bench_threads.sh
+.venv/bin/python crates/m4rst/scripts/summarize_threads.py \
+  bench-runs/m4rst/threads.csv
+```
+
+Both runners retain CPU/cache provenance and use the repository affinity
+wrapper. Their default sweeps include large matrices; use the README's size
+and thread controls for a bounded check.
+
+Historical kernel comparison tables are retained with their provenance and
+limitations in the crate READMEs for [m4rste](../../crates/m4rste/README.md),
+[mzs](../../crates/mzs/README.md), [sparla](../../crates/sparla/README.md), and
+[sparb](../../crates/sparb/README.md). The sparse/dense binary harness and ball
+comparison runner are available from the repository root:
+
+```bash
+TERTIUS_BENCH_CPUS=group scripts/bench-pin.sh \
+  cargo run --locked --release -p mzs --features parallel --example bench_vs_m4rst
+crates/sparb/scripts/bench.sh
+```
+
 ## Macaulay2
 
 All Macaulay2 drivers use one explicit runtime contract. `NOETHER_M2_BIN`

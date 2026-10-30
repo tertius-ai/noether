@@ -55,6 +55,10 @@ name = "generic_matmul"
 harness = false
 
 [[bench]]
+name = "hyperelliptic"
+harness = false
+
+[[bench]]
 name = "sparse_f2_matmul"
 harness = false
 

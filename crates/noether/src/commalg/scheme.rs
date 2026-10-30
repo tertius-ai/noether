@@ -22,8 +22,8 @@ use super::{
     PolynomialFactorizationError, PolynomialRing, RationalUnivariateRepresentation,
 };
 
-const MAX_FIELD_ELEMENTS: usize = 4_096;
-const MAX_ENUMERATION_CANDIDATES: usize = 10_000_000;
+const MAX_CACHED_FIELD_ELEMENTS: usize = 4_096;
+pub(super) const MAX_ENUMERATION_CANDIDATES: usize = 10_000_000;
 static AFFINE_SPACE_DESCRIPTION: TypeDescription = TypeDescription {
     semantic_id: "noether/commalg/AffineSpace@1",
     rust_path: "noether::commalg::AffineSpace",
@@ -1064,6 +1064,10 @@ impl Scheme<FiniteField> {
     }
 
     /// Stream all rational points in canonical order.
+    ///
+    /// At most ten million ambient candidates are admitted. Fields of order
+    /// at most 4096 use a shared coordinate table; larger fields decode each
+    /// coordinate on demand and do not materialize the field.
     pub fn rational_points(&self) -> Result<RationalPointEnumeration, SchemeError> {
         self.rational_points_shard(0, 1)
     }
@@ -1366,7 +1370,9 @@ fn closed_point_coordinate_key(coordinates: &[FiniteFieldElement]) -> Vec<u8> {
 }
 
 struct EnumerationData {
-    elements: Vec<FiniteFieldElement>,
+    field: FiniteField,
+    field_order: usize,
+    elements: Option<Vec<FiniteFieldElement>>,
     coordinate_count: usize,
     projective: bool,
     candidate_count: usize,
@@ -1374,24 +1380,26 @@ struct EnumerationData {
 
 impl EnumerationData {
     fn new(scheme: &Scheme<FiniteField>) -> Result<Self, SchemeError> {
-        let elements = scheme
-            .base()
-            .elements()
-            .take(MAX_FIELD_ELEMENTS + 1)
-            .collect::<Vec<_>>();
-        if elements.len() > MAX_FIELD_ELEMENTS {
-            return Err(SchemeError::ResourceLimit {
-                resource: "field-element count",
-                limit: MAX_FIELD_ELEMENTS,
-            });
-        }
+        let field = scheme.base().clone();
+        let field_order = field
+            .order()
+            .to_u64_checked()
+            .and_then(|order| usize::try_from(order).ok())
+            .ok_or(SchemeError::ResourceLimit {
+                resource: "finite-field coordinate radix",
+                limit: usize::MAX,
+            })?;
         let coordinate_count = scheme.coordinate_ring().variables().len();
         let candidate_count = if scheme.is_projective() {
-            projective_candidate_count(elements.len(), coordinate_count)?
+            projective_candidate_count(field_order, coordinate_count)?
         } else {
-            checked_power(elements.len(), coordinate_count)?
+            checked_power(field_order, coordinate_count)?
         };
+        let elements =
+            (field_order <= MAX_CACHED_FIELD_ELEMENTS).then(|| field.elements().collect());
         Ok(Self {
+            field,
+            field_order,
             elements,
             coordinate_count,
             projective: scheme.is_projective(),
@@ -1403,20 +1411,39 @@ impl EnumerationData {
         if self.projective {
             self.projective_coordinates(index)
         } else {
-            cartesian_coordinates(&self.elements, self.coordinate_count, index)
+            self.cartesian_coordinates(self.coordinate_count, index)
         }
     }
 
+    fn element(&self, index: usize) -> FiniteFieldElement {
+        match &self.elements {
+            Some(elements) => elements[index].clone(),
+            None => self
+                .field
+                .element_at_index(index as u64)
+                .expect("coordinate index is below the checked field cardinality"),
+        }
+    }
+
+    fn cartesian_coordinates(&self, count: usize, mut index: usize) -> Vec<FiniteFieldElement> {
+        let mut coordinates = vec![self.field.zero(); count];
+        for coordinate in coordinates.iter_mut().rev() {
+            *coordinate = self.element(index % self.field_order);
+            index /= self.field_order;
+        }
+        coordinates
+    }
+
     fn projective_coordinates(&self, mut index: usize) -> Vec<FiniteFieldElement> {
-        let zero = self.elements[0].field().zero();
-        let one = self.elements[0].field().one();
+        let zero = self.field.zero();
+        let one = self.field.one();
         for pivot in 0..self.coordinate_count {
             let suffix = self.coordinate_count - pivot - 1;
-            let block = self.elements.len().pow(suffix as u32);
+            let block = self.field_order.pow(suffix as u32);
             if index < block {
                 let mut coordinates = vec![zero; pivot];
                 coordinates.push(one);
-                coordinates.extend(cartesian_coordinates(&self.elements, suffix, index));
+                coordinates.extend(self.cartesian_coordinates(suffix, index));
                 return coordinates;
             }
             index -= block;
@@ -1462,17 +1489,41 @@ fn projective_candidate_count(base: usize, coordinates: usize) -> Result<usize, 
     Ok(total)
 }
 
-fn cartesian_coordinates(
-    elements: &[FiniteFieldElement],
-    count: usize,
-    mut index: usize,
-) -> Vec<FiniteFieldElement> {
-    let mut coordinates = vec![elements[0].clone(); count];
-    for coordinate in coordinates.iter_mut().rev() {
-        *coordinate = elements[index % elements.len()].clone();
-        index /= elements.len();
+#[cfg(test)]
+mod indexed_coordinate_tests {
+    use super::*;
+
+    #[test]
+    fn lazy_and_cached_coordinates_have_identical_order_in_every_pivot_block() {
+        for field in [
+            FiniteField::prime(3).unwrap(),
+            FiniteField::extension(3, 2).unwrap(),
+            FiniteField::with_modulus(3, vec![1, 0, 1]).unwrap(),
+        ] {
+            for dimension in 0..=2 {
+                let affine = AffineSpace::new(field.clone(), dimension).unwrap();
+                let projective = ProjectiveSpace::new(field.clone(), dimension).unwrap();
+                let schemes = [
+                    affine
+                        .closed_subscheme(affine.coordinate_ring().ideal([]).unwrap())
+                        .unwrap(),
+                    projective
+                        .closed_subscheme(projective.coordinate_ring().ideal([]).unwrap())
+                        .unwrap(),
+                ];
+                for scheme in schemes {
+                    let mut data = EnumerationData::new(&scheme).unwrap();
+                    let cached = (0..data.candidate_count)
+                        .map(|index| data.coordinates(index))
+                        .collect::<Vec<_>>();
+                    data.elements = None;
+                    for (index, expected) in cached.into_iter().enumerate() {
+                        assert_eq!(data.coordinates(index), expected);
+                    }
+                }
+            }
+        }
     }
-    coordinates
 }
 
 /// Deterministic lazy enumeration of rational points on one finite-field scheme.

@@ -802,7 +802,7 @@ pub struct PyCyclicHypersurfaceCover {
 }
 
 impl PyCyclicHypersurfaceCover {
-    fn from_finite(inner: CyclicHypersurfaceCover<FiniteField>) -> Self {
+    pub(crate) fn from_finite(inner: CyclicHypersurfaceCover<FiniteField>) -> Self {
         Self {
             inner: CyclicCoverInner::Finite(inner),
         }
@@ -1007,6 +1007,14 @@ enum CyclicSmoothnessInner {
 #[derive(Clone)]
 pub struct PyCyclicCoverSmoothnessEvidence {
     inner: CyclicSmoothnessInner,
+}
+
+impl PyCyclicCoverSmoothnessEvidence {
+    pub(crate) fn from_finite(inner: CyclicCoverSmoothnessEvidence<FiniteField>) -> Self {
+        Self {
+            inner: CyclicSmoothnessInner::Finite(inner),
+        }
+    }
 }
 
 #[pymethods]
@@ -1373,20 +1381,34 @@ impl PySmoothProjectiveSurfaceCohomology {
     }
 }
 
-/// Exact characteristic polynomial of Frobenius on surface `H^2`.
+/// Exact characteristic polynomial of Frobenius on curve H1 or surface H2.
 #[pyclass(
     module = "noether.commalg",
     name = "FrobeniusPolynomial",
     frozen,
     from_py_object
 )]
-#[derive(Clone)]
+#[derive(Clone, serde::Serialize, serde::Deserialize)]
+#[serde(transparent)]
 pub struct PyFrobeniusPolynomial {
-    inner: FrobeniusPolynomial,
+    pub(crate) inner: FrobeniusPolynomial,
 }
 
 #[pymethods]
 impl PyFrobeniusPolynomial {
+    #[classmethod]
+    fn from_hyperelliptic_counts(
+        _cls: &Bound<'_, PyType>,
+        py: Python<'_>,
+        counts: &PyPointCountSequence,
+    ) -> PyResult<Self> {
+        Ok(Self {
+            inner: py
+                .detach(|| FrobeniusPolynomial::from_hyperelliptic_counts(&counts.inner))
+                .map_err(value_error)?,
+        })
+    }
+
     #[classattr]
     fn type_id() -> &'static str {
         FrobeniusPolynomial::TYPE_ID
@@ -1413,17 +1435,30 @@ impl PyFrobeniusPolynomial {
     }
 
     #[getter]
-    fn cohomology(&self) -> PySmoothProjectiveSurfaceCohomology {
-        PySmoothProjectiveSurfaceCohomology {
-            inner: self.inner.cohomology().clone(),
-        }
+    fn cohomology(&self) -> Option<PySmoothProjectiveSurfaceCohomology> {
+        self.inner
+            .cohomology()
+            .map(|inner| PySmoothProjectiveSurfaceCohomology {
+                inner: inner.clone(),
+            })
     }
 
     #[getter]
-    fn point_counts(&self) -> PyPointCountSequence {
-        PyPointCountSequence {
-            inner: self.inner.point_counts().clone(),
-        }
+    fn point_counts(&self) -> Option<PyPointCountSequence> {
+        self.inner.point_counts().map(|inner| PyPointCountSequence {
+            inner: inner.clone(),
+        })
+    }
+
+    #[getter]
+    fn hyperelliptic_evidence(
+        &self,
+    ) -> Option<super::hyperelliptic::PyHyperellipticFrobeniusEvidence> {
+        self.inner.hyperelliptic_evidence().map(|inner| {
+            super::hyperelliptic::PyHyperellipticFrobeniusEvidence {
+                inner: inner.clone(),
+            }
+        })
     }
 
     #[getter]
@@ -1432,36 +1467,51 @@ impl PyFrobeniusPolynomial {
     }
 
     fn trace(&self, py: Python<'_>, power: u64) -> PyResult<Py<PyAny>> {
-        integer_to_python(py, &self.inner.trace(power).map_err(value_error)?)
+        let trace = py.detach(|| self.inner.trace(power)).map_err(value_error)?;
+        integer_to_python(py, &trace)
     }
 
-    fn verify(&self) -> PyResult<()> {
-        self.inner.verify().map_err(value_error)
+    #[pyo3(signature=(extension_degree=1))]
+    fn point_count(&self, py: Python<'_>, extension_degree: u64) -> PyResult<Py<PyAny>> {
+        let count = py
+            .detach(|| self.inner.point_count(extension_degree))
+            .map_err(value_error)?;
+        integer_to_python(py, &count)
     }
 
-    fn zeta_function(&self) -> PyResult<PyZetaFunction> {
+    fn verify(&self, py: Python<'_>) -> PyResult<()> {
+        py.detach(|| self.inner.verify()).map_err(value_error)
+    }
+
+    fn zeta_function(&self, py: Python<'_>) -> PyResult<PyZetaFunction> {
         Ok(PyZetaFunction {
-            inner: self.inner.zeta_function().map_err(value_error)?,
-        })
-    }
-
-    fn geometric_divisor_rank_upper_bound(&self) -> PyResult<PyGeometricDivisorRankUpperBound> {
-        Ok(PyGeometricDivisorRankUpperBound {
-            inner: self
-                .inner
-                .geometric_divisor_rank_upper_bound()
+            inner: py
+                .detach(|| self.inner.zeta_function())
                 .map_err(value_error)?,
         })
     }
 
-    fn to_json(&self) -> PyResult<String> {
-        self.inner.to_json().map_err(value_error)
+    fn geometric_divisor_rank_upper_bound(
+        &self,
+        py: Python<'_>,
+    ) -> PyResult<PyGeometricDivisorRankUpperBound> {
+        Ok(PyGeometricDivisorRankUpperBound {
+            inner: py
+                .detach(|| self.inner.geometric_divisor_rank_upper_bound())
+                .map_err(value_error)?,
+        })
+    }
+
+    fn to_json(&self, py: Python<'_>) -> PyResult<String> {
+        py.detach(|| self.inner.to_json()).map_err(value_error)
     }
 
     #[classmethod]
-    fn from_json(_cls: &Bound<'_, PyType>, value: &str) -> PyResult<Self> {
+    fn from_json(_cls: &Bound<'_, PyType>, py: Python<'_>, value: &str) -> PyResult<Self> {
         Ok(Self {
-            inner: FrobeniusPolynomial::from_json(value).map_err(value_error)?,
+            inner: py
+                .detach(|| FrobeniusPolynomial::from_json(value))
+                .map_err(value_error)?,
         })
     }
 
@@ -1470,20 +1520,26 @@ impl PyFrobeniusPolynomial {
     }
 
     fn __repr__(&self) -> String {
-        crate::py::repr::bounded_text(self.inner.to_string())
+        crate::py::repr::bounded_text(format!(
+            "FrobeniusPolynomial(degree={}, weight={}, field_bits={})",
+            self.inner.degree(),
+            self.inner.cohomological_weight(),
+            self.inner.field_order().bit_length()
+        ))
     }
 }
 
-/// Exact rational zeta function of a supported smooth projective surface.
+/// Exact rational zeta function of a supported smooth projective curve or surface.
 #[pyclass(
     module = "noether.commalg",
     name = "ZetaFunction",
     frozen,
     from_py_object
 )]
-#[derive(Clone)]
+#[derive(Clone, serde::Serialize, serde::Deserialize)]
+#[serde(transparent)]
 pub struct PyZetaFunction {
-    inner: ZetaFunction,
+    pub(crate) inner: ZetaFunction,
 }
 
 #[pymethods]
@@ -1510,18 +1566,20 @@ impl PyZetaFunction {
         }
     }
 
-    fn verify(&self) -> PyResult<()> {
-        self.inner.verify().map_err(value_error)
+    fn verify(&self, py: Python<'_>) -> PyResult<()> {
+        py.detach(|| self.inner.verify()).map_err(value_error)
     }
 
-    fn to_json(&self) -> PyResult<String> {
-        self.inner.to_json().map_err(value_error)
+    fn to_json(&self, py: Python<'_>) -> PyResult<String> {
+        py.detach(|| self.inner.to_json()).map_err(value_error)
     }
 
     #[classmethod]
-    fn from_json(_cls: &Bound<'_, PyType>, value: &str) -> PyResult<Self> {
+    fn from_json(_cls: &Bound<'_, PyType>, py: Python<'_>, value: &str) -> PyResult<Self> {
         Ok(Self {
-            inner: ZetaFunction::from_json(value).map_err(value_error)?,
+            inner: py
+                .detach(|| ZetaFunction::from_json(value))
+                .map_err(value_error)?,
         })
     }
 
@@ -1530,7 +1588,12 @@ impl PyZetaFunction {
     }
 
     fn __repr__(&self) -> String {
-        crate::py::repr::bounded_text(self.inner.to_string())
+        crate::py::repr::bounded_text(format!(
+            "ZetaFunction(cohomological_degree={}, frobenius_degree={}, field_bits={})",
+            self.inner.frobenius_polynomial().cohomological_degree(),
+            self.inner.frobenius_polynomial().degree(),
+            self.inner.frobenius_polynomial().field_order().bit_length()
+        ))
     }
 }
 

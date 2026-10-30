@@ -20,10 +20,15 @@ use pyo3::{PyClass, PyClassInitializer, PyTypeInfo};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
+use crate::py::hyperelliptic::{PyHyperellipticCurve, PyHyperellipticFrobeniusEvidence};
+use crate::py::surface::{PyFrobeniusPolynomial, PyZetaFunction};
 use noether::category::SteinerCategory;
 use noether::combin::{
     Composition, Graph, KashiwaraCrystal, Matroid, Partition, Poset, SymmetricFunction, Tableau,
     Tree,
+};
+use noether::commalg::{
+    FrobeniusPolynomial, HyperellipticCurve, HyperellipticFrobeniusEvidence, ZetaFunction,
 };
 use noether::commalg::{PolynomialHomomorphism, PolynomialRing, RationalFunctionFieldMap};
 use noether::groups::{
@@ -102,9 +107,9 @@ fn py_name<T: PyTypeInfo>(py: Python<'_>) -> PyResult<String> {
 
 fn hydrate_adapter<T>(py: Python<'_>, type_id: &str, json: &str) -> PyResult<Py<PyAny>>
 where
-    T: PyClass + DeserializeOwned + Into<PyClassInitializer<T>>,
+    T: PyClass + DeserializeOwned + Send + Into<PyClassInitializer<T>>,
 {
-    let value: T = serde_json::from_str(json).map_err(|error| {
+    let value: T = py.detach(|| serde_json::from_str(json)).map_err(|error| {
         PyValueError::new_err(format!(
             "hydrate({type_id}): invalid canonical JSON: {error}"
         ))
@@ -114,13 +119,18 @@ where
 
 fn dump_adapter<T>(obj: &Bound<'_, PyAny>) -> Option<PyResult<String>>
 where
-    T: PyClass + Serialize,
+    T: PyClass + Serialize + Sync,
 {
     let cell = obj.cast::<T>().ok()?;
     let guard = cell.borrow();
-    Some(serde_json::to_string(&*guard).map_err(|error| {
-        PyValueError::new_err(format!("canonical JSON serialization failed: {error}"))
-    }))
+    let value: &T = &guard;
+    Some(
+        obj.py()
+            .detach(|| serde_json::to_string(value))
+            .map_err(|error| {
+                PyValueError::new_err(format!("canonical JSON serialization failed: {error}"))
+            }),
+    )
 }
 
 fn matches<T: PyClass>(obj: &Bound<'_, PyAny>) -> bool {
@@ -145,6 +155,13 @@ macro_rules! adapter {
 }
 
 static TYPE_ADAPTERS: &[TypeAdapter] = &[
+    adapter!(PyHyperellipticCurve, HyperellipticCurve),
+    adapter!(
+        PyHyperellipticFrobeniusEvidence,
+        HyperellipticFrobeniusEvidence
+    ),
+    adapter!(PyFrobeniusPolynomial, FrobeniusPolynomial),
+    adapter!(PyZetaFunction, ZetaFunction),
     adapter!(PyIntegerRationalEmbedding, IntegerRationalEmbedding),
     adapter!(PyIntegerReduction, IntegerReduction),
     adapter!(PyIntegerFiniteFieldMap, IntegerFiniteFieldMap),

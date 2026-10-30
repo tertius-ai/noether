@@ -353,6 +353,8 @@ fn _engine(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_class::<py::surface::PyPointCountSequence>()?;
     module.add_class::<py::surface::PySmoothProjectiveSurfaceCohomology>()?;
     module.add_class::<py::surface::PyFrobeniusPolynomial>()?;
+    module.add_class::<py::hyperelliptic::PyHyperellipticCurve>()?;
+    module.add_class::<py::hyperelliptic::PyHyperellipticFrobeniusEvidence>()?;
     module.add_class::<py::surface::PyZetaFunction>()?;
     module.add_class::<py::surface::PyTateCyclotomicFactor>()?;
     module.add_class::<py::surface::PyGeometricDivisorRankUpperBound>()?;

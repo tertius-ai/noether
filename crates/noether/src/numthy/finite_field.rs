@@ -816,6 +816,31 @@ impl FiniteField {
         }
     }
 
+    /// Random access to the canonical `elements()` order without retaining
+    /// all preceding elements. Used by bounded geometric point enumeration.
+    pub(crate) fn element_at_index(&self, index: u64) -> Option<FiniteFieldElement> {
+        match &self.backend {
+            FiniteFieldBackend::Prime(residues) => {
+                let value = Integer::from(index);
+                (&value < residues.modulus()).then(|| self.wrap_prime(residues.element(value)))
+            }
+            FiniteFieldBackend::Extension(context) => {
+                let mut remaining = index;
+                let mut coefficients = vec![0; context.degree()];
+                for coefficient in &mut coefficients {
+                    *coefficient = remaining % context.characteristic_word;
+                    remaining /= context.characteristic_word;
+                }
+                (remaining == 0).then(|| {
+                    self.wrap_extension(ExtensionElement::from_coefficients(
+                        Arc::clone(context),
+                        &coefficients,
+                    ))
+                })
+            }
+        }
+    }
+
     /// The distinguished power-basis generator. It is `1` for a prime field.
     pub fn generator(&self) -> FiniteFieldElement {
         match &self.backend {
@@ -1567,5 +1592,38 @@ fn internal_context_mismatch(
     ContextMismatchError {
         expected: field.to_string(),
         actual: value.field.to_string(),
+    }
+}
+
+#[cfg(test)]
+mod enumeration_index_tests {
+    use super::*;
+
+    #[test]
+    fn indexed_elements_match_canonical_iteration_and_reject_out_of_range_indices() {
+        for field in [
+            FiniteField::prime(7).unwrap(),
+            FiniteField::extension(2, 3).unwrap(),
+            FiniteField::extension(3, 3).unwrap(),
+            FiniteField::with_modulus(3, vec![1, 0, 1]).unwrap(),
+        ] {
+            for (index, value) in field.elements().enumerate() {
+                assert_eq!(field.element_at_index(index as u64), Some(value));
+            }
+            assert!(field
+                .element_at_index(field.order().to_u64_checked().unwrap())
+                .is_none());
+            assert!(field.element_at_index(u64::MAX).is_none());
+        }
+        let huge = FiniteField::prime(
+            "170141183460469231731687303715884105727"
+                .parse::<Integer>()
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(
+            huge.element_at_index(u64::MAX),
+            Some(huge.element(u64::MAX))
+        );
     }
 }

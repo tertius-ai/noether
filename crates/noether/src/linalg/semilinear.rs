@@ -126,6 +126,35 @@ struct FrobeniusSemilinearMapWire<R: CoefficientFrobeniusContext> {
     frobenius_exponent: u64,
 }
 
+impl<R: CoefficientFrobeniusContext> Serialize for FrobeniusSemilinearMap<R>
+where
+    Matrix<R>: Serialize,
+{
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        FrobeniusSemilinearMapWire {
+            type_id: Self::TYPE_ID.to_owned(),
+            matrix: self.matrix.clone(),
+            frobenius_exponent: self.frobenius_exponent,
+        }
+        .serialize(serializer)
+    }
+}
+
+impl<'de, R: CoefficientFrobeniusContext> Deserialize<'de> for FrobeniusSemilinearMap<R>
+where
+    Matrix<R>: Deserialize<'de>,
+{
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        let wire = FrobeniusSemilinearMapWire::<R>::deserialize(deserializer)?;
+        if wire.type_id != Self::TYPE_ID {
+            return Err(serde::de::Error::custom("wrong semilinear map type"));
+        }
+        let value = Self::new(wire.matrix, wire.frobenius_exponent);
+        value.verify().map_err(serde::de::Error::custom)?;
+        Ok(value)
+    }
+}
+
 impl<R: CoefficientFrobeniusContext> FrobeniusSemilinearMap<R> {
     /// Construct the map `v -> A sigma^r(v)` represented by `matrix` and `r`.
     pub fn new(matrix: Matrix<R>, frobenius_exponent: u64) -> Self {

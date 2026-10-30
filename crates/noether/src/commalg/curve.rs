@@ -3880,21 +3880,8 @@ fn extended_gcd_coefficient<R: Field>(
     modulus: &Polynomial<RationalFunctionField<R>>,
     value: &Polynomial<RationalFunctionField<R>>,
 ) -> ExtendedGcdCoefficientResult<R> {
-    let ring = modulus.ring();
-    let mut old_remainder = modulus.clone();
-    let mut remainder = value.clone();
-    let mut old_coefficient = ring.zero();
-    let mut coefficient = ring.one();
-    while !remainder.is_zero() {
-        let (quotient, next_remainder) = old_remainder.div_rem(&remainder)?;
-        let product = (&quotient * &coefficient)?;
-        let next_coefficient = (&old_coefficient - &product)?;
-        old_remainder = remainder;
-        remainder = next_remainder;
-        old_coefficient = coefficient;
-        coefficient = next_coefficient;
-    }
-    Ok((old_remainder, old_coefficient))
+    let (gcd, _, coefficient) = modulus.extended_gcd(value)?;
+    Ok((gcd, coefficient))
 }
 
 fn coordinate_presentations() -> Vec<(usize, usize, usize)> {

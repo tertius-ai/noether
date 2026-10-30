@@ -34,6 +34,8 @@ EquidimensionalHull = _engine.EquidimensionalHull
 EquidimensionalRadicalComponent = _engine.EquidimensionalRadicalComponent
 EquidimensionalRadicalDecomposition = _engine.EquidimensionalRadicalDecomposition
 FrobeniusPolynomial = _engine.FrobeniusPolynomial
+HyperellipticCurve = _engine.HyperellipticCurve
+HyperellipticFrobeniusEvidence = _engine.HyperellipticFrobeniusEvidence
 FiniteQuotientAlgebra = _engine.FiniteQuotientAlgebra
 FreeAbelianGrading = _engine.FreeAbelianGrading
 GeometricDivisorRank = _engine.GeometricDivisorRank
@@ -165,6 +167,8 @@ __all__ = [
     "EquidimensionalRadicalDecomposition",
     "ExtensionPointCount",
     "FrobeniusPolynomial",
+    "HyperellipticCurve",
+    "HyperellipticFrobeniusEvidence",
     "FiniteQuotientAlgebra",
     "FreeAbelianGrading",
     "GeometricDivisorRank",

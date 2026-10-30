@@ -22,8 +22,8 @@ use super::{
     SchemeError, WeightedProjectiveError,
 };
 
-const MAX_EXTENSION_FIELD_ORDER: u64 = 4_096;
-const MAX_PROJECTIVE_CANDIDATES: u64 = 10_000_000;
+const MAX_PROJECTIVE_CANDIDATES: u64 = super::scheme::MAX_ENUMERATION_CANDIDATES as u64;
+const MAX_EXTENSION_FIELD_ORDER: u64 = MAX_PROJECTIVE_CANDIDATES;
 const MAX_INDEPENDENT_FIBER_TESTS: u64 = 1_000_000;
 const FNV_OFFSET: u64 = 0xcbf29ce484222325;
 const FNV_PRIME: u64 = 0x00000100000001b3;
@@ -531,6 +531,8 @@ impl CyclicHypersurfaceCover<FiniteField> {
     /// The operation chooses the admitted mathematical route; callers do not
     /// name a backend. Exhaustive cyclic fibers are the current correctness
     /// floor and retain an independent direct-root scan when affordable.
+    /// Large fields are streamed; the projective-base enumeration is bounded
+    /// by ten million candidates, without a field-sized coordinate table.
     pub fn point_counts<I>(&self, degrees: I) -> Result<PointCountSequence, PointCountError>
     where
         I: IntoIterator<Item = u64>,
@@ -983,6 +985,32 @@ mod tests {
         forged["counts"][0]["count"] = serde_json::json!("3");
         assert!(PointCountSequence::from_json(&forged.to_string()).is_err());
         assert!(serde_json::from_str::<PointCountSequence>(&forged.to_string()).is_err());
+    }
+
+    #[test]
+    fn streamed_cyclic_fibers_cross_the_old_field_limit_and_replay_exactly() {
+        for (field, expected) in [
+            (FiniteField::prime(4099).unwrap(), 4100),
+            (FiniteField::extension(3, 8).unwrap(), 6400),
+        ] {
+            // y^2=x^3-x has trace zero at p=4099=-1 mod 4. Over F_(3^8),
+            // its two p-Frobenius roots satisfy alpha^2=-3, giving trace 162.
+            let ring = PolynomialRing::new(field, ["x"], MonomialOrder::default()).unwrap();
+            let x = ring.generator(0).unwrap();
+            let curve =
+                super::super::HyperellipticCurve::new((&x.pow(3).unwrap() - &x).unwrap()).unwrap();
+            let counts = curve.cover().point_counts([1]).unwrap();
+            assert_eq!(counts.count(1), Some(&Integer::from(expected)));
+            assert_eq!(
+                counts.counts()[0].evidence().method(),
+                PointCountMethod::ExhaustiveCyclicFibers
+            );
+            counts.verify().unwrap();
+            assert_eq!(
+                PointCountSequence::from_json(&counts.to_json().unwrap()).unwrap(),
+                counts
+            );
+        }
     }
 
     #[test]

@@ -81,6 +81,15 @@ SEMANTIC_TYPE_RE = re.compile(
     r".*?const\s+TYPE_ID\s*:\s*&'static\s+str\s*=\s*\"([^\"]+)\"",
     re.DOTALL,
 )
+# Facade-owned boilerplate macros retain concrete type/identity literals at
+# their invocation sites. Read those declarations just like explicit impls;
+# the transport still supplies neither the semantic ID nor its version.
+SEMANTIC_MACRO_RE = re.compile(
+    r"\b(?:semantic|impl_typed_serialization)!\s*\(\s*"
+    r"([A-Za-z_][A-Za-z0-9_]*)\s*,[^;]*?"
+    r'"(noether/[^"\n]+@[0-9]+)"',
+    re.DOTALL,
+)
 TYPE_ALIAS_RE = re.compile(
     r"^(?:pub(?:\([^)]*\))?\s+)?type\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*"
     r"([A-Za-z_][A-Za-z0-9_]*)\s*(?:<|;)",
@@ -109,8 +118,10 @@ def rust_owned_type_ids() -> dict[str, str]:
 
     semantic_ids: dict[str, str] = {}
     for path in sorted(FACADE_SRC.rglob("*.rs")):
-        for match in SEMANTIC_TYPE_RE.finditer(path.read_text(encoding="utf-8")):
-            semantic_ids[match.group(1)] = match.group(2)
+        source = path.read_text(encoding="utf-8")
+        for pattern in (SEMANTIC_TYPE_RE, SEMANTIC_MACRO_RE):
+            for match in pattern.finditer(source):
+                semantic_ids[match.group(1)] = match.group(2)
 
     registry = ENGINE_SRC / "py" / "types_registry.rs"
     registry_source = registry.read_text(encoding="utf-8")

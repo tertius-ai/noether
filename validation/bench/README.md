@@ -208,6 +208,88 @@ scripts/bench-pin.sh .venv/bin/python \
   validation/bench/sage_exterior_algebra.py --sage /path/to/sage
 ```
 
+## Hyperelliptic Frobenius
+
+The Rust hyperelliptic harness separates input-to-model construction from
+integral Frobenius reduction. Cases include odd and even degree, small
+characteristic, genus eight, and a genuine unramified extension base.
+
+```bash
+scripts/bench-pin.sh cargo bench -p noether --bench hyperelliptic
+```
+
+The paired driver defaults to the same complete H1 Frobenius polynomial on
+both routes. Direct enumeration computes `N1,...,Ng` and uses the Rust Newton
+reconstruction; Kedlaya computes the polynomial p-adically. Coefficients must
+agree exactly. Fixture construction is excluded; public evidence and result
+allocation are included. The default base fields have orders 3 and 9. Each
+method has one warmup and five timed samples; method order alternates, and
+individual-call timeouts and unsupported cases remain structured results.
+JSONL retains each input, the largest required direct extension `q^g`, count
+certificates' route metadata, precision budgets, raw samples, binary fingerprint
+and CPU provenance, with a companion CSV.
+
+```bash
+cargo build --release -p noether --example bench_hyperelliptic_counts
+scripts/bench-pin.sh .venv/bin/python validation/bench/hyperelliptic_counts.py \
+  --output target/bench/hyperelliptic-counts.jsonl
+```
+
+`--gp /path/to/gp` additionally checks every returned count and Frobenius polynomial using
+PARI/GP after both timed routes, retaining the exact defining-field
+presentation and oracle script. It does not enter the production dependency graph.
+
+`--cases prime:residue-degree:genus ...` selects individual curve cases rather
+than a field/genus product. The following corpus bounds `q^g` by 531441 while
+covering genera one through six. Both methods return the whole polynomial.
+
+```bash
+scripts/bench-pin.sh .venv/bin/python validation/bench/hyperelliptic_counts.py \
+  --goal frobenius --cases 3:12:1 3:6:2 3:4:3 3:3:4 13:1:5 3:2:6 \
+  --timeout 60 --repeats 3 --output target/bench/hyperelliptic-full-frobenius.jsonl
+```
+
+`--goal point_count` explicitly selects the single-base-field-count workflow:
+that goal compares direct `N1` with deriving `N1` from Kedlaya's full polynomial.
+It measures that public workflow rather than equivalent algorithm outputs.
+Large-field enumeration streams coordinates within the ten-million-candidate
+bound. `--methods direct` can calibrate a chosen workload independently.
+
+`--methods kedlaya --baseline-binary /path/to/preserved/executable` pairs the
+current implementation with an earlier release build on each identical curve.
+Implementation order alternates, and every returned coefficient is checked
+across both versions. JSONL and CSV identify each implementation and executable
+fingerprint; `--baseline-source-sha256` records the preserved source snapshot.
+
+`--corpus validation/bench/hyperelliptic_models.json` selects sixty seeded
+equations through genus twenty, with dense, sparse and split branches, square
+and nonsquare leading coefficients, general equations `y^2+h*y=f`, and an
+alternate finite-field presentation. Fixture mathematics lives in the Rust
+worker. Every seed and exact equation is retained. Each row selects either
+both full-polynomial methods or Kedlaya alone; `--methods` filters those choices.
+The corpus selector cannot be combined with `--baseline-binary` or `--cases`.
+
+```bash
+scripts/bench-pin.sh .venv/bin/python validation/bench/hyperelliptic_counts.py \
+  --corpus validation/bench/hyperelliptic_models.json --gp /path/to/gp \
+  --warmups 1 --repeats 3 --timeout 60 \
+  --output target/bench/hyperelliptic-expanded.jsonl
+```
+
+The independent oracle completes the square from the original `f,h`. A
+required oracle failure exits unsuccessfully; a model with no returned
+Noether polynomial is not counted as verified. The fixture records the
+constructor's squarefree-branch verification separately from the stronger
+weighted cone-Jacobian proof. A resource-limited weighted proof is retained as
+unavailable. Timed failures, timeouts and completed measurements remain distinct.
+
+The independent validation-only PARI/GP scorecard is the ignored
+`pari_arbitrary_genus_and_even_degree_parity` integration test (through genus twenty):
+
+```bash
+cargo test -p noether --release --test hyperelliptic -- --include-ignored
+```
+
 ## Scale-only workloads
 
 `surface_frobenius.py` runs the complete characteristic-31 surface calculation

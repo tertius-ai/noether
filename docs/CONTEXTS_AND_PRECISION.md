@@ -28,6 +28,15 @@ The fixed cap bounds storage and lets callers make memory guarantees. Loss of
 relative p-adic precision is reported by the value; it does not silently
 increase the cap. Refinement creates a value in an explicitly refined context.
 
+Hyperelliptic Frobenius allocates one fixed Witt-ring context before
+reduction. A proved logarithmic bound on the omitted binomial tail fixes the
+truncation. The working cap additionally reserves the sum of all p-adic
+valuations of the vertical-reduction divisors. A common denominator is retained
+through the reduction; exact uniformizer division then explicitly lowers the
+cap to the requested surviving precision. No arithmetic loop refines a
+context or invents missing digits. The evidence records and replays these
+choices, including small-characteristic reductions.
+
 ## Series truncation and grading
 
 Univariate absolute precision `N` retains exponents below `N`. Multivariate

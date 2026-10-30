@@ -95,6 +95,73 @@ assert group.torsion_coefficients == [6]
 The package ships annotations and `py.typed`; type checkers see contexts and
 result types even though runtime classes cross PyO3.
 
+### Hyperelliptic curves over finite fields
+
+The checked model represents the smooth projective curve, including infinity.
+The branch after square completion must be squarefree of degree `2g+1` or
+`2g+2`. Characteristic two is unsupported. There is no fixed genus limit;
+allocation and precision limits produce typed failures.
+
+```python
+from noether.commalg import HyperellipticCurve, PolynomialRing
+from noether.numthy import FiniteField
+
+ring = PolynomialRing(FiniteField.prime(3), ["x"])
+(x,) = ring.generators()
+curve = HyperellipticCurve(x**9 + x)
+assert curve.genus == 4
+assert curve.infinity_residue_degrees == [1]
+
+frobenius = curve.frobenius_polynomial()
+assert frobenius.degree == 8
+assert frobenius.cohomological_weight == 1
+counts = [frobenius.point_count(n) for n in range(1, 5)]
+evidence = frobenius.hyperelliptic_evidence
+assert evidence is not None
+evidence.verify()
+zeta = frobenius.zeta_function()
+```
+
+`HyperellipticCurve.from_equation(f, h)` accepts `y²+h(x)y=f(x)` and records
+the polynomial shift `Y=y+h/2`. Its `cover` uses that completed-square
+coordinate in a weighted projective realization. Nonmonic equations retain
+their quadratic-twist sign; even-degree models retain either two rational
+points at infinity or one closed point of degree two.
+
+The evidence's `normalized_branch` identifies the monic model supplying its
+matrices; `quadratic_twist_sign` restores the original curve's compact
+Frobenius polynomial. The matrices are not presented as Frobenius in the
+original nonmonic coordinates.
+
+The integral `dx/y³` module supports small odd primes. In even degree it has
+one additional eigenvalue 1, which is removed before compact H1 and its zeta
+numerator are reconstructed. Frobenius is composed semilinearly over the
+actual finite-field presentation. `point_count(n)` uses the certified
+Frobenius recurrence and does not construct or enumerate the extension field.
+The zeta denominator is `(1-T)(1-qT)`.
+
+For direct counting, `curve.cover.point_counts([1])` enumerates the projective
+base and counts its finite fibers, including infinity. The shared scheme
+enumerator decodes large-field coordinates lazily, with a ten-million ambient
+candidate bound. Certificates and resumable point streams retain their
+canonical order across the cached and lazy coordinate representations.
+
+`FrobeniusPolynomial.from_hyperelliptic_counts(counts)` reconstructs the full
+H1 polynomial from exact counts over every relative degree `1,...,g`. It
+checks the smooth tame double-cover geometry and applies Newton identities
+and curve duality in Rust. Additional counts are checked against the resulting
+recurrence. The result retains the count sequence; verification and JSON
+restoration independently replay it. This is the enumeration route to the
+same polynomial returned by `curve.frobenius_polynomial()`.
+
+An explicit `curve.frobenius_evidence(precision=N)` rejects `N` below the
+proved Weil-bound requirement. `working_precision`, `denominator_loss` and
+`binomial_terms` expose the reduction budget. JSON restoration recomputes
+and compares every recorded bound and matrix. Surface Frobenius values keep
+their surface cohomology and point-count evidence. Curve values retain either
+`hyperelliptic_evidence` from p-adic reduction or `point_counts` from Newton
+reconstruction.
+
 ### Exact systems and submodules
 
 `Matrix.solve_exact` over `Z` or `Z/nZ` returns a typed result rather than

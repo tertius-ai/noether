@@ -62,3 +62,25 @@ scripts/bench-pin.sh cargo bench -p noether
 
 `scripts/install-flint.sh` installs the pinned native stack for repository
 builds.
+
+`commalg::HyperellipticCurve` owns a smooth projective model of
+`y²+h(x)y=f(x)` over a finite field of odd characteristic. Square completion
+and squarefreeness are checked in Rust; the model retains its degree-two
+weighted cover of P1 and the residue degrees of its points at infinity.
+Integral Kedlaya--Harrison reduction computes H1 Frobenius for arbitrary
+positive genus, both degree parities, nonmonic models, and extension fields,
+within explicit allocation bounds. Exhaustive counting is a validation route.
+
+```bash
+cargo run -p noether --release --example kedlaya -- 3 0,1,0,0,0,0,0,0,0,1
+cargo test -p noether --release --test hyperelliptic
+# Requires the validation-only PARI/GP executable:
+cargo test -p noether --release --test hyperelliptic -- --include-ignored
+```
+
+The comma-separated coefficients are ascending. An optional final argument
+sets the requested p-adic precision; insufficient precision is rejected.
+`HyperellipticFrobeniusEvidence` records both Frobenius matrices, the binomial
+truncation and the complete precision budget. Verification and deserialization
+replay the Rust computation. `FrobeniusPolynomial` and `ZetaFunction` retain the
+curve or surface evidence appropriate to their cohomological degree.

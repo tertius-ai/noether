@@ -793,6 +793,10 @@ pub enum PolynomialError {
     DivisionByZero,
     /// Exact division left a nonzero remainder.
     NonExactDivision,
+    /// Division over a coefficient ring requires a monic divisor.
+    NonMonicDivisor,
+    /// A polynomial was not invertible modulo the supplied polynomial.
+    NotCoprime,
     /// An operation guaranteed by the coefficient context unexpectedly failed.
     ArithmeticInvariant,
 }
@@ -850,6 +854,8 @@ impl fmt::Display for PolynomialError {
             ),
             Self::DivisionByZero => f.write_str("cannot divide by the zero polynomial"),
             Self::NonExactDivision => f.write_str("polynomial division has a nonzero remainder"),
+            Self::NonMonicDivisor => f.write_str("polynomial divisor must be monic"),
+            Self::NotCoprime => f.write_str("polynomial is not coprime to its modulus"),
             Self::ArithmeticInvariant => {
                 f.write_str("coefficient arithmetic violated its declared ring capability")
             }
@@ -2635,7 +2641,115 @@ where
     }
 }
 
+impl<R: CommutativeRing> Polynomial<R> {
+    /// Divide by a monic univariate polynomial over any commutative ring.
+    ///
+    /// No coefficient inversion is used. Returns `(q, r)` with `self = q*d+r`
+    /// and `r = 0` or `degree(r) < degree(d)`, including over rings with zero
+    /// divisors and fixed-precision coefficient contexts.
+    pub fn monic_div_rem(&self, divisor: &Self) -> Result<(Self, Self), PolynomialError> {
+        self.ring.require(divisor)?;
+        let arity = self.ring.variables.len();
+        if arity != 1 {
+            return Err(PolynomialError::NotUnivariate { arity });
+        }
+        let (exponent, leading) = divisor
+            .leading_term_owned()
+            .ok_or(PolynomialError::DivisionByZero)?;
+        if leading != self.ring.coefficient_ring.one() {
+            return Err(PolynomialError::NonMonicDivisor);
+        }
+        let coefficients = &self.ring.coefficient_ring;
+        let zero = coefficients.zero();
+        let mut quotient = BTreeMap::new();
+        let mut remainder = self.terms_map().clone();
+        // In one variable every admitted monomial order is degree order.
+        // Update only the shifted divisor's support; rebuilding the entire
+        // remainder and quotient per leading term makes dense division
+        // quadratic in the dividend degree even for a fixed small divisor.
+        while let Some((current, _)) = remainder.last_key_value() {
+            if current[0] < exponent[0] {
+                break;
+            }
+            let (current, coefficient) = remainder.pop_last().expect("nonempty remainder");
+            let shift = &current[0] - &exponent[0];
+            for (power, value) in divisor.terms_map() {
+                if power == &exponent {
+                    continue; // The monic leading term was removed by pop_last.
+                }
+                let product = coefficients.mul(&coefficient, value)?;
+                if product == zero {
+                    continue;
+                }
+                let power = vec![&power[0] + &shift];
+                let value = match remainder.remove(&power) {
+                    Some(previous) => coefficients.sub(&previous, &product)?,
+                    None => coefficients.neg(&product)?,
+                };
+                if value != zero {
+                    remainder.insert(power, value);
+                }
+            }
+            quotient.insert(vec![shift], coefficient);
+        }
+        Ok((
+            self.ring.polynomial_from_canonical_terms(quotient),
+            self.ring.polynomial_from_canonical_terms(remainder),
+        ))
+    }
+}
+
 impl<R: Field> Polynomial<R> {
+    /// Monic extended gcd of two univariate polynomials.
+    ///
+    /// Returns `(g, s, t)` satisfying `g = s*self + t*other`. For two zero
+    /// inputs the canonical result is `(0, 1, 0)`.
+    pub fn extended_gcd(&self, other: &Self) -> Result<(Self, Self, Self), PolynomialError> {
+        self.ring.require(other)?;
+        self.require_univariate()?;
+        let (mut a, mut b) = (self.clone(), other.clone());
+        let (mut s, mut u) = (self.ring.one(), self.ring.zero());
+        let (mut t, mut v) = (self.ring.zero(), self.ring.one());
+        while !b.is_zero() {
+            let (q, r) = a.div_rem(&b)?;
+            let next_s = (&s - &(&q * &u)?)?;
+            let next_t = (&t - &(&q * &v)?)?;
+            (a, b) = (b, r);
+            (s, u) = (u, next_s);
+            (t, v) = (v, next_t);
+        }
+        if let Some(leading) = a.leading_coefficient() {
+            let inverse = self
+                .ring
+                .coefficient_ring
+                .inverse(&leading)
+                .map_err(|_| PolynomialError::ArithmeticInvariant)?;
+            Ok((
+                a.scalar_mul(&inverse)?,
+                s.scalar_mul(&inverse)?,
+                t.scalar_mul(&inverse)?,
+            ))
+        } else {
+            Ok((a, s, t))
+        }
+    }
+
+    /// Invert this univariate polynomial modulo a nonzero polynomial.
+    ///
+    /// The returned representative has degree less than the modulus. A
+    /// nonconstant gcd produces [`PolynomialError::NotCoprime`].
+    pub fn inverse_mod(&self, modulus: &Self) -> Result<Self, PolynomialError> {
+        self.ring.require(modulus)?;
+        if modulus.is_zero() {
+            return Err(PolynomialError::DivisionByZero);
+        }
+        let (gcd, inverse, _) = self.extended_gcd(modulus)?;
+        if gcd != self.ring.one() {
+            return Err(PolynomialError::NotCoprime);
+        }
+        Ok(inverse.div_rem(modulus)?.1)
+    }
+
     /// Normalize a nonzero polynomial to leading coefficient one.
     ///
     /// The zero polynomial is returned unchanged.

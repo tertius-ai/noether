@@ -67,6 +67,25 @@ fn value_error(error: impl ToString) -> PyErr {
     PyValueError::new_err(error.to_string())
 }
 
+fn euclidean_error(error: PolynomialError) -> PyErr {
+    match error {
+        PolynomialError::ContextMismatch(error) => super::errors::context_mismatch(error),
+        error => value_error(error),
+    }
+}
+
+fn require_euclidean_context(left: &PyPolynomial, right: &PyPolynomial) -> PyResult<()> {
+    if left.inner.context_type_id() != right.inner.context_type_id() {
+        return Err(super::errors::context_mismatch(
+            noether::ContextMismatchError {
+                expected: left.inner.context_type_id().into(),
+                actual: right.inner.context_type_id().into(),
+            },
+        ));
+    }
+    Ok(())
+}
+
 pub(crate) fn base_change_error(error: BaseChangeError) -> PyErr {
     match error {
         BaseChangeError::ContextMismatch(error)
@@ -5768,6 +5787,152 @@ impl PyPolynomial {
     fn gcd(&self, py: Python<'_>, other: &Bound<'_, PyAny>) -> PyResult<Self> {
         let right = self.coerce_operand(py, other)?;
         py.detach(|| self.polynomial_gcd(&right))
+    }
+
+    /// Monic univariate extended gcd `(g, s, t)` with `g = s*self + t*other`.
+    fn extended_gcd(
+        &self,
+        py: Python<'_>,
+        other: &Bound<'_, PyAny>,
+    ) -> PyResult<(Self, Self, Self)> {
+        let other = self.coerce_operand(py, other)?;
+        require_euclidean_context(self, &other)?;
+        py.detach(|| {
+            macro_rules! run {
+                ($variant:ident, $a:expr, $b:expr) => {{
+                    let (g, s, t) = $a.extended_gcd($b).map_err(euclidean_error)?;
+                    Ok((
+                        Self {
+                            inner: PolynomialInner::$variant(g),
+                        },
+                        Self {
+                            inner: PolynomialInner::$variant(s),
+                        },
+                        Self {
+                            inner: PolynomialInner::$variant(t),
+                        },
+                    ))
+                }};
+            }
+            match (&self.inner, &other.inner) {
+                (PolynomialInner::Rational(a), PolynomialInner::Rational(b)) => {
+                    run!(Rational, a, b)
+                }
+                (PolynomialInner::FiniteField(a), PolynomialInner::FiniteField(b)) => {
+                    run!(FiniteField, a, b)
+                }
+                (PolynomialInner::NumberField(a), PolynomialInner::NumberField(b)) => {
+                    run!(NumberField, a, b)
+                }
+                (PolynomialInner::RationalFunction(a), PolynomialInner::RationalFunction(b)) => {
+                    run!(RationalFunction, a, b)
+                }
+                (
+                    PolynomialInner::FiniteRationalFunction(a),
+                    PolynomialInner::FiniteRationalFunction(b),
+                ) => run!(FiniteRationalFunction, a, b),
+                _ => Err(unsupported_polynomial_operation(
+                    "extended_gcd",
+                    self.inner.context_type_id(),
+                    FIELD_POLYNOMIAL_CONTEXTS,
+                )),
+            }
+        })
+    }
+
+    /// Invert a univariate polynomial modulo a coprime nonzero polynomial.
+    fn inverse_mod(&self, py: Python<'_>, modulus: &Bound<'_, PyAny>) -> PyResult<Self> {
+        let modulus = self.coerce_operand(py, modulus)?;
+        require_euclidean_context(self, &modulus)?;
+        py.detach(|| {
+            macro_rules! run {
+                ($variant:ident, $a:expr, $b:expr) => {
+                    Ok(Self {
+                        inner: PolynomialInner::$variant(
+                            $a.inverse_mod($b).map_err(euclidean_error)?,
+                        ),
+                    })
+                };
+            }
+            match (&self.inner, &modulus.inner) {
+                (PolynomialInner::Rational(a), PolynomialInner::Rational(b)) => {
+                    run!(Rational, a, b)
+                }
+                (PolynomialInner::FiniteField(a), PolynomialInner::FiniteField(b)) => {
+                    run!(FiniteField, a, b)
+                }
+                (PolynomialInner::NumberField(a), PolynomialInner::NumberField(b)) => {
+                    run!(NumberField, a, b)
+                }
+                (PolynomialInner::RationalFunction(a), PolynomialInner::RationalFunction(b)) => {
+                    run!(RationalFunction, a, b)
+                }
+                (
+                    PolynomialInner::FiniteRationalFunction(a),
+                    PolynomialInner::FiniteRationalFunction(b),
+                ) => run!(FiniteRationalFunction, a, b),
+                _ => Err(unsupported_polynomial_operation(
+                    "inverse_mod",
+                    self.inner.context_type_id(),
+                    FIELD_POLYNOMIAL_CONTEXTS,
+                )),
+            }
+        })
+    }
+
+    /// Divide by a monic univariate polynomial without coefficient inversion.
+    fn monic_div_rem(&self, py: Python<'_>, divisor: &Bound<'_, PyAny>) -> PyResult<(Self, Self)> {
+        let divisor = self.coerce_operand(py, divisor)?;
+        require_euclidean_context(self, &divisor)?;
+        py.detach(|| {
+            macro_rules! run {
+                ($variant:ident, $a:expr, $b:expr) => {{
+                    let (q, r) = $a.monic_div_rem($b).map_err(euclidean_error)?;
+                    Ok((
+                        Self {
+                            inner: PolynomialInner::$variant(q),
+                        },
+                        Self {
+                            inner: PolynomialInner::$variant(r),
+                        },
+                    ))
+                }};
+            }
+            match (&self.inner, &divisor.inner) {
+                (PolynomialInner::Integer(a), PolynomialInner::Integer(b)) => run!(Integer, a, b),
+                (PolynomialInner::Rational(a), PolynomialInner::Rational(b)) => {
+                    run!(Rational, a, b)
+                }
+                (PolynomialInner::FiniteField(a), PolynomialInner::FiniteField(b)) => {
+                    run!(FiniteField, a, b)
+                }
+                (PolynomialInner::Residue(a), PolynomialInner::Residue(b)) => run!(Residue, a, b),
+                (PolynomialInner::Padic(a), PolynomialInner::Padic(b)) => run!(Padic, a, b),
+                (PolynomialInner::PadicField(a), PolynomialInner::PadicField(b)) => {
+                    run!(PadicField, a, b)
+                }
+                (PolynomialInner::Qadic(a), PolynomialInner::Qadic(b)) => run!(Qadic, a, b),
+                (PolynomialInner::QadicField(a), PolynomialInner::QadicField(b)) => {
+                    run!(QadicField, a, b)
+                }
+                (PolynomialInner::PadicLocalField(a), PolynomialInner::PadicLocalField(b)) => {
+                    run!(PadicLocalField, a, b)
+                }
+                (PolynomialInner::NumberField(a), PolynomialInner::NumberField(b)) => {
+                    run!(NumberField, a, b)
+                }
+                (PolynomialInner::RationalFunction(a), PolynomialInner::RationalFunction(b)) => {
+                    run!(RationalFunction, a, b)
+                }
+                (
+                    PolynomialInner::FiniteRationalFunction(a),
+                    PolynomialInner::FiniteRationalFunction(b),
+                ) => run!(FiniteRationalFunction, a, b),
+                _ => Err(value_error(
+                    "polynomials have different coefficient contexts",
+                )),
+            }
+        })
     }
 
     fn __add__(&self, py: Python<'_>, other: &Bound<'_, PyAny>) -> PyResult<Self> {

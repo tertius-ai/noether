@@ -15,9 +15,10 @@ use crate::{
 };
 
 use super::{
-    CyclicCoverRamification, CyclicHypersurfaceCover, MonomialOrder, PerfectPowerError,
-    PointCountError, PointCountSequence, PointCountTarget, Polynomial, PolynomialContextError,
-    PolynomialError, PolynomialFactorizationError, PolynomialHomomorphismError, PolynomialRing,
+    CyclicCoverRamification, CyclicHypersurfaceCover, HyperellipticError,
+    HyperellipticFrobeniusEvidence, MonomialOrder, PerfectPowerError, PointCountError,
+    PointCountSequence, PointCountTarget, Polynomial, PolynomialContextError, PolynomialError,
+    PolynomialFactorizationError, PolynomialHomomorphismError, PolynomialRing,
     WeightedProjectiveError,
 };
 
@@ -404,11 +405,37 @@ pub struct FrobeniusPolynomial {
     field_order: Integer,
     cohomological_degree: u32,
     cohomological_weight: u32,
-    cohomology: SmoothProjectiveSurfaceCohomology,
-    point_counts: PointCountSequence,
+    cohomology: Option<SmoothProjectiveSurfaceCohomology>,
+    point_counts: Option<PointCountSequence>,
+    hyperelliptic: Option<HyperellipticFrobeniusEvidence>,
 }
 
 impl FrobeniusPolynomial {
+    /// Reconstruct compact H1 Frobenius from exact counts of a hyperelliptic cover.
+    ///
+    /// The retained target must be a tame degree-two cover of P1 with smooth
+    /// branch of degree `2g+2`, `g>=1`. Counts must include every relative degree
+    /// `1..=g`; additional counts are checked against the resulting recurrence.
+    /// Newton identities and curve duality recover all `2g+1` coefficients.
+    /// No p-adic computation is used. The result retains the complete count
+    /// sequence; verification and deserialization independently replay it.
+    pub fn from_hyperelliptic_counts(counts: &PointCountSequence) -> Result<Self, FrobeniusError> {
+        reconstruct_hyperelliptic_frobenius(counts)
+    }
+
+    pub(super) fn from_hyperelliptic(
+        evidence: HyperellipticFrobeniusEvidence,
+    ) -> Result<Self, HyperellipticError> {
+        Ok(Self {
+            polynomial: evidence.polynomial()?,
+            field_order: evidence.curve().base().order(),
+            cohomological_degree: 1,
+            cohomological_weight: 1,
+            cohomology: None,
+            point_counts: None,
+            hyperelliptic: Some(evidence),
+        })
+    }
     /// Monic polynomial `det(T-F | H^i)` over the integers.
     pub fn polynomial(&self) -> &Polynomial<IntegerRing> {
         &self.polynomial
@@ -430,18 +457,39 @@ impl FrobeniusPolynomial {
     }
 
     /// Geometric evidence fixing the required polynomial degree.
-    pub fn cohomology(&self) -> &SmoothProjectiveSurfaceCohomology {
-        &self.cohomology
+    pub fn cohomology(&self) -> Option<&SmoothProjectiveSurfaceCohomology> {
+        self.cohomology.as_ref()
     }
 
     /// Exact point counts used by Newton reconstruction.
-    pub fn point_counts(&self) -> &PointCountSequence {
-        &self.point_counts
+    pub fn point_counts(&self) -> Option<&PointCountSequence> {
+        self.point_counts.as_ref()
+    }
+
+    /// Integral curve-Frobenius evidence, when obtained by Kedlaya reduction.
+    pub fn hyperelliptic_evidence(&self) -> Option<&HyperellipticFrobeniusEvidence> {
+        self.hyperelliptic.as_ref()
     }
 
     /// Degree of the characteristic polynomial.
     pub fn degree(&self) -> usize {
-        self.cohomology.second_betti_number
+        self.cohomology.as_ref().map_or_else(
+            || {
+                self.hyperelliptic.as_ref().map_or_else(
+                    || {
+                        self.polynomial
+                            .degree(None)
+                            .ok()
+                            .flatten()
+                            .and_then(|degree| degree.to_u64_checked())
+                            .and_then(|degree| usize::try_from(degree).ok())
+                            .unwrap_or(0)
+                    },
+                    |e| 2 * e.curve().genus(),
+                )
+            },
+            |c| c.second_betti_number,
+        )
     }
 
     /// Exact trace of the requested positive Frobenius power.
@@ -459,11 +507,64 @@ impl FrobeniusPolynomial {
         trace_from_coefficients(&characteristic_coefficients(&self.polynomial)?, power)
     }
 
+    /// Exact point count over the requested relative extension, from the
+    /// certified Euler factors of the source smooth projective curve or surface.
+    /// This does not construct or enumerate the extension field.
+    pub fn point_count(&self, extension_degree: u64) -> Result<Integer, FrobeniusError> {
+        let trace = self.trace(extension_degree)?;
+        match self.cohomological_degree {
+            1 => Ok(&(&self.field_order.pow(extension_degree) + &Integer::one()) - &trace),
+            2 => {
+                let exponent = extension_degree.checked_mul(2).ok_or(
+                    FrobeniusError::UnsupportedCohomology("extension exponent overflow"),
+                )?;
+                Ok(&(&self.field_order.pow(exponent) + &Integer::one()) + &trace)
+            }
+            _ => Err(FrobeniusError::UnsupportedCohomology(
+                "point counting requires the complete supported curve or surface profile",
+            )),
+        }
+    }
+
     /// Verify geometry, Newton identities, all recorded counts, and duality.
     pub fn verify(&self) -> Result<(), FrobeniusError> {
-        self.cohomology.verify()?;
-        self.point_counts.verify()?;
-        let rebuilt = reconstruct_frobenius(&self.cohomology, &self.point_counts)?;
+        if let (None, None, Some(evidence)) =
+            (&self.cohomology, &self.point_counts, &self.hyperelliptic)
+        {
+            evidence
+                .verify()
+                .map_err(|e| FrobeniusError::InvalidEvidence(e.to_string()))?;
+            let rebuilt = Self::from_hyperelliptic(evidence.clone())
+                .map_err(|e| FrobeniusError::InvalidEvidence(e.to_string()))?;
+            if rebuilt != *self {
+                return Err(FrobeniusError::InvalidEvidence(
+                    "curve Frobenius reconstruction changed".into(),
+                ));
+            }
+            return verify_functional_equation(self);
+        }
+        if let (None, Some(counts), None) =
+            (&self.cohomology, &self.point_counts, &self.hyperelliptic)
+        {
+            counts.verify()?;
+            let rebuilt = Self::from_hyperelliptic_counts(counts)?;
+            if rebuilt != *self {
+                return Err(FrobeniusError::InvalidEvidence(
+                    "curve point-count reconstruction changed".to_owned(),
+                ));
+            }
+            return verify_functional_equation(self);
+        }
+        let (Some(cohomology), Some(counts), None) =
+            (&self.cohomology, &self.point_counts, &self.hyperelliptic)
+        else {
+            return Err(FrobeniusError::InvalidEvidence(
+                "exactly one geometric reconstruction source is required".into(),
+            ));
+        };
+        cohomology.verify()?;
+        counts.verify()?;
+        let rebuilt = reconstruct_frobenius(cohomology, counts)?;
         if rebuilt.polynomial != self.polynomial
             || rebuilt.field_order != self.field_order
             || self.cohomological_degree != 2
@@ -478,7 +579,7 @@ impl FrobeniusPolynomial {
         Ok(())
     }
 
-    /// Canonical zeta function of the supported smooth projective surface.
+    /// Canonical zeta function of the supported smooth projective curve or surface.
     pub fn zeta_function(&self) -> Result<ZetaFunction, FrobeniusError> {
         ZetaFunction::from_frobenius(self.clone())
     }
@@ -507,12 +608,93 @@ impl FrobeniusPolynomial {
             cohomological_weight: wire.cohomological_weight,
             cohomology: wire.cohomology,
             point_counts: wire.point_counts,
+            hyperelliptic: wire.hyperelliptic,
         };
         value
             .verify()
             .map_err(|error| NoetherError::Serialization(error.to_string()))?;
         Ok(value)
     }
+}
+
+fn reconstruct_hyperelliptic_frobenius(
+    counts: &PointCountSequence,
+) -> Result<FrobeniusPolynomial, FrobeniusError> {
+    let PointCountTarget::CyclicCover(cover) = counts.target() else {
+        return Err(FrobeniusError::UnsupportedCohomology(
+            "hyperelliptic reconstruction requires a cyclic-cover count target",
+        ));
+    };
+    if cover.base().dimension() != 1
+        || cover.cover_degree() != 2
+        || cover.ramification() != CyclicCoverRamification::Tame
+    {
+        return Err(FrobeniusError::UnsupportedCohomology(
+            "hyperelliptic reconstruction requires a tame double cover of P1",
+        ));
+    }
+    let branch_degree = cover
+        .branch_equation()
+        .homogeneous_degree()?
+        .and_then(|degree| degree.to_u64_checked())
+        .and_then(|degree| usize::try_from(degree).ok())
+        .filter(|degree| *degree >= 4 && degree % 2 == 0)
+        .ok_or(FrobeniusError::UnsupportedCohomology(
+            "the hyperelliptic branch must have even degree at least four",
+        ))?;
+    // Riemann--Hurwitz for a smooth tame double cover branched at 2g+2 points.
+    let genus = (branch_degree - 2) / 2;
+    if counts.counts().len() < genus {
+        return Err(FrobeniusError::InsufficientPointCounts {
+            required_through: genus,
+        });
+    }
+    for degree in 1..=genus {
+        if counts.count(degree as u64).is_none() {
+            return Err(FrobeniusError::InsufficientPointCounts {
+                required_through: genus,
+            });
+        }
+    }
+    let smoothness = cover.smoothness_evidence()?;
+    if !smoothness.is_smooth() || smoothness.branch_is_smooth() != Some(true) {
+        return Err(FrobeniusError::UnsupportedCohomology(
+            "the hyperelliptic curve and its branch must be proved smooth",
+        ));
+    }
+    let q = counts.base().order();
+    let traces = (1..=genus)
+        .map(|degree| {
+            &(&q.pow(degree as u64) + &Integer::one())
+                - counts
+                    .count(degree as u64)
+                    .expect("checked consecutive count")
+        })
+        .collect::<Vec<_>>();
+    let prefix = newton_characteristic_coefficients(&traces)?;
+    let mut coefficients = vec![Integer::zero(); 2 * genus + 1];
+    coefficients[..=genus].clone_from_slice(&prefix);
+    for index in 0..genus {
+        coefficients[2 * genus - index] = &prefix[index] * &q.pow((genus - index) as u64);
+    }
+    let result = FrobeniusPolynomial {
+        polynomial: polynomial_from_characteristic_coefficients(&coefficients)?,
+        field_order: q,
+        cohomological_degree: 1,
+        cohomological_weight: 1,
+        cohomology: None,
+        point_counts: Some(counts.clone()),
+        hyperelliptic: None,
+    };
+    for record in counts.counts() {
+        if result.point_count(record.degree())? != *record.count() {
+            return Err(FrobeniusError::InvalidFrobeniusPolynomial(
+                "curve Frobenius contradicts an exact extension-field count".to_owned(),
+            ));
+        }
+    }
+    verify_functional_equation(&result)?;
+    Ok(result)
 }
 
 fn reconstruct_frobenius(
@@ -562,8 +744,9 @@ fn reconstruct_frobenius(
                 field_order: q.clone(),
                 cohomological_degree: 2,
                 cohomological_weight: 2,
-                cohomology: cohomology.clone(),
-                point_counts: counts.clone(),
+                cohomology: Some(cohomology.clone()),
+                point_counts: Some(counts.clone()),
+                hyperelliptic: None,
             })
         })
         .collect::<Result<Vec<_>, FrobeniusError>>()?;
@@ -714,7 +897,13 @@ fn trace_from_coefficients(
 }
 
 fn verify_surface_counts(frobenius: &FrobeniusPolynomial) -> Result<(), FrobeniusError> {
-    for record in frobenius.point_counts.counts() {
+    let counts = frobenius
+        .point_counts
+        .as_ref()
+        .ok_or(FrobeniusError::UnsupportedCohomology(
+            "surface counts are absent",
+        ))?;
+    for record in counts.counts() {
         let trace = frobenius.trace(record.degree())?;
         let expected =
             &(&Integer::one() + &trace) + &frobenius.field_order.pow(2 * record.degree());
@@ -737,7 +926,9 @@ fn verify_functional_equation(frobenius: &FrobeniusPolynomial) -> Result<(), Fro
         ));
     }
     let constant = &coefficients[degree];
-    let q_squared = frobenius.field_order.pow(2);
+    let q_squared = frobenius
+        .field_order
+        .pow(u64::from(frobenius.cohomological_weight));
     for index in 0..=degree {
         let left = &coefficients[index] * &q_squared.pow((degree - index) as u64);
         let right = constant * &coefficients[degree - index];
@@ -761,23 +952,7 @@ pub struct ZetaFunction {
 impl ZetaFunction {
     fn from_frobenius(frobenius: FrobeniusPolynomial) -> Result<Self, FrobeniusError> {
         frobenius.verify()?;
-        let coefficients = characteristic_coefficients(&frobenius.polynomial)?;
-        let ring = PolynomialRing::new(Z, ["T"], MonomialOrder::Lexicographic)?;
-        let middle = ring.from_terms(coefficients.iter().enumerate().map(
-            |(degree, coefficient)| (vec![Integer::from(degree as u64)], coefficient.clone()),
-        ))?;
-        let variable = ring.generator(0)?;
-        let h0 = ring.sub(&ring.one(), &variable)?;
-        let q_squared_t = ring.mul(&ring.constant(frobenius.field_order.pow(2))?, &variable)?;
-        let h4 = ring.sub(&ring.one(), &q_squared_t)?;
-        let denominator = ring.mul(&ring.mul(&h0, &middle)?, &h4)?;
-        let result = Self {
-            numerator: ring.one(),
-            denominator,
-            frobenius,
-        };
-        result.verify()?;
-        Ok(result)
+        Self::from_frobenius_unchecked(frobenius)
     }
 
     /// Exact numerator in the canonical variable `T`.
@@ -815,6 +990,14 @@ impl ZetaFunction {
         ))?;
         let variable = ring.generator(0)?;
         let h0 = ring.sub(&ring.one(), &variable)?;
+        if frobenius.cohomological_degree == 1 {
+            let h2 = (&ring.one() - &variable.scalar_mul(&frobenius.field_order)?)?;
+            return Ok(Self {
+                numerator: middle,
+                denominator: (&h0 * &h2)?,
+                frobenius,
+            });
+        }
         let q_squared_t = ring.mul(&ring.constant(frobenius.field_order.pow(2))?, &variable)?;
         let h4 = ring.sub(&ring.one(), &q_squared_t)?;
         Ok(Self {
@@ -932,7 +1115,12 @@ impl GeometricDivisorRankUpperBound {
     ) -> Result<GeometricDivisorRank, FrobeniusError> {
         self.verify()?;
         lower.verify()?;
-        if self.frobenius.cohomology.cover != lower.split_pullback.cover {
+        if self
+            .frobenius
+            .cohomology
+            .as_ref()
+            .is_none_or(|c| c.cover != lower.split_pullback.cover)
+        {
             return Err(FrobeniusError::InvalidEvidence(
                 "upper and lower divisor-rank evidence concern different surfaces".to_owned(),
             ));
@@ -1549,8 +1737,12 @@ struct FrobeniusPolynomialWire {
     field_order: Integer,
     cohomological_degree: u32,
     cohomological_weight: u32,
-    cohomology: SmoothProjectiveSurfaceCohomology,
-    point_counts: PointCountSequence,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    cohomology: Option<SmoothProjectiveSurfaceCohomology>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    point_counts: Option<PointCountSequence>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    hyperelliptic: Option<HyperellipticFrobeniusEvidence>,
 }
 
 impl From<&FrobeniusPolynomial> for FrobeniusPolynomialWire {
@@ -1563,6 +1755,7 @@ impl From<&FrobeniusPolynomial> for FrobeniusPolynomialWire {
             cohomological_weight: value.cohomological_weight,
             cohomology: value.cohomology.clone(),
             point_counts: value.point_counts.clone(),
+            hyperelliptic: value.hyperelliptic.clone(),
         }
     }
 }

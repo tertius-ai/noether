@@ -57,6 +57,20 @@ def test_affine_points_and_partitioned_count_agree() -> None:
         certificate.verify(other_scheme)
 
 
+def test_large_field_enumeration_streams_and_replays() -> None:
+    for field in [FiniteField.prime(4099), FiniteField.extension(3, 8)]:
+        ambient = AffineSpace(field, 1, names=["x"])
+        (x,) = ambient.coordinate_ring.generators()
+        scheme = ambient.closed_subscheme(ambient.coordinate_ring.ideal([x**2 - x]))
+        count, certificate = scheme.point_count(shards=3)
+        assert count == 2
+        certificate.verify(scheme)
+        points = scheme.rational_points()
+        first = next(points)
+        resumed = RationalPointEnumeration.from_json(points.to_json())
+        assert [first, *resumed] == list(scheme.rational_points())
+
+
 def test_projective_points_have_unique_normalized_coordinates() -> None:
     field = FiniteField.prime(3)
     ambient = ProjectiveSpace(field, 1, names=["u", "v"])

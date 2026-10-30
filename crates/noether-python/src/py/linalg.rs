@@ -2548,6 +2548,14 @@ pub struct PyFrobeniusSemilinearMap {
     inner: FrobeniusSemilinearMapInner,
 }
 
+impl PyFrobeniusSemilinearMap {
+    pub(crate) fn from_qadic(inner: RustFrobeniusSemilinearMap<QadicRing>) -> Self {
+        Self {
+            inner: FrobeniusSemilinearMapInner::Qadic(inner),
+        }
+    }
+}
+
 #[pymethods]
 impl PyFrobeniusSemilinearMap {
     /// Versioned language-neutral semantic identity.
@@ -5029,6 +5037,11 @@ pub struct PyMatrix {
 }
 
 impl PyMatrix {
+    pub(crate) fn from_qadic(matrix: Matrix<QadicRing>) -> Self {
+        Self {
+            inner: MatrixInner::Qadic(matrix),
+        }
+    }
     #[cfg(feature = "distributed")]
     pub(crate) fn finite_field(&self) -> Option<&Matrix<FiniteField>> {
         match &self.inner {

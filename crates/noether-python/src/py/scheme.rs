@@ -775,6 +775,7 @@ impl PyScheme {
     #[pyo3(signature = (*, shard_index=0, shard_count=1))]
     fn rational_points(
         &self,
+        py: Python<'_>,
         shard_index: usize,
         shard_count: usize,
     ) -> PyResult<PyRationalPointEnumeration> {
@@ -786,8 +787,8 @@ impl PyScheme {
             ));
         };
         Ok(PyRationalPointEnumeration {
-            inner: scheme
-                .rational_points_shard(shard_index, shard_count)
+            inner: py
+                .detach(|| scheme.rational_points_shard(shard_index, shard_count))
                 .map_err(|error| scheme_error("rational_points", FiniteField::TYPE_ID, error))?,
         })
     }
@@ -1459,8 +1460,10 @@ impl PyRationalPointEnumeration {
         slf
     }
 
-    fn __next__(mut slf: PyRefMut<'_, Self>) -> Option<PySchemePoint> {
-        slf.inner.next().map(|inner| PySchemePoint { inner })
+    fn __next__(&mut self, py: Python<'_>) -> Option<PySchemePoint> {
+        let iterator = &mut self.inner;
+        py.detach(|| iterator.next())
+            .map(|inner| PySchemePoint { inner })
     }
 
     fn __eq__(&self, other: &Self) -> bool {
@@ -1533,13 +1536,13 @@ impl PyPointCountCertificate {
         integer_to_python(py, &self.inner.point_count())
     }
 
-    fn verify(&self, scheme: &PyScheme) -> PyResult<()> {
+    fn verify(&self, py: Python<'_>, scheme: &PyScheme) -> PyResult<()> {
         let SchemeInner::FiniteField(scheme) = &scheme.inner else {
             return Err(PyTypeError::new_err(
                 "point-count certificates verify finite-field schemes",
             ));
         };
-        self.inner.verify(scheme).map_err(value_error)
+        py.detach(|| self.inner.verify(scheme)).map_err(value_error)
     }
 
     fn to_json(&self) -> PyResult<String> {

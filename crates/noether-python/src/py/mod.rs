@@ -23,6 +23,7 @@ pub mod graph;
 pub(crate) mod graph_svg;
 pub mod groups;
 pub mod homalg;
+pub mod hyperelliptic;
 pub mod ideal_evidence;
 pub mod intersection_theory;
 pub mod linalg;

@@ -6,7 +6,7 @@ use noether::commalg::{
     RationalPointEnumeration, Scheme,
 };
 use noether::numthy::{FiniteField, PointCountCertificate};
-use noether::{Integer, Ring, SemanticType};
+use noether::{FiniteContext, Integer, Ring, SemanticType};
 
 #[test]
 fn affine_hyperbola_has_a_trusted_and_partitioned_count() {
@@ -39,6 +39,83 @@ fn affine_hyperbola_has_a_trusted_and_partitioned_count() {
         PointCountCertificate::from_json(&certificate.to_json().unwrap()).unwrap(),
         certificate
     );
+}
+
+#[test]
+fn large_field_streams_preserve_coordinates_certificates_and_resume_cursors() {
+    for field in [
+        FiniteField::prime(4093).unwrap(),
+        FiniteField::prime(4099).unwrap(),
+        FiniteField::extension(3, 8).unwrap(),
+        FiniteField::extension(2, 13).unwrap(),
+    ] {
+        let line = AffineSpace::new(field.clone(), 1).unwrap();
+        let ring = line.coordinate_ring();
+        let x = ring.generator(0).unwrap();
+        let scheme = line
+            .closed_subscheme(ring.ideal([(&x.pow(2).unwrap() - &x).unwrap()]).unwrap())
+            .unwrap();
+        let (count, certificate) = scheme.point_count_partitioned(3).unwrap();
+        assert_eq!(count, Integer::from(2));
+        assert_eq!(Integer::from(certificate.candidate_count()), field.order());
+        certificate.verify(&scheme).unwrap();
+
+        let projective = ProjectiveSpace::new(field.clone(), 1).unwrap();
+        let whole = projective
+            .closed_subscheme(projective.coordinate_ring().ideal([]).unwrap())
+            .unwrap();
+        let mut points = whole.rational_points().unwrap();
+        assert_eq!(
+            points.next().unwrap().coordinates(),
+            &[field.one(), field.zero()]
+        );
+        let mut resumed = RationalPointEnumeration::from_json(&points.to_json().unwrap()).unwrap();
+        let expected = field
+            .elements()
+            .skip(1)
+            .map(|value| vec![field.one(), value])
+            .chain([vec![field.zero(), field.one()]]);
+        let mut covered = 0_u64;
+        for (point, coordinates) in resumed.by_ref().zip(expected) {
+            assert_eq!(point.coordinates(), coordinates);
+            covered += 1;
+        }
+        assert_eq!(Integer::from(covered), field.order());
+        assert!(resumed.next().is_none());
+    }
+}
+
+#[test]
+fn candidate_budget_rejects_large_searches_before_allocating_a_field_table() {
+    use noether::commalg::SchemeError;
+    let field = FiniteField::prime(1_000_000_007).unwrap();
+    let line = AffineSpace::new(field.clone(), 1).unwrap();
+    let scheme = line
+        .closed_subscheme(line.coordinate_ring().ideal([]).unwrap())
+        .unwrap();
+    assert!(matches!(
+        scheme.point_count(),
+        Err(SchemeError::ResourceLimit {
+            resource: "candidate count",
+            limit: 10_000_000
+        })
+    ));
+    for projective in [false, true] {
+        let scheme = if projective {
+            let space = ProjectiveSpace::new(field.clone(), 0).unwrap();
+            space
+                .closed_subscheme(space.coordinate_ring().ideal([]).unwrap())
+                .unwrap()
+        } else {
+            let space = AffineSpace::new(field.clone(), 0).unwrap();
+            space
+                .closed_subscheme(space.coordinate_ring().ideal([]).unwrap())
+                .unwrap()
+        };
+        let (count, certificate) = scheme.point_count().unwrap();
+        assert_eq!(count, Integer::one());
+        certificate.verify(&scheme).unwrap();
+    }
 }
 
 #[test]

@@ -28,9 +28,11 @@ mod groebner;
 mod hilbert;
 mod hilbert_series;
 mod homomorphism;
+mod hyperelliptic;
 mod ideal;
 mod intersection_theory;
 mod jacobian;
+mod kedlaya;
 mod local;
 mod minimal_primes;
 mod monomial;
@@ -111,6 +113,7 @@ pub use homomorphism::{
     PolynomialConstantEmbedding, PolynomialHomomorphism, PolynomialHomomorphismError,
     PolynomialRingHomomorphism,
 };
+pub use hyperelliptic::{HyperellipticCurve, HyperellipticError, HyperellipticFrobeniusEvidence};
 pub use ideal::{Ideal, IdealError, PrimeIdeal};
 pub use intersection_theory::{
     ChowClass, ChowRing, CompleteIntersectionHypotheses, HirzebruchRiemannRochResult,

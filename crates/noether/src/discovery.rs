@@ -17,7 +17,10 @@ use crate::combin::{
     Composition, Graph, KashiwaraCrystal, Matroid, Partition, Poset, SymmetricFunction, Tableau,
     Tree, VertexId,
 };
-use crate::commalg::PolynomialRing;
+use crate::commalg::{
+    FrobeniusPolynomial, HyperellipticCurve, HyperellipticFrobeniusEvidence, PolynomialRing,
+    ZetaFunction,
+};
 use crate::commalg::{PolynomialHomomorphism, RationalFunctionFieldMap};
 use crate::groups::{PolynomialGlRepresentation, WeightCharacter, WeightLattice, WeightLatticeMap};
 use crate::homalg::{
@@ -559,7 +562,56 @@ struct ImageSubmoduleWire {
     submodule: serde_json::Value,
 }
 
+#[derive(JsonSchema)]
+#[schemars(rename = "HyperellipticCurve")]
+struct HyperellipticCurveSchema {
+    #[schemars(rename = "type")]
+    type_id: String,
+    f: serde_json::Value,
+    h: serde_json::Value,
+}
+#[derive(JsonSchema)]
+#[schemars(rename = "HyperellipticFrobeniusEvidence")]
+struct HyperellipticEvidenceSchema {
+    #[schemars(rename = "type")]
+    type_id: String,
+    curve: HyperellipticCurveSchema,
+    precision: u64,
+    working_precision: u64,
+    binomial_terms: usize,
+    denominator_loss: u64,
+    frobenius: serde_json::Value,
+    linear_frobenius: serde_json::Value,
+}
+#[derive(JsonSchema)]
+#[schemars(rename = "FrobeniusPolynomial")]
+struct FrobeniusPolynomialSchema {
+    #[schemars(rename = "type")]
+    type_id: String,
+    polynomial: serde_json::Value,
+    field_order: String,
+    cohomological_degree: u32,
+    cohomological_weight: u32,
+    cohomology: Option<serde_json::Value>,
+    /// Exact extension counts retained by H1 or H2 Newton reconstruction.
+    point_counts: Option<serde_json::Value>,
+    hyperelliptic: Option<HyperellipticEvidenceSchema>,
+}
+#[derive(JsonSchema)]
+#[schemars(rename = "ZetaFunction")]
+struct ZetaFunctionSchema {
+    #[schemars(rename = "type")]
+    type_id: String,
+    numerator: serde_json::Value,
+    denominator: serde_json::Value,
+    frobenius: FrobeniusPolynomialSchema,
+}
+
 static ACCEPTED_TYPE_SCHEMAS: &[TypeSchemaRegistration] = &[
+    registration!(HyperellipticCurve, HyperellipticCurveSchema),
+    registration!(HyperellipticFrobeniusEvidence, HyperellipticEvidenceSchema),
+    registration!(FrobeniusPolynomial, FrobeniusPolynomialSchema),
+    registration!(ZetaFunction, ZetaFunctionSchema),
     registration!(IntegerRationalEmbedding, SingletonMapWire),
     registration!(IntegerReduction, IntegerReductionWire),
     registration!(IntegerFiniteFieldMap, IntegerFiniteFieldMapWire),
